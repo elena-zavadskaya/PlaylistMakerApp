@@ -1,18 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Auto layout, variables, and unit scale are not yet supported -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="4dp"
+        android:text="@string/title"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="@dimen/button_textSize"
+        android:layout_marginTop="10dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/button_marginTop"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        app:cornerRadius="@dimen/main_button_cornerRadius"
+        android:text="@string/button_search"
+        android:textAllCaps="false"
+        android:textSize="@dimen/button_textSize"
+        android:textColor="@color/black"
+        app:icon="@drawable/search"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconTint="@color/black"/>
+
+    <Button
+        android:id="@+id/media_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/button_marginTop"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        app:cornerRadius="@dimen/main_button_cornerRadius"
+        android:text="@string/button_media"
+        android:textAllCaps="false"
+        android:textSize="@dimen/button_textSize"
+        android:textColor="@color/black"
+        app:icon="@drawable/media"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconTint="@color/black"/>
+
+    <Button
+        android:id="@+id/setting_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/button_marginTop"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        app:cornerRadius="@dimen/main_button_cornerRadius"
+        android:text="@string/button_settings"
+        android:textAllCaps="false"
+        android:textSize="26sp"
+        android:textColor="@color/black"
+        app:icon="@drawable/settings"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/icon_padding"
+        app:iconTint="@color/black"/>
+
+</LinearLayout>
