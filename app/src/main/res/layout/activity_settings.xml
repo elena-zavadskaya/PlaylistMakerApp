@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:theme="@style/Theme.PlaylistMaker.Settings">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,23 +16,21 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
             android:src="@drawable/back"
-            app:iconTint="@color/black"
-            app:iconGravity="textStart"
-            android:layout_margin="@dimen/settings_image_margin"
-            android:layout_gravity="center"/>
+            style="@style/settingsButton"
+            app:iconGravity="textStart"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_settings"
-            android:textFontWeight="500"
-            android:textColor="@color/almost_black"
+            android:textColor="@color/text"
             android:textSize="22sp"
             android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginTop="@dimen/text_marginTop"
-            android:layout_marginBottom="@dimen/text_margin"/>
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:fontFamily="@font/ys_display_medium"
+            android:textFontWeight="500"/>
     </LinearLayout>
 
     <LinearLayout
@@ -48,24 +46,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/settings_paddingVertical"
                 android:layout_weight="1"
-                android:text="@string/dark_theme"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textSize"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_marginTop"
-                android:layout_marginBottom="@dimen/text_margin"/>
+                style="@style/settingsText"
+                android:text="@string/dark_theme" />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="11dp"
                 android:checked="false"
                 app:icon="@drawable/control"
                 app:iconGravity="textStart"
-                app:iconTint="@color/dark_gray"
-                android:layout_margin="@dimen/settings_image_margin"
                 android:layout_gravity="center"
                 android:alpha="0.6"
                 tools:ignore="UseSwitchCompatOrMaterialXml"/>
@@ -80,22 +70,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/settings_paddingVertical"
                 android:layout_weight="1"
-                android:text="@string/share"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textSize"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_marginTop"
-                android:layout_marginBottom="@dimen/text_margin"/>
+                style="@style/settingsText"
+                android:text="@string/share"/>
 
             <ImageView
+                android:id="@+id/share_button"
                 android:layout_width="@dimen/settings_image_width"
                 android:layout_height="@dimen/settings_image_height"
                 android:src="@drawable/share"
-                app:iconTint="@color/dark_gray"
-                android:layout_margin="@dimen/settings_image_margin"
-                android:layout_gravity="center"/>
+                style="@style/settingsButton"/>
         </LinearLayout>
 
         <LinearLayout
@@ -107,22 +91,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/settings_paddingVertical"
                 android:layout_weight="1"
-                android:text="@string/write_to_support"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textSize"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_marginTop"
-                android:layout_marginBottom="@dimen/text_margin"/>
+                style="@style/settingsText"
+                android:text="@string/write_to_support"/>
 
             <ImageView
+                android:id="@+id/support_button"
                 android:layout_width="@dimen/settings_image_width"
                 android:layout_height="@dimen/settings_image_height"
                 android:src="@drawable/support"
-                app:iconTint="@color/dark_gray"
-                android:layout_margin="@dimen/settings_image_margin"
-                android:layout_gravity="center"/>
+                style="@style/settingsButton"/>
         </LinearLayout>
 
         <LinearLayout
@@ -134,22 +112,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/settings_paddingVertical"
                 android:layout_weight="1"
-                android:text="@string/terms_of_use"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textSize"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_marginTop"
-                android:layout_marginBottom="@dimen/text_margin"/>
+                style="@style/settingsText"
+                android:text="@string/terms_of_use"/>
 
             <ImageView
+                android:id="@+id/terms_of_use_button"
                 android:layout_width="@dimen/settings_image_width"
                 android:layout_height="@dimen/settings_image_height"
                 android:src="@drawable/arrow"
-                app:iconTint="@color/dark_gray"
-                android:layout_margin="@dimen/settings_image_margin"
-                android:layout_gravity="center"/>
+                style="@style/settingsButton"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

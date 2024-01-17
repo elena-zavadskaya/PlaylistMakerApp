@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ГЛАВНАЯ СТРАНИЦА СТАРТ -->
-    <color name="background">#3772E7</color>
+    <color name="background">#FFFFFFFF</color>
     <!-- статичные цвета -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <!-- ГЛАВНАЯ СТРАНИЦА ФИНИЩ -->
     <!-- СТРАНИЦА НАСТРОЕК СТАРТ -->
-    <color name="text">#FF000000</color>
-    <color name="dark_gray">#AEAFB4</color>
+    <color name="text">#FFFFFFFF</color>
+    <color name="dark_gray">#FF000000</color>
     <color name="light_gray">#E6E8EB</color>
     <color name="almost_black">#1A1B22</color>
     <!-- СТРАНИЦА НАСТРОЕК ФИНИЩ -->

@@ -1,16 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    android:orientation="vertical"
+    android:theme="@style/Theme.PlaylistMaker.Search">
 
-    <TextView
-        android:id="@+id/message"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/button_search"/>
+        android:layout_height="52dp"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            style="@style/settingsButton"
+            app:iconGravity="textStart"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_search"
+            android:textSize="26sp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:fontFamily="@font/ys_display_medium"
+            android:textFontWeight="500"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:theme="@style/SearchButton"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/search_bar"
+        android:layout_marginVertical="8dp">
+
+        <ImageView
+            android:theme="@style/SearchButton"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/search"
+            android:layout_marginVertical="10dp"
+            android:layout_marginLeft="12dp"
+            app:tint="@color/dark_gray" />
+
+        <EditText
+            android:id="@+id/inputEditText"
+            android:theme="@style/SearchButton"
+            android:textColor="@color/dark_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/button_search"
+            android:lines="1"
+            android:maxLength="15"
+            android:textSize="16sp"
+            android:paddingVertical="8.5dp"
+            android:textColorHint="@color/dark_gray"/>
+
+        <ImageView
+            android:id="@+id/clearIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>
