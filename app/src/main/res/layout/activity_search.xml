@@ -61,7 +61,7 @@
             android:lines="1"
             android:maxLength="15"
             android:textSize="16sp"
-            android:paddingVertical="8.5dp"
+            android:paddingVertical="8dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:textColorHint="@color/dark_gray"/>
