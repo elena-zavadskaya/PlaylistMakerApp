@@ -1,7 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Theme.PlaylistMaker.Settings" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@color/almost_black</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/almost_black</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+    <style name="Theme.PlaylistMaker.Menu" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@color/almost_black</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/almost_black</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+    <style name="Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@color/almost_black</item>
+    </style>
+    <style name="Theme.PlaylistMaker.Search" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/almost_black</item>
+    </style>
+    <style name="SearchButton" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:drawableTint">@color/black</item>
     </style>
 </resources>
