@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="61dp"
+    android:layout_height="64dp"
     android:orientation="horizontal">
     
     <ImageView
@@ -42,11 +42,9 @@
                 android:id="@+id/artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="13dp"
-                android:textColor="@color/search_small_text"
                 tools:text="The Beatles"
                 android:layout_marginLeft="8dp"
-                android:textSize="11sp"
-                android:gravity="top"/>
+                android:theme="@style/searchText"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -58,10 +56,8 @@
                 android:id="@+id/trackTime"
                 android:layout_width="wrap_content"
                 android:layout_height="13dp"
-                android:textColor="@color/search_small_text"
                 tools:text="2:55"
-                android:textSize="11sp"
-                android:gravity="top"/>
+                android:theme="@style/searchText"/>
 
         </LinearLayout>
 

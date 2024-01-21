@@ -14,20 +14,14 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val artistName: TextView = itemView.findViewById(R.id.artistName)
     private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
 
-    private fun dpToPx(dp: Float, view: ImageView): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            view.resources.displayMetrics).toInt()
-    }
-
     fun bind(model: Track) {
         trackName.text = model.trackName
 
         Glide.with(trackImage)
             .load(model.artworkUrl100)
             .centerCrop()
-            .transform(RoundedCorners(dpToPx(2f, trackImage)))
+            .placeholder(R.drawable.placeholder)
+            .transform(RoundedCorners(DpToPx.dpToPx(2f, trackImage)))
             .into(trackImage)
 
         artistName.text = model.artistName
