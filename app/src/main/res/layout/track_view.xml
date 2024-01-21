@@ -27,7 +27,7 @@
             android:id="@+id/trackName"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/search_text"
             tools:text="Yesterday (Remastered 2009)"
             android:layout_marginTop="14dp"
             android:layout_marginLeft="8dp"
@@ -42,7 +42,7 @@
                 android:id="@+id/artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="13dp"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/search_small_text"
                 tools:text="The Beatles"
                 android:layout_marginLeft="8dp"
                 android:textSize="11sp"
@@ -51,13 +51,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/point"/>
+                android:src="@drawable/point"
+                app:tint="@color/search_small_text" />
 
             <TextView
                 android:id="@+id/trackTime"
                 android:layout_width="wrap_content"
                 android:layout_height="13dp"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/search_small_text"
                 tools:text="2:55"
                 android:textSize="11sp"
                 android:gravity="top"/>
@@ -72,6 +73,7 @@
         android:src="@drawable/arrow"
         android:layout_marginTop="18dp"
         android:layout_marginRight="12dp"
-        android:layout_gravity="right"/>
+        android:layout_gravity="right"
+        app:tint="@color/search_small_text"/>
 
 </FrameLayout>

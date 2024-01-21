@@ -6,10 +6,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <!-- ГЛАВНАЯ СТРАНИЦА ФИНИЩ -->
+
     <!-- СТРАНИЦА НАСТРОЕК СТАРТ -->
     <color name="text">#FFFFFFFF</color>
     <color name="dark_gray">#FF000000</color>
     <color name="light_gray">#E6E8EB</color>
     <color name="almost_black">#1A1B22</color>
     <!-- СТРАНИЦА НАСТРОЕК ФИНИЩ -->
+
+    <!-- СТРАНИЦА ПОИСКА СТАРТ -->
+    <color name="search_text">#FFFFFFFF</color>
+    <color name="search_small_text">#FFFFFFFF</color>
+    <!-- СТРАНИЦА ПОИСКА ФИНИЩ -->
 </resources>
