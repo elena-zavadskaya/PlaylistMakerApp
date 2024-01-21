@@ -32,11 +32,10 @@
             android:textFontWeight="500"/>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:orientation="horizontal"
         android:theme="@style/SearchButton"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/search_bar"
@@ -55,23 +54,28 @@
             android:id="@+id/inputEditText"
             android:theme="@style/SearchButton"
             android:textColor="@color/dark_gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:inputType="text"
             android:hint="@string/button_search"
             android:lines="1"
             android:maxLength="15"
             android:textSize="16sp"
             android:paddingVertical="8.5dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:textColorHint="@color/dark_gray"/>
 
         <ImageView
             android:id="@+id/clearIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="right"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:layout_marginVertical="10dp"
+            android:layout_marginRight="12dp"
+            app:tint="@color/dark_gray"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 </LinearLayout>
