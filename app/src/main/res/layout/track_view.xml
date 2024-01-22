@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="horizontal">
+    
+    <ImageView
+        android:id="@+id/trackImage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginLeft="13dp"
+        android:src="@drawable/billie_jean"
+        app:cornerRadius="2dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="58dp">
+
+        <TextView
+            android:id="@+id/trackName"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/search_text"
+            tools:text="Yesterday (Remastered 2009)"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="13dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/artistName"
+                android:layout_width="wrap_content"
+                android:layout_height="13dp"
+                tools:text="The Beatles"
+                android:layout_marginLeft="8dp"
+                android:theme="@style/searchText"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/point"
+                app:tint="@color/search_small_text" />
+
+            <TextView
+                android:id="@+id/trackTime"
+                android:layout_width="wrap_content"
+                android:layout_height="13dp"
+                tools:text="2:55"
+                android:theme="@style/searchText"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="@dimen/settings_image_width"
+        android:layout_height="@dimen/settings_image_height"
+        android:src="@drawable/arrow"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="12dp"
+        android:layout_gravity="right"
+        app:tint="@color/search_small_text"/>
+
+</FrameLayout>

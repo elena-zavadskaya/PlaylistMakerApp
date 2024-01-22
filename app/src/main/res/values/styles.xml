@@ -31,4 +31,9 @@
         <item name="android:layout_margin">@dimen/settings_image_margin</item>
         <item name="android:layout_gravity">center</item>
     </style>
+    <style name="searchText">
+        <item name="android:textColor">@color/search_small_text</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:gravity">top</item>
+    </style>
 </resources>
