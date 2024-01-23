@@ -17,5 +17,7 @@
     <!-- СТРАНИЦА ПОИСКА СТАРТ -->
     <color name="search_text">#FF000000</color>
     <color name="search_small_text">#AEAFB4</color>
+    <color name="reload_button">#FF000000</color>
+    <color name="button_text">#FFFFFFFF</color>
     <!-- СТРАНИЦА ПОИСКА ФИНИЩ -->
 </resources>
