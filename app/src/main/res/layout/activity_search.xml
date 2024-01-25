@@ -87,64 +87,75 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:visibility="gone"/>
 
-    <ImageView
-        android:id="@+id/not_found_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/not_found"
-        android:layout_gravity="center"
-        android:layout_marginTop="102dp"
-        android:visibility="gone"/>
-    <TextView
-        android:id="@+id/not_found_text"
+    <LinearLayout
+        android:id="@+id/not_found"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/not_found"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        android:theme="@style/searchErrorText"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <ImageView
-        android:id="@+id/internet_error_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/internet_error"
-        android:layout_gravity="center"
-        android:layout_marginTop="102dp"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/not_found_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/not_found"
+            android:layout_gravity="center"
+            android:layout_marginTop="102dp"/>
+        <TextView
+            android:id="@+id/not_found_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/not_found"
+            android:layout_marginTop="16dp"
+            android:theme="@style/searchErrorText"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/internet_error_text1"
+    <LinearLayout
+        android:id="@+id/internet_error"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/internet_error"
-        android:layout_marginTop="16dp"
-        android:theme="@style/searchErrorText"
-        android:visibility="gone"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/internet_error_text2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/check_internet"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:textAlignment="center"
-        android:theme="@style/searchErrorText"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/internet_error_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/internet_error"
+            android:layout_gravity="center"
+            android:layout_marginTop="102dp"/>
 
-    <Button
-        android:id="@+id/reload_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reload"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/reload_button"
-        app:cornerRadius="54dp"
-        android:textSize="@dimen/textSize14"
-        android:textAllCaps="false"
-        android:layout_marginTop="24dp"
-        android:textColor="@color/button_text"
-        android:fontFamily="@font/ys_display_medium"
-        android:visibility="gone"/>
+        <TextView
+            android:id="@+id/internet_problems_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/internet_error"
+            android:layout_marginTop="16dp"
+            android:theme="@style/searchErrorText"/>
+
+        <TextView
+            android:id="@+id/check_internet_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/check_internet"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:textAlignment="center"
+            android:theme="@style/searchErrorText"/>
+
+        <Button
+            android:id="@+id/reload_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reload"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/reload_button"
+            app:cornerRadius="54dp"
+            android:textSize="@dimen/textSize14"
+            android:textAllCaps="false"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/button_text"
+            android:fontFamily="@font/ys_display_medium"/>
+    </LinearLayout>
+
 </LinearLayout>

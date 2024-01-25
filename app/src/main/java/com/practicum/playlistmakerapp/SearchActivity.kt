@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
 import retrofit2.Call
@@ -38,7 +39,7 @@ class SearchActivity : AppCompatActivity() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        tracks.add(
+        /*tracks.add(
             Track(
                 "Smells Like Teen Spirit",
                 "Nirvana",
@@ -77,7 +78,7 @@ class SearchActivity : AppCompatActivity() {
                 "5:03",
                 "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"
             )
-        )
+        )*/
 
         binding.recyclerView.adapter = trackAdapter
 
@@ -86,23 +87,25 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.clearIcon.setOnClickListener {
+            tracks.clear()
             searchValue = binding.inputEditText.setText("").toString()
+            showEmptyPage()
         }
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 searchValue = p0.toString()
-                binding.clearIcon.visibility = clearButtonVisibility(p0)
+                binding.clearIcon.isVisible = clearButtonVisibility(p0)
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 searchValue = p0.toString()
-                binding.clearIcon.visibility = clearButtonVisibility(p0)
+                binding.clearIcon.isVisible = clearButtonVisibility(p0)
             }
 
             override fun afterTextChanged(p0: Editable?) {
                 searchValue = p0.toString()
-                binding.clearIcon.visibility = clearButtonVisibility(p0)
+                binding.clearIcon.isVisible = clearButtonVisibility(p0)
             }
 
         }
@@ -122,12 +125,8 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+    private fun clearButtonVisibility(s: CharSequence?): Boolean {
+        return !s.isNullOrEmpty()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -138,7 +137,6 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         private const val KEY = "KEY"
-        //const val DEFAULT_VALUE = ""
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -181,29 +179,26 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showTrackList() {
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.notFoundText.visibility = View.GONE
-        binding.notFoundImage.visibility = View.GONE
-        binding.internetErrorText1.visibility = View.GONE
-        binding.internetErrorText2.visibility = View.GONE
-        binding.internetErrorImage.visibility = View.GONE
+        binding.recyclerView.isVisible = true
+        binding.notFound.isVisible = false
+        binding.internetError.isVisible = false
     }
 
     private fun showNotFoundPage() {
-        binding.recyclerView.visibility = View.GONE
-        binding.notFoundText.visibility = View.VISIBLE
-        binding.notFoundImage.visibility = View.VISIBLE
-        binding.internetErrorText1.visibility = View.GONE
-        binding.internetErrorText2.visibility = View.GONE
-        binding.internetErrorImage.visibility = View.GONE
+        binding.recyclerView.isVisible = false
+        binding.notFound.isVisible = true
+        binding.internetError.isVisible = false
     }
 
     private fun showInternetErrorPage() {
-        binding.recyclerView.visibility = View.GONE
-        binding.notFoundText.visibility = View.GONE
-        binding.notFoundImage.visibility = View.GONE
-        binding.internetErrorText1.visibility = View.VISIBLE
-        binding.internetErrorText2.visibility = View.VISIBLE
-        binding.internetErrorImage.visibility = View.VISIBLE
+        binding.recyclerView.isVisible = false
+        binding.notFound.isVisible = false
+        binding.internetError.isVisible = true
+    }
+
+    private fun showEmptyPage() {
+        binding.recyclerView.isVisible = false
+        binding.notFound.isVisible = false
+        binding.internetError.isVisible = false
     }
 }
