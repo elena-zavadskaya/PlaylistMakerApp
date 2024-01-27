@@ -1,8 +1,10 @@
 package com.practicum.playlistmakerapp
 
+import com.google.gson.annotations.SerializedName
+
 data class Track(
-    val trackName: String, // Название композиции
-    val artistName: String, // Имя исполнителя
-    val trackTime: String, // Продолжительность трека
-    val artworkUrl100: String // Ссылка на изображение обложки
+    val trackName: String,
+    val artistName: String,
+    val trackTimeMillis: String,
+    val artworkUrl100: String
 )
