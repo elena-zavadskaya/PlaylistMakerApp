@@ -80,12 +80,34 @@
             android:visibility="gone"/>
     </FrameLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/you_searched"
+        android:layout_marginTop="24dp"
+        android:theme="@style/searchErrorText"
+        android:layout_marginBottom="20dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/clear_history_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clear_history"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/reload_button"
+        app:cornerRadius="54dp"
+        android:textSize="@dimen/textSize14"
+        android:textAllCaps="false"
+        android:layout_marginTop="34dp"
+        android:textColor="@color/button_text"
+        android:fontFamily="@font/ys_display_medium"/>
 
     <LinearLayout
         android:id="@+id/not_found"

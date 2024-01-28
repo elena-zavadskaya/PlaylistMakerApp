@@ -13,8 +13,10 @@
     <string name="write_to_support_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="support_email" translatable="false">ele.zavadskaya.na@gmail.com</string>
     <string name="terms_of_use_link" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
-    <string name="not_found">Ничего не нашлось</string>
-    <string name="internet_error">Проблемы со связью</string>
-    <string name="check_internet">Загрузка не удалась. Проверьте подключение к интернету</string>
-    <string name="reload">Обновить</string>
+    <string name="not_found" translatable="false">Ничего не нашлось</string>
+    <string name="internet_error" translatable="false">Проблемы со связью</string>
+    <string name="check_internet" translatable="false">Загрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="reload" translatable="false">Обновить</string>
+    <string name="clear_history" translatable="false">Очистить историю</string>
+    <string name="you_searched" translatable="false">Вы искали</string>
 </resources>
