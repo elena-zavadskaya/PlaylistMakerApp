@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 
-const val SHARED_PREFERENCES = "shared_preference"
-const val KEY = "key"
+const val SHARED_PREFERENCES_FOR_DARK_THEME = "shared_preference_for_dark_theme"
+const val KEY_FOR_DARK_THEME = "key_for_dark_theme"
 
 class App : Application() {
 
@@ -15,8 +15,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        sharedPrefs = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
-        darkTheme = sharedPrefs.getBoolean(KEY, false)
+        sharedPrefs = getSharedPreferences(SHARED_PREFERENCES_FOR_DARK_THEME, MODE_PRIVATE)
+        darkTheme = sharedPrefs.getBoolean(KEY_FOR_DARK_THEME, false)
         switchTheme(darkTheme)
 
     }
@@ -34,8 +34,8 @@ class App : Application() {
     }
 
     private fun saveDarkThemeState() {
-        sharedPrefs.edit() // состояние редактирования
-            .putBoolean(KEY, darkTheme) // кладем новое значение
-            .apply() // завершаем передачу данных
+        sharedPrefs.edit()
+            .putBoolean(KEY_FOR_DARK_THEME, darkTheme)
+            .apply()
     }
 }

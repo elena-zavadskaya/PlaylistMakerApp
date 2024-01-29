@@ -1,12 +1,12 @@
 package com.practicum.playlistmakerapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +18,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
+    companion object {
+        private const val SHARED_PREFERENCES_FOR_SEARCH_HISTORY = "shared_preference_for_search_history"
+        const val SEARCH_HISTORY_KEY = "key_for_dark_theme"
+        private const val KEY = "KEY"
+    }
+
+    private lateinit var binding: ActivitySearchBinding
 
     private lateinit var searchValue: String
-    private lateinit var binding: ActivitySearchBinding
 
     private val trackBaseUrl = "https://itunes.apple.com"
     private val retrofit = Retrofit.Builder()
@@ -28,18 +34,56 @@ class SearchActivity : AppCompatActivity() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val searchService = retrofit.create(ITunesApi::class.java)
+
     private val tracks: MutableList<Track> = mutableListOf()
-    private val trackAdapter = TrackAdapter(tracks)
+    private lateinit var trackAdapter: TrackAdapter
 
-    private var searchHistory: ArrayList<Track> = arrayListOf()
-
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_FOR_SEARCH_HISTORY, MODE_PRIVATE)
+        val history = SearchHistory(sharedPreferences)
+        binding.inputEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus && binding.inputEditText.text.isEmpty()) {
+                showSearchHistory()
+            } else {
+                showEmptyPage()
+            }
+        }
+
+        binding.clearHistoryButton.setOnClickListener {
+            history.clearSearchHistory()
+            showEmptyPage()
+        }
+
+        val searchHistoryAdapter = SearchHistoryAdapter {
+            history.addTrack(it)
+        }
+
+        searchHistoryAdapter.historyTracks = history.getTracks()
+
+        binding.searchHistoryRecyclerView.adapter = searchHistoryAdapter
+
+        val listener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _: SharedPreferences, key: String? ->
+                if (key == SEARCH_HISTORY_KEY) {
+                    searchHistoryAdapter.historyTracks = history.getTracks()
+                    searchHistoryAdapter.notifyDataSetChanged()
+                    /*searchHistoryAdapter.historyTracks.forEach {
+                        println("--- ${it.artistName}")
+                    }*/
+                }
+            }
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+
+        trackAdapter = TrackAdapter(tracks) {
+            history.addTrack(it)
+        }
 
         binding.recyclerView.adapter = trackAdapter
 
@@ -55,20 +99,23 @@ class SearchActivity : AppCompatActivity() {
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                searchValue = p0.toString()
-                binding.clearIcon.isVisible = clearButtonVisibility(p0)
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 searchValue = p0.toString()
                 binding.clearIcon.isVisible = clearButtonVisibility(p0)
+                if (binding.inputEditText.hasFocus() && p0?.isEmpty() == true) {
+                    if (history.getTracks().isEmpty()) {
+                        showEmptyPage()
+                    } else {
+                        showSearchHistory()
+
+                    }
+                }
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                searchValue = p0.toString()
-                binding.clearIcon.isVisible = clearButtonVisibility(p0)
             }
-
         }
 
         binding.inputEditText.addTextChangedListener(simpleTextWatcher)
@@ -84,8 +131,6 @@ class SearchActivity : AppCompatActivity() {
         binding.reloadButton.setOnClickListener {
             search()
         }
-
-
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Boolean {
@@ -96,10 +141,6 @@ class SearchActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         searchValue = binding.inputEditText.text.toString()
         outState.putString(KEY, searchValue)
-    }
-
-    companion object {
-        private const val KEY = "KEY"
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -145,23 +186,34 @@ class SearchActivity : AppCompatActivity() {
         binding.recyclerView.isVisible = true
         binding.notFound.isVisible = false
         binding.internetError.isVisible = false
+        binding.searchHistory.isVisible = false
     }
 
     private fun showNotFoundPage() {
         binding.recyclerView.isVisible = false
         binding.notFound.isVisible = true
         binding.internetError.isVisible = false
+        binding.searchHistory.isVisible = false
     }
 
     private fun showInternetErrorPage() {
         binding.recyclerView.isVisible = false
         binding.notFound.isVisible = false
         binding.internetError.isVisible = true
+        binding.searchHistory.isVisible = false
     }
 
     private fun showEmptyPage() {
         binding.recyclerView.isVisible = false
         binding.notFound.isVisible = false
         binding.internetError.isVisible = false
+        binding.searchHistory.isVisible = false
+    }
+
+    private fun showSearchHistory() {
+        binding.recyclerView.isVisible = false
+        binding.notFound.isVisible = false
+        binding.internetError.isVisible = false
+        binding.searchHistory.isVisible = true
     }
 }
