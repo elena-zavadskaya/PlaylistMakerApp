@@ -11,7 +11,6 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
     fun addTrack(track: Track) {
         val tracksFromSearchHistory = getTracks()
         tracksFromSearchHistory.removeIf { it.trackId == track.trackId }
-        /*println("addTrack $track")*/
         if (tracksFromSearchHistory.size >= MAX_SIZE) {
             tracksFromSearchHistory.removeAt(tracksFromSearchHistory.size - 1)
         }

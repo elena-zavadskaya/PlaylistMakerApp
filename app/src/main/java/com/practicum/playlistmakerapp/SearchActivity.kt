@@ -48,16 +48,11 @@ class SearchActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_FOR_SEARCH_HISTORY, MODE_PRIVATE)
         val history = SearchHistory(sharedPreferences)
         binding.inputEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus && binding.inputEditText.text.isEmpty()) {
+            if (hasFocus && binding.inputEditText.text.isEmpty() && history.getTracks().isNotEmpty()) {
                 showSearchHistory()
             } else {
                 showEmptyPage()
             }
-        }
-
-        binding.clearHistoryButton.setOnClickListener {
-            history.clearSearchHistory()
-            showEmptyPage()
         }
 
         val searchHistoryAdapter = SearchHistoryAdapter {
@@ -68,14 +63,18 @@ class SearchActivity : AppCompatActivity() {
 
         binding.searchHistoryRecyclerView.adapter = searchHistoryAdapter
 
+        binding.clearHistoryButton.setOnClickListener {
+            history.clearSearchHistory()
+            searchHistoryAdapter.historyTracks = history.getTracks()
+            searchHistoryAdapter.notifyDataSetChanged()
+            showEmptyPage()
+        }
+
         val listener =
             SharedPreferences.OnSharedPreferenceChangeListener { _: SharedPreferences, key: String? ->
                 if (key == SEARCH_HISTORY_KEY) {
                     searchHistoryAdapter.historyTracks = history.getTracks()
                     searchHistoryAdapter.notifyDataSetChanged()
-                    /*searchHistoryAdapter.historyTracks.forEach {
-                        println("--- ${it.artistName}")
-                    }*/
                 }
             }
 
@@ -94,7 +93,12 @@ class SearchActivity : AppCompatActivity() {
         binding.clearIcon.setOnClickListener {
             tracks.clear()
             searchValue = binding.inputEditText.setText("").toString()
-            showEmptyPage()
+            if (history.getTracks().isEmpty()) {
+                searchHistoryAdapter.notifyDataSetChanged()
+                showEmptyPage()
+            } else {
+                showSearchHistory()
+            }
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -108,8 +112,8 @@ class SearchActivity : AppCompatActivity() {
                     if (history.getTracks().isEmpty()) {
                         showEmptyPage()
                     } else {
+                        searchHistoryAdapter.notifyDataSetChanged()
                         showSearchHistory()
-
                     }
                 }
             }
@@ -131,6 +135,15 @@ class SearchActivity : AppCompatActivity() {
         binding.reloadButton.setOnClickListener {
             search()
         }
+
+        binding.inputEditText.setOnClickListener {
+            if (history.getTracks().isEmpty()) {
+                showEmptyPage()
+            } else {
+                searchHistoryAdapter.notifyDataSetChanged()
+                showSearchHistory()
+            }
+        }
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Boolean {
@@ -140,6 +153,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         searchValue = binding.inputEditText.text.toString()
+        // ???
         outState.putString(KEY, searchValue)
     }
 
