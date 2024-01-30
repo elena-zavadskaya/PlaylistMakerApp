@@ -60,6 +60,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchHistoryAdapter.historyTracks = history.getTracks()
+        searchHistoryAdapter.notifyDataSetChanged()
 
         binding.searchHistoryRecyclerView.adapter = searchHistoryAdapter
 
