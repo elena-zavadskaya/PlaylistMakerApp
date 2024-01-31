@@ -14,7 +14,7 @@
         android:layout_height="45dp"
         android:layout_marginVertical="8dp"
         android:layout_marginLeft="13dp"
-        android:src="@drawable/billie_jean"
+        android:src="@drawable/album"
         app:cornerRadius="2dp"/>
 
     <LinearLayout

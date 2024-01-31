@@ -20,4 +20,6 @@
     <color name="reload_button">#FFFFFFFF</color>
     <color name="button_text">#FF000000</color>
     <!-- СТРАНИЦА ПОИСКА ФИНИЩ -->
+
+    <color name="usual_text">#FFFFFFFF</color>
 </resources>
