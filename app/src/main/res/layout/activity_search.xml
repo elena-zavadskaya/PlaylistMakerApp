@@ -54,7 +54,7 @@
         <EditText
             android:id="@+id/inputEditText"
             android:theme="@style/SearchButton"
-            android:textColor="@color/text"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text"
