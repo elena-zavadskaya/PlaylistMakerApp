@@ -44,7 +44,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         trackName.text = chosenTrack.trackName
 
         Glide.with(trackImage)
-            .load(chosenTrack.artworkUrl100)
+            .load(chosenTrack.getCoverArtwork())
             .centerCrop()
             .placeholder(R.drawable.placeholder)
             .transform(RoundedCorners(DpToPx.dpToPx(2f, trackImage)))
