@@ -5,31 +5,38 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
+import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        val backButton = findViewById<ImageView>(R.id.back_button)
-        val shareButton = findViewById<ImageView>(R.id.share_button)
-        val supportButton = findViewById<ImageView>(R.id.support_button)
-        val termsOfUseButton = findViewById<ImageView>(R.id.terms_of_use_button)
+        binding.themeSwitcher.isChecked = (applicationContext as App).darkTheme
+        binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked  ->
+            (applicationContext as App).switchTheme(isChecked)
+        }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
             startActivity(displayIntent)
         }
 
-        shareButton.setOnClickListener {
+        binding.shareButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app_message))
             startActivity(shareIntent)
         }
 
-        supportButton.setOnClickListener {
-            val supportIntent = Intent(Intent.ACTION_SENDTO).apply {
+        binding.supportButton.setOnClickListener {
+            Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
                 putExtra(Intent.EXTRA_SUBJECT, getString(R.string.write_to_support_subject))
@@ -38,7 +45,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        termsOfUseButton.setOnClickListener {
+        binding.termsOfUseButton.setOnClickListener {
             val webpage: Uri = Uri.parse(getString(R.string.terms_of_use_link))
             val termsOfUseIntent = Intent(Intent.ACTION_VIEW, webpage)
             startActivity(termsOfUseIntent)

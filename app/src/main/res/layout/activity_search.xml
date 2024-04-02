@@ -29,7 +29,8 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="@dimen/text_margin"
             android:fontFamily="@font/ys_display_medium"
-            android:textFontWeight="500"/>
+            android:textFontWeight="500"
+            android:textColor="@color/text"/>
     </LinearLayout>
 
     <FrameLayout
@@ -53,7 +54,7 @@
         <EditText
             android:id="@+id/inputEditText"
             android:theme="@style/SearchButton"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text"
@@ -80,10 +81,52 @@
             android:visibility="gone"/>
     </FrameLayout>
 
+    <ScrollView
+        android:id="@+id/search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/you_searched"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/you_searched"
+                android:layout_marginTop="24dp"
+                android:theme="@style/searchErrorText"
+                android:layout_marginBottom="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchHistoryRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <Button
+                android:id="@+id/clear_history_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_history"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/reload_button"
+                app:cornerRadius="54dp"
+                android:textSize="@dimen/textSize14"
+                android:textAllCaps="false"
+                android:layout_marginTop="34dp"
+                android:textColor="@color/button_text"
+                android:fontFamily="@font/ys_display_medium"/>
+        </LinearLayout>
+    </ScrollView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:visibility="gone"/>
 
