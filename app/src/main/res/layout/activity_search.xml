@@ -81,6 +81,15 @@
             android:visibility="gone"/>
     </FrameLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="44dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="#3772E7"
+        android:layout_marginTop="140dp"
+        android:visibility="gone"/>
+
     <ScrollView
         android:id="@+id/search_history"
         android:layout_width="match_parent"
