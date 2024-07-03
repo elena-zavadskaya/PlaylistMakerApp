@@ -1,12 +1,10 @@
-package com.practicum.playlistmakerapp
+package com.practicum.playlistmakerapp.presentation.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import com.practicum.playlistmakerapp.R
 
 class MainActivity : AppCompatActivity() {
 

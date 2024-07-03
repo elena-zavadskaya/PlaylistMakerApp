@@ -1,10 +1,12 @@
-package com.practicum.playlistmakerapp
+package com.practicum.playlistmakerapp.presentation.ui
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.practicum.playlistmakerapp.R
+import com.practicum.playlistmakerapp.domain.models.Track
 
 class SearchHistoryAdapter(
     val onClick: (Track) -> Unit

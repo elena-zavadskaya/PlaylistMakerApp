@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp
+package com.practicum.playlistmakerapp.presentation.ui
 
 import android.content.Intent
 import android.os.Handler
@@ -7,7 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import java.util.Stack
+import com.practicum.playlistmakerapp.R
+import com.practicum.playlistmakerapp.domain.models.Track
 
 class TrackAdapter(
     private val tracks: List<Track>,
@@ -25,7 +26,7 @@ class TrackAdapter(
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, TrackAdapter.CLICK_DEBOUNCE_DELAY )
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY )
         }
         return current
     }

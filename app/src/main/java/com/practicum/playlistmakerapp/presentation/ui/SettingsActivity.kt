@@ -1,12 +1,11 @@
-package com.practicum.playlistmakerapp
+package com.practicum.playlistmakerapp.presentation.ui
 
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import com.google.android.material.switchmaterial.SwitchMaterial
-import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
+import com.practicum.playlistmakerapp.App
+import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
