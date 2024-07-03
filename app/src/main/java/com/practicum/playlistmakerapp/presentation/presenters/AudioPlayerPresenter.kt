@@ -6,7 +6,6 @@ import com.practicum.playlistmakerapp.domain.usecases.PlayPauseTrackUseCase
 import com.practicum.playlistmakerapp.domain.usecases.PrepareTrackUseCase
 import com.practicum.playlistmakerapp.domain.usecases.UpdateTrackPositionUseCase
 
-// Презентер для экрана аудиоплеера. Он связывает бизнес-логику и представление.
 class AudioPlayerPresenter(
     private val getTrackUseCase: GetTrackUseCase,
     private val prepareTrackUseCase: PrepareTrackUseCase,

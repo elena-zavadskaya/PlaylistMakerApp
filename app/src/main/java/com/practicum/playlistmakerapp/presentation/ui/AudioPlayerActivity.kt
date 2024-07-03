@@ -20,8 +20,6 @@ import com.practicum.playlistmakerapp.domain.usecases.PrepareTrackUseCase
 import com.practicum.playlistmakerapp.domain.usecases.UpdateTrackPositionUseCase
 import com.practicum.playlistmakerapp.presentation.presenters.AudioPlayerPresenter
 
-// Активити для экрана аудиоплеера.
-// Он отвечает за отображение данных и взаимодействие с пользователем.
 class AudioPlayerActivity : AppCompatActivity(), AudioPlayerPresenter.View {
 
     private lateinit var binding: AudioPlayerBinding

@@ -1,6 +1,5 @@
 package com.practicum.playlistmakerapp.domain.models
 
-// Модель данных для трека.
 data class Track(
     val trackId: String,
     val trackName: String,

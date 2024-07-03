@@ -8,7 +8,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-// Реализацию репозитория для работы с треками. Отвечает за получение данных из внешнего API.
 class TrackRepositoryImpl(private val gson: Gson, private val audioPlayer: AudioPlayerImpl) : TrackRepository {
 
     private val api: ITunesApi
