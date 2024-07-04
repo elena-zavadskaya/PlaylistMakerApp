@@ -2,8 +2,14 @@ package com.practicum.playlistmakerapp.domain.usecases
 
 import com.practicum.playlistmakerapp.domain.repository.TrackRepository
 
-class PrepareTrackUseCase(private val trackRepository: TrackRepository) {
-    fun execute(url: String, onPrepared: () -> Unit, onError: () -> Unit) {
-        trackRepository.prepareTrack(url, onPrepared, onError)
+class PrepareTrackUseCase(private val trackRepository: TrackRepository) : UseCase<PrepareTrackUseCase.Params, Unit> {
+    data class Params(
+        val url: String,
+        val onPrepared: () -> Unit,
+        val onError: () -> Unit
+    )
+
+    override fun execute(params: Params) {
+        trackRepository.prepareTrack(params.url, params.onPrepared, params.onError)
     }
 }

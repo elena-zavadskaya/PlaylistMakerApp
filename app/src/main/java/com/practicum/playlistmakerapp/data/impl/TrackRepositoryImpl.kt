@@ -1,14 +1,17 @@
-package com.practicum.playlistmakerapp.data.repository
+package com.practicum.playlistmakerapp.data.impl
 
 import com.google.gson.Gson
-import com.practicum.playlistmakerapp.data.api.ITunesApi
+import com.practicum.playlistmakerapp.data.network.ITunesApi
 import com.practicum.playlistmakerapp.domain.repository.TrackRepository
 import com.practicum.playlistmakerapp.domain.models.Track
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class TrackRepositoryImpl(private val gson: Gson, private val audioPlayer: AudioPlayerImpl) : TrackRepository {
+class TrackRepositoryImpl(
+    private val gson: Gson,
+    private val audioPlayer: AudioPlayerImpl
+) : TrackRepository {
 
     private val api: ITunesApi
 

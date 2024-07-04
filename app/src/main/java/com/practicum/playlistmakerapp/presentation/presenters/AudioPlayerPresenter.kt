@@ -1,15 +1,14 @@
 package com.practicum.playlistmakerapp.presentation.presenters
 
 import com.practicum.playlistmakerapp.domain.models.Track
-import com.practicum.playlistmakerapp.domain.usecases.GetTrackUseCase
-import com.practicum.playlistmakerapp.domain.usecases.PlayPauseTrackUseCase
-import com.practicum.playlistmakerapp.domain.usecases.PrepareTrackUseCase
-import com.practicum.playlistmakerapp.domain.usecases.UpdateTrackPositionUseCase
+import com.practicum.playlistmakerapp.domain.usecases.*
+
 
 class AudioPlayerPresenter(
     private val getTrackUseCase: GetTrackUseCase,
     private val prepareTrackUseCase: PrepareTrackUseCase,
-    private val playPauseTrackUseCase: PlayPauseTrackUseCase,
+    private val playTrackUseCase: PlayTrackUseCase,
+    private val pauseTrackUseCase: PauseTrackUseCase,
     private val updateTrackPositionUseCase: UpdateTrackPositionUseCase,
     private val view: View
 ) {
@@ -26,21 +25,21 @@ class AudioPlayerPresenter(
         currentTrack = getTrackUseCase.execute(trackId)
         currentTrack?.let {
             view.showTrackInfo(it)
-            prepareTrackUseCase.execute(it.previewUrl, {
+            prepareTrackUseCase.execute(PrepareTrackUseCase.Params(it.previewUrl, {
                 view.updatePlayPauseButton(false)
             }, {
                 view.updatePlayPauseButton(false)
-            })
+            }))
         }
     }
 
     fun onPlayPauseClicked() {
         currentTrack?.let {
             if (it.isPlaying) {
-                playPauseTrackUseCase.pause()
+                pauseTrackUseCase.pause()
                 it.isPlaying = false
             } else {
-                playPauseTrackUseCase.play()
+                playTrackUseCase.play()
                 it.isPlaying = true
             }
             view.updatePlayPauseButton(it.isPlaying)
@@ -48,7 +47,7 @@ class AudioPlayerPresenter(
     }
 
     fun updateTrackPosition() {
-        val position = updateTrackPositionUseCase.execute()
+        val position = updateTrackPositionUseCase.execute(Unit)
         val formattedPosition = formatTime(position)
         view.updateTrackPosition(formattedPosition)
     }

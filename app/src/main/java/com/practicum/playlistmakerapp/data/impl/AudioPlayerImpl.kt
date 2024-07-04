@@ -1,31 +1,32 @@
-package com.practicum.playlistmakerapp.data.repository
+package com.practicum.playlistmakerapp.data.impl
 
 import android.media.MediaPlayer
+import com.practicum.playlistmakerapp.domain.repository.AudioPlayerRepository
 
-class AudioPlayerImpl {
+class AudioPlayerImpl : AudioPlayerRepository {
 
     private val mediaPlayer = MediaPlayer()
 
-    fun prepare(url: String, onPrepared: () -> Unit, onError: () -> Unit) {
+    override fun prepare(url: String, onPrepared: () -> Unit, onError: () -> Unit) {
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener { onPrepared() }
         mediaPlayer.setOnErrorListener { _, _, _ -> onError(); true }
     }
 
-    fun play() {
+    override fun play() {
         mediaPlayer.start()
     }
 
-    fun pause() {
+    override fun pause() {
         mediaPlayer.pause()
     }
 
-    fun getCurrentPosition(): Int {
+    override fun getCurrentPosition(): Int {
         return mediaPlayer.currentPosition
     }
 
-    fun release() {
+    override fun release() {
         mediaPlayer.release()
     }
 }

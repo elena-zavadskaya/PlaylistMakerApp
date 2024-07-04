@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.presentation.ui
+package com.practicum.playlistmakerapp.presentation.ui.search
 
 import android.content.Intent
 import android.os.Handler
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.domain.models.Track
+import com.practicum.playlistmakerapp.presentation.ui.player.AudioPlayerActivity
 
 class TrackAdapter(
     private val tracks: List<Track>,

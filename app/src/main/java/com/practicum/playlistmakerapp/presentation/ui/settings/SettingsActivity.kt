@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.presentation.ui
+package com.practicum.playlistmakerapp.presentation.ui.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.practicum.playlistmakerapp.App
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
+import com.practicum.playlistmakerapp.presentation.ui.main.MainActivity
 
 class SettingsActivity : AppCompatActivity() {
 

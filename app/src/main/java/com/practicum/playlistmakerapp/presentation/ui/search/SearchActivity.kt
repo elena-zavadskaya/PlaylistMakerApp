@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.presentation.ui
+package com.practicum.playlistmakerapp.presentation.ui.search
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
@@ -11,9 +11,10 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
-import com.practicum.playlistmakerapp.SearchHistory
-import com.practicum.playlistmakerapp.TrackResponse
-import com.practicum.playlistmakerapp.data.api.ITunesApi
+import com.google.gson.Gson
+import com.practicum.playlistmakerapp.data.network.TrackResponse
+import com.practicum.playlistmakerapp.data.network.ITunesApi
+import com.practicum.playlistmakerapp.data.storage.SearchHistoryRepositoryImpl
 import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
 import com.practicum.playlistmakerapp.domain.models.Track
 import retrofit2.Call
@@ -51,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(view)
 
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_FOR_SEARCH_HISTORY, MODE_PRIVATE)
-        val history = SearchHistory(sharedPreferences)
+        val history = SearchHistoryRepositoryImpl(sharedPreferences, Gson())
         binding.inputEditText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus && binding.inputEditText.text.isEmpty() && history.getTracks().isNotEmpty()) {
                 showSearchHistory()

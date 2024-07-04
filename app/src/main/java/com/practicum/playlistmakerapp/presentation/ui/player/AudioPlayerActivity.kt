@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.presentation.ui
+package com.practicum.playlistmakerapp.presentation.ui.player
 
 import android.os.Bundle
 import android.os.Handler
@@ -9,13 +9,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.R
-import com.practicum.playlistmakerapp.data.repository.AudioPlayerImpl
-import com.practicum.playlistmakerapp.data.repository.TrackRepositoryImpl
+import com.practicum.playlistmakerapp.ServiceLocator
+import com.practicum.playlistmakerapp.data.impl.AudioPlayerImpl
+import com.practicum.playlistmakerapp.data.impl.TrackRepositoryImpl
 import com.practicum.playlistmakerapp.databinding.AudioPlayerBinding
 import com.practicum.playlistmakerapp.presentation.utils.DpToPx
 import com.practicum.playlistmakerapp.domain.models.Track
 import com.practicum.playlistmakerapp.domain.usecases.GetTrackUseCase
-import com.practicum.playlistmakerapp.domain.usecases.PlayPauseTrackUseCase
+import com.practicum.playlistmakerapp.domain.usecases.PauseTrackUseCase
+import com.practicum.playlistmakerapp.domain.usecases.PlayTrackUseCase
 import com.practicum.playlistmakerapp.domain.usecases.PrepareTrackUseCase
 import com.practicum.playlistmakerapp.domain.usecases.UpdateTrackPositionUseCase
 import com.practicum.playlistmakerapp.presentation.presenters.AudioPlayerPresenter
@@ -33,17 +35,7 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerPresenter.View {
 
         handler = Handler(Looper.getMainLooper())
 
-        val gson = Gson()
-        val audioPlayer = AudioPlayerImpl()
-        val trackRepository = TrackRepositoryImpl(gson, audioPlayer)
-
-        presenter = AudioPlayerPresenter(
-            GetTrackUseCase(trackRepository),
-            PrepareTrackUseCase(trackRepository),
-            PlayPauseTrackUseCase(trackRepository),
-            UpdateTrackPositionUseCase(trackRepository),
-            this
-        )
+        presenter = ServiceLocator.getPresenter(this)
 
         binding.backButton.setOnClickListener {
             finish()
@@ -55,12 +47,12 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerPresenter.View {
         }
 
         binding.playIV.setOnClickListener {
-            handler?.post(timeCount())
+            startTimer()
             presenter.onPlayPauseClicked()
         }
 
         binding.pauseIV.setOnClickListener {
-            handler?.removeCallbacksAndMessages(null)
+            stopTimer()
             presenter.onPlayPauseClicked()
         }
     }
@@ -76,7 +68,7 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerPresenter.View {
             .into(binding.albumIV)
 
         binding.trackAuthorTV.text = track.artistName
-        binding.trackTimeMillisTV.text = formatTime(track.trackTimeMillis)
+        binding.trackTimeMillisTV.text = formatTime(track.trackTimeMillis.toInt())
         binding.collectionNameTV.text = track.collectionName
         binding.releaseDateTV.text = track.releaseDate.substring(0, 4)
         binding.primaryGenreNameTV.text = track.primaryGenreName
@@ -96,6 +88,10 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerPresenter.View {
         handler?.post(timeCount())
     }
 
+    private fun stopTimer() {
+        handler?.removeCallbacksAndMessages(null)
+    }
+
     private fun timeCount(): Runnable {
         return object : Runnable {
             override fun run() {
@@ -105,8 +101,8 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerPresenter.View {
         }
     }
 
-    private fun formatTime(milliseconds: String): String {
-        val seconds = milliseconds.toInt() / 1000
+    private fun formatTime(milliseconds: Int): String {
+        val seconds = milliseconds / 1000
         return String.format("%d:%02d", seconds / 60, seconds % 60)
     }
 
@@ -117,7 +113,7 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerPresenter.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        handler?.removeCallbacksAndMessages(null)
+        stopTimer()
         handler = null
     }
 }
