@@ -1,13 +1,14 @@
-package com.practicum.playlistmakerapp
+package com.practicum.playlistmakerapp.presentation.ui.search
 
-import android.content.Intent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.practicum.playlistmakerapp.R
+import com.practicum.playlistmakerapp.domain.models.Track
+import com.practicum.playlistmakerapp.presentation.utils.DpToPx
 import java.text.SimpleDateFormat
 import java.util.Locale
 
