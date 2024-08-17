@@ -1,0 +1,9 @@
+package com.practicum.playlistmakerapp.player.usecases
+
+import com.practicum.playlistmakerapp.player.domain.repository.TrackRepository
+
+class PlayTrackUseCase(private val trackRepository: TrackRepository) {
+    fun play() {
+        trackRepository.playTrack()
+    }
+}
