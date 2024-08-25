@@ -1,45 +1,83 @@
 package com.practicum.playlistmakerapp.search
 
+import android.app.Application
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.practicum.playlistmakerapp.player.data.network.ITunesApi
-import com.practicum.playlistmakerapp.player.data.network.TrackResponse
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.practicum.playlistmakerapp.creator.Creator
 import com.practicum.playlistmakerapp.player.domain.models.Track
-import com.practicum.playlistmakerapp.search.domain.repository.SearchHistoryRepository
-import kotlinx.coroutines.Dispatchers
-import retrofit2.Response
+import com.practicum.playlistmakerapp.search.domain.api.TracksInteractor
 
-class SearchViewModel(
-    private val searchHistoryRepository: SearchHistoryRepository,
-    private val searchService: ITunesApi
-) : ViewModel() {
+class SearchViewModel(application: Application): AndroidViewModel(application) {
 
-    private val _tracks = MutableLiveData<List<Track>>()
-    val tracks: LiveData<List<Track>> get() = _tracks
+    companion object {
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private val SEARCH_REQUEST_TOKEN = Any()
 
-    private val _searchError = MutableLiveData<Boolean>()
-    val searchError: LiveData<Boolean> get() = _searchError
-
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> get() = _isLoading
-
-    fun searchTracks(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.postValue(true)
-            val response: Response<TrackResponse> = searchService.trackSearch(query).execute()
-            _isLoading.postValue(false)
-            if (response.isSuccessful) {
-                _tracks.postValue(response.body()?.results ?: emptyList())
-            } else {
-                _searchError.postValue(true)
+        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                SearchViewModel(this[APPLICATION_KEY] as Application)
             }
         }
     }
 
-    fun getSearchHistory(): List<Track> = searchHistoryRepository.getTracks()
+    private val tracksInteractor = Creator.provideTracksInteractor()
+    private val handler = Handler(Looper.getMainLooper())
 
-    fun addTrackToHistory(track: Track) = searchHistoryRepository.addTrack(track)
+    private val stateLiveData = MutableLiveData<TracksState>()
+    fun observeState(): LiveData<TracksState> = stateLiveData
 
-    fun clearSearchHistory() = searchHistoryRepository.clearSearchHistory()
+    private var latestSearchText: String? = null
+
+    override fun onCleared() {
+        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+    }
+
+    fun searchDebounce(changedText: String) {
+        if (latestSearchText == changedText) {
+            return
+        }
+
+        this.latestSearchText = changedText
+        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+
+        val searchRunnable = Runnable { searchRequest(changedText) }
+
+        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
+        handler.postAtTime(
+            searchRunnable,
+            SEARCH_REQUEST_TOKEN,
+            postTime,
+        )
+    }
+
+    private fun searchRequest(newSearchText: String) {
+        if (newSearchText.isNotEmpty()) {
+            renderState(TracksState.Loading)
+
+            tracksInteractor.searchTracks(newSearchText, object : TracksInteractor.TracksConsumer {
+                override fun consume(foundTracks: List<Track>?) {
+                    val tracks = mutableListOf<Track>()
+                    if (foundTracks != null) {
+                        tracks.addAll(foundTracks)
+                    }
+                    when {
+                        tracks.isEmpty() -> renderState(TracksState.Empty)
+                        else -> renderState(TracksState.Content(tracks = tracks))
+                    }
+                }
+            })
+        }
+    }
+
+    private fun renderState(state: TracksState) {
+        stateLiveData.postValue(state)
+    }
 }

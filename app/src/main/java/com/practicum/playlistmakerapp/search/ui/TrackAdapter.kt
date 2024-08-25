@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.R
+import com.practicum.playlistmakerapp.databinding.TrackViewBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
 
 class TrackAdapter(
     private val tracks: List<Track>,
-    val onClick: (Track) -> Unit
+    private val onClick: (Track) -> Unit
 ) : RecyclerView.Adapter<TrackViewHolder> () {
 
     companion object {
@@ -33,23 +34,25 @@ class TrackAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.track_view, parent, false)
-        return TrackViewHolder(view)
+        val binding = TrackViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TrackViewHolder(binding)
+
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracks[position])
+        val track = tracks[position]
+        holder.bind(track)
         holder.itemView.setOnClickListener {
-            onClick(tracks[position])
             if (clickDebounce()) {
+                onClick(track)
                 val context = holder.itemView.context
                 val intent = Intent(context, AudioPlayerActivity::class.java)
-                val gson = Gson()
-                val json = gson.toJson(tracks[position])
-                context.startActivity(intent.putExtra("KEY", json))
+                val json = Gson().toJson(track)
+                intent.putExtra("KEY", json)
+                context.startActivity(intent)
             }
         }
     }
 
-    override fun getItemCount() = tracks.size
+    override fun getItemCount(): Int = tracks.size
 }

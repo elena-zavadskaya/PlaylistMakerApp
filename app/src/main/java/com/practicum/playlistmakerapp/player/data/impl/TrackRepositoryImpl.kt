@@ -1,7 +1,7 @@
 package com.practicum.playlistmakerapp.player.data.impl
 
 import com.google.gson.Gson
-import com.practicum.playlistmakerapp.player.data.network.ITunesApi
+import com.practicum.playlistmakerapp.search.data.network.ITunesApi
 import com.practicum.playlistmakerapp.player.domain.repository.TrackRepository
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import okhttp3.OkHttpClient

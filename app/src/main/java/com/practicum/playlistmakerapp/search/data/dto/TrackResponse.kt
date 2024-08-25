@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.player.data.network
+package com.practicum.playlistmakerapp.search.data.dto
 
 import com.practicum.playlistmakerapp.player.domain.models.Track
 

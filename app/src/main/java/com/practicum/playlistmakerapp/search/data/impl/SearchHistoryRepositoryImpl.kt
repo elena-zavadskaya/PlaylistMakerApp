@@ -1,9 +1,9 @@
-package com.practicum.playlistmakerapp.player.data.storage
+package com.practicum.playlistmakerapp.search.data.impl
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.player.domain.models.Track
-import com.practicum.playlistmakerapp.search.domain.repository.SearchHistoryRepository
+import com.practicum.playlistmakerapp.search.domain.api.SearchHistoryRepository
 
 const val SEARCH_HISTORY_KEY = "key_for_dark_theme"
 const val MAX_SIZE = 10
