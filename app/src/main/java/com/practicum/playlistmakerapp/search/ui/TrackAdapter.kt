@@ -13,7 +13,7 @@ import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
 
 class TrackAdapter(
-    private val tracks: List<Track>,
+    private var tracks: List<Track>,
     private val onClick: (Track) -> Unit
 ) : RecyclerView.Adapter<TrackViewHolder> () {
 
@@ -52,6 +52,11 @@ class TrackAdapter(
                 context.startActivity(intent)
             }
         }
+    }
+
+    fun updateTracks(newTracks: List<Track>) {
+        tracks = newTracks
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = tracks.size

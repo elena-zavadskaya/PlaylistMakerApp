@@ -1,6 +1,7 @@
 package com.practicum.playlistmakerapp.search
 
 import android.app.Application
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -13,6 +14,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmakerapp.creator.Creator
 import com.practicum.playlistmakerapp.player.domain.models.Track
+import com.practicum.playlistmakerapp.search.data.impl.SearchHistoryRepositoryImpl
 import com.practicum.playlistmakerapp.search.domain.api.TracksInteractor
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
@@ -29,15 +31,34 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     }
 
     private val tracksInteractor = Creator.provideTracksInteractor()
+    private val searchHistoryRepository = SearchHistoryRepositoryImpl(
+        getApplication<Application>().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    )
     private val handler = Handler(Looper.getMainLooper())
 
     private val stateLiveData = MutableLiveData<TracksState>()
     fun observeState(): LiveData<TracksState> = stateLiveData
 
+    private val historyLiveData = MutableLiveData<List<Track>>()
+    fun observeHistory(): LiveData<List<Track>> = historyLiveData
+
     private var latestSearchText: String? = null
 
     override fun onCleared() {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+    }
+
+    fun addToSearchHistory(track: Track) {
+        searchHistoryRepository.addTrack(track)
+    }
+
+    fun showSearchHistory() {
+        historyLiveData.postValue(searchHistoryRepository.getTracks())
+    }
+
+    fun clearSearchHistory() {
+        searchHistoryRepository.clearHistory()
+        historyLiveData.postValue(emptyList())
     }
 
     fun searchDebounce(changedText: String) {
@@ -64,13 +85,11 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
             tracksInteractor.searchTracks(newSearchText, object : TracksInteractor.TracksConsumer {
                 override fun consume(foundTracks: List<Track>?) {
-                    val tracks = mutableListOf<Track>()
-                    if (foundTracks != null) {
-                        tracks.addAll(foundTracks)
-                    }
-                    when {
-                        tracks.isEmpty() -> renderState(TracksState.Empty)
-                        else -> renderState(TracksState.Content(tracks = tracks))
+                    val tracks = foundTracks ?: emptyList()
+                    if (tracks.isNotEmpty()) {
+                        renderState(TracksState.Content(tracks))
+                    } else {
+                        renderState(TracksState.Empty)
                     }
                 }
             })

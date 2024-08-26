@@ -30,24 +30,32 @@ class SearchActivity : ComponentActivity() {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private val adapter = TrackAdapter {
+    private val adapter = TrackAdapter(emptyList()) {
         if (clickDebounce()) {
             val intent = Intent(this, AudioPlayerActivity::class.java)
             intent.putExtra("poster", it.artworkUrl100)
             startActivity(intent)
+            viewModel.addToSearchHistory(it)
+        }
+    }
+
+    private val historyAdapter = TrackAdapter(emptyList()) {
+        if (clickDebounce()) {
+            val intent = Intent(this, AudioPlayerActivity::class.java)
+            intent.putExtra("poster", it.artworkUrl100)
+            startActivity(intent)
+            viewModel.addToSearchHistory(it)
         }
     }
 
     private lateinit var queryInput: EditText
     private lateinit var tracksList: RecyclerView
     private lateinit var progressBar: ProgressBar
-    private lateinit var textWatcher: TextWatcher
-    private lateinit var searchHistory: ScrollView
+    private lateinit var historyList: RecyclerView
     private lateinit var notFoundPage: LinearLayout
     private lateinit var internetErrorPage: LinearLayout
 
     private var isClickAllowed = true
-
     private val handler = Handler(Looper.getMainLooper())
 
     private lateinit var binding: ActivitySearchBinding
@@ -63,44 +71,59 @@ class SearchActivity : ComponentActivity() {
         queryInput = binding.inputEditText
         tracksList = binding.recyclerView
         progressBar = binding.progressBar
-        searchHistory = binding.searchHistory
+        historyList = binding.searchHistoryRecyclerView
         notFoundPage = binding.notFound
         internetErrorPage = binding.internetError
 
         tracksList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         tracksList.adapter = adapter
 
-        textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+        historyList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        historyList.adapter = historyAdapter
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchDebounce(
-                    changedText = s?.toString() ?: ""
-                )
-            }
-
-            override fun afterTextChanged(s: Editable?) {
+        queryInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus && queryInput.text.isEmpty()) {
+                viewModel.showSearchHistory()
             }
         }
-        textWatcher?.let { queryInput.addTextChangedListener(it) }
+
+        queryInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.searchDebounce(changedText = s?.toString() ?: "")
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         viewModel.observeState().observe(this) {
             render(it)
         }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        textWatcher?.let { queryInput.removeTextChangedListener(it) }
+        viewModel.observeHistory().observe(this) {
+            showSearchHistory(it)
+        }
     }
 
     private fun render(state: TracksState) {
         when (state) {
-            is TracksState.Content -> showTrackList()
+            is TracksState.Content -> {
+                adapter.updateTracks(state.tracks)
+                showTrackList()
+            }
             is TracksState.Empty -> showNotFoundPage()
             is TracksState.Error -> showInternetErrorPage()
             is TracksState.Loading -> showLoadingPage()
+        }
+    }
+
+    private fun showSearchHistory(history: List<Track>) {
+        if (history.isNotEmpty()) {
+            historyList.isVisible = true
+            historyAdapter.updateTracks(history)
+        } else {
+            historyList.isVisible = false
         }
     }
 
@@ -114,7 +137,7 @@ class SearchActivity : ComponentActivity() {
     }
 
     private fun showLoadingPage() {
-        searchHistory.isVisible = false
+        historyList.isVisible = false
         tracksList.isVisible = false
         progressBar.isVisible = true
         notFoundPage.isVisible = false
@@ -122,7 +145,7 @@ class SearchActivity : ComponentActivity() {
     }
 
     private fun showTrackList() {
-        searchHistory.isVisible = false
+        historyList.isVisible = false
         tracksList.isVisible = true
         progressBar.isVisible = false
         notFoundPage.isVisible = false
@@ -130,7 +153,7 @@ class SearchActivity : ComponentActivity() {
     }
 
     private fun showNotFoundPage() {
-        searchHistory.isVisible = false
+        historyList.isVisible = false
         tracksList.isVisible = false
         progressBar.isVisible = false
         notFoundPage.isVisible = true
@@ -138,19 +161,16 @@ class SearchActivity : ComponentActivity() {
     }
 
     private fun showInternetErrorPage() {
-        searchHistory.isVisible = false
+        historyList.isVisible = false
         tracksList.isVisible = false
         progressBar.isVisible = false
         notFoundPage.isVisible = false
         internetErrorPage.isVisible = true
     }
 
-    private fun showEmptyPage() {
-        searchHistory.isVisible = false
-        tracksList.isVisible = false
-        progressBar.isVisible = false
-        notFoundPage.isVisible = false
-        internetErrorPage.isVisible = false
+    override fun onDestroy() {
+        super.onDestroy()
+        queryInput.removeTextChangedListener(null)
     }
 
 //    private fun setupObservers() {
