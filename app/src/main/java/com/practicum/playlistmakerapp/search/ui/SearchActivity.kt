@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
@@ -30,12 +31,12 @@ class SearchActivity : ComponentActivity() {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private val adapter = TrackAdapter(emptyList()) {
+    private val adapter = TrackAdapter(emptyList()) { track ->
         if (clickDebounce()) {
             val intent = Intent(this, AudioPlayerActivity::class.java)
-            intent.putExtra("poster", it.artworkUrl100)
+            intent.putExtra("poster", track.artworkUrl100)
             startActivity(intent)
-            viewModel.addToSearchHistory(it)
+            viewModel.addToSearchHistory(track)
         }
     }
 
@@ -54,6 +55,7 @@ class SearchActivity : ComponentActivity() {
     private lateinit var historyList: RecyclerView
     private lateinit var notFoundPage: LinearLayout
     private lateinit var internetErrorPage: LinearLayout
+    private lateinit var clearButton: ImageView
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -74,6 +76,7 @@ class SearchActivity : ComponentActivity() {
         historyList = binding.searchHistoryRecyclerView
         notFoundPage = binding.notFound
         internetErrorPage = binding.internetError
+        clearButton = binding.clearIcon
 
         tracksList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         tracksList.adapter = adapter
@@ -92,10 +95,15 @@ class SearchActivity : ComponentActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.searchDebounce(changedText = s?.toString() ?: "")
+                clearButton.isVisible = !s.isNullOrEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        clearButton.setOnClickListener {
+            queryInput.text.clear()
+        }
 
         viewModel.observeState().observe(this) {
             render(it)
@@ -172,44 +180,4 @@ class SearchActivity : ComponentActivity() {
         super.onDestroy()
         queryInput.removeTextChangedListener(null)
     }
-
-//    private fun setupObservers() {
-//        viewModel.tracks.observe(this, Observer { tracks ->
-//            if (tracks.isNotEmpty()) {
-//                showTrackList(tracks)
-//            } else {
-//                showNotFoundPage()
-//            }
-//        })
-//
-//        viewModel.searchError.observe(this, Observer { isError ->
-//            if (isError) {
-//                showInternetErrorPage()
-//            }
-//        })
-//
-//        viewModel.isLoading.observe(this, Observer { isLoading ->
-//            binding.progressBar.isVisible = isLoading
-//        })
-//    }
-//
-//    private fun setupUI() {
-//        binding.inputEditText.setOnEditorActionListener { _, actionId, _ ->
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                viewModel.searchTracks(binding.inputEditText.text.toString())
-//                true
-//            }
-//            false
-//        }
-//
-//        binding.clearIcon.setOnClickListener {
-//            binding.inputEditText.text.clear()
-//            viewModel.clearSearchHistory()
-//            showEmptyPage()
-//        }
-//
-//        binding.reloadButton.setOnClickListener {
-//            viewModel.searchTracks(binding.inputEditText.text.toString())
-//        }
-//    }
 }

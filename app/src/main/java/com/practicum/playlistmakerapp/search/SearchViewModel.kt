@@ -49,7 +49,11 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun addToSearchHistory(track: Track) {
-        searchHistoryRepository.addTrack(track)
+        val currentHistory = historyLiveData.value.orEmpty().toMutableList()
+        if (!currentHistory.contains(track)) {
+            currentHistory.add(0, track)
+            historyLiveData.value = currentHistory
+        }
     }
 
     fun showSearchHistory() {

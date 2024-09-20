@@ -15,7 +15,7 @@ import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
 class TrackAdapter(
     private var tracks: List<Track>,
     private val onClick: (Track) -> Unit
-) : RecyclerView.Adapter<TrackViewHolder> () {
+) : RecyclerView.Adapter<TrackViewHolder>() {
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY  = 1000L
