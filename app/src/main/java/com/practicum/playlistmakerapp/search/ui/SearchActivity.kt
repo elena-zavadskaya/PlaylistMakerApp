@@ -7,6 +7,7 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -19,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
@@ -34,7 +36,8 @@ class SearchActivity : ComponentActivity() {
     private val adapter = TrackAdapter(emptyList()) { track ->
         if (clickDebounce()) {
             val intent = Intent(this, AudioPlayerActivity::class.java)
-            intent.putExtra("poster", track.artworkUrl100)
+            val parcelable = Gson().toJson(track)
+            intent.putExtra("poster", parcelable)
             startActivity(intent)
             viewModel.addToSearchHistory(track)
         }
@@ -55,7 +58,9 @@ class SearchActivity : ComponentActivity() {
     private lateinit var historyList: RecyclerView
     private lateinit var notFoundPage: LinearLayout
     private lateinit var internetErrorPage: LinearLayout
+    private lateinit var backButton: ImageView
     private lateinit var clearButton: ImageView
+    private lateinit var clearHistoryButton: Button
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -76,7 +81,9 @@ class SearchActivity : ComponentActivity() {
         historyList = binding.searchHistoryRecyclerView
         notFoundPage = binding.notFound
         internetErrorPage = binding.internetError
+        backButton = binding.backButton
         clearButton = binding.clearIcon
+        clearHistoryButton = binding.clearHistoryButton
 
         tracksList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         tracksList.adapter = adapter
@@ -101,8 +108,16 @@ class SearchActivity : ComponentActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        backButton.setOnClickListener {
+            finish()
+        }
+
         clearButton.setOnClickListener {
             queryInput.text.clear()
+        }
+
+        clearHistoryButton.setOnClickListener {
+            viewModel.clearSearchHistory()
         }
 
         viewModel.observeState().observe(this) {
@@ -129,7 +144,11 @@ class SearchActivity : ComponentActivity() {
     private fun showSearchHistory(history: List<Track>) {
         if (history.isNotEmpty()) {
             historyList.isVisible = true
+            binding.searchHistory.isVisible = true
             historyAdapter.updateTracks(history)
+            tracksList.isVisible = false
+            progressBar.isVisible = false
+            notFoundPage.isVisible = false
         } else {
             historyList.isVisible = false
         }

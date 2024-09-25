@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.player.usecases
+package com.practicum.playlistmakerapp.player.domain.usecases
 
 import com.practicum.playlistmakerapp.player.domain.repository.TrackRepository
 

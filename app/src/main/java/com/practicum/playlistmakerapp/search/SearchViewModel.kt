@@ -54,6 +54,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
             currentHistory.add(0, track)
             historyLiveData.value = currentHistory
         }
+        searchHistoryRepository.addTrack(track)
     }
 
     fun showSearchHistory() {

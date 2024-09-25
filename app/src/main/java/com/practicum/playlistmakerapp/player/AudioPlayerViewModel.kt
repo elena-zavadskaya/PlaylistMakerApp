@@ -3,10 +3,10 @@ package com.practicum.playlistmakerapp.player
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.practicum.playlistmakerapp.player.usecases.PauseTrackUseCase
-import com.practicum.playlistmakerapp.player.usecases.PlayTrackUseCase
-import com.practicum.playlistmakerapp.player.usecases.PrepareTrackUseCase
-import com.practicum.playlistmakerapp.player.usecases.UpdateTrackPositionUseCase
+import com.practicum.playlistmakerapp.player.domain.usecases.PauseTrackUseCase
+import com.practicum.playlistmakerapp.player.domain.usecases.PlayTrackUseCase
+import com.practicum.playlistmakerapp.player.domain.usecases.PrepareTrackUseCase
+import com.practicum.playlistmakerapp.player.domain.usecases.UpdateTrackPositionUseCase
 
 class AudioPlayerViewModel(
     private val prepareTrackUseCase: PrepareTrackUseCase,
