@@ -63,12 +63,12 @@ object Creator {
         return application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     }
 
-    fun provideThemeRepository(application: Application): ThemeRepository {
-        return ThemeRepositoryImpl(getSharedPreferences(application))
-    }
+//    fun provideThemeRepository(application: Application): ThemeRepository {
+//        return ThemeRepositoryImpl(getSharedPreferences(application))
+//    }
 
     fun provideThemeInteractor(application: Application): ThemeInteractor {
-        return ThemeInteractorImpl(provideThemeRepository(application))
+        return ThemeInteractorImpl(application as App)
     }
 
     // Поделиться

@@ -44,25 +44,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val supportInteractor: SupportInteractor = Creator.provideSupportInteractor(application)
     private val termsInteractor: TermsInteractor = Creator.provideTermsInteractor(application)
 
-    private val _isDarkTheme = MutableLiveData<Boolean>()
-
-    private val handler = Handler(Looper.getMainLooper())
-
-    override fun onCleared() {
-        handler.removeCallbacksAndMessages(SETTINGS_REQUEST_TOKEN)
-    }
+    private val _themeState = MutableLiveData<Boolean>()
+    val themeState: LiveData<Boolean> get() = _themeState
 
     init {
-        _isDarkTheme.value = themeInteractor.isDarkThemeEnabled()
+        _themeState.value = themeInteractor.isDarkThemeEnabled()
     }
 
-    fun isDarkThemeEnabled(): Boolean {
-        return themeInteractor.isDarkThemeEnabled()
-    }
-
-    fun switchTheme(isChecked: Boolean) {
-        themeInteractor.switchTheme(isChecked)
-        _isDarkTheme.value = isChecked
+    fun switchTheme(isDarkTheme: Boolean) {
+        themeInteractor.switchTheme(isDarkTheme)
+        _themeState.value = isDarkTheme
     }
 
     fun getShareAppMessage(): String {

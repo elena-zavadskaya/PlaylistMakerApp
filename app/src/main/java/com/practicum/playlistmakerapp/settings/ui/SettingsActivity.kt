@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmakerapp.App
 import com.practicum.playlistmakerapp.R
@@ -26,15 +27,13 @@ class SettingsActivity : ComponentActivity() {
 
         viewModel = ViewModelProvider(this, SettingsViewModel.getViewModelFactory())[SettingsViewModel::class.java]
 
-        binding.themeSwitcher.isChecked = viewModel.isDarkThemeEnabled()
-
-//        viewModel.isDarkTheme.observe(this) { isDarkTheme ->
-//            binding.themeSwitcher.isChecked = isDarkTheme
-//        }
-
+        binding.themeSwitcher.isChecked = viewModel.themeState.value ?: false
         binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
             viewModel.switchTheme(isChecked)
-            recreate()
+        }
+
+        viewModel.themeState.observe(this) { isDarkTheme ->
+            binding.themeSwitcher.isChecked = isDarkTheme
         }
 
         binding.backButton.setOnClickListener {
