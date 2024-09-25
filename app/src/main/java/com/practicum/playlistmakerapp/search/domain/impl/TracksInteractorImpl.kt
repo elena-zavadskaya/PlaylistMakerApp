@@ -2,7 +2,6 @@ package com.practicum.playlistmakerapp.search.domain.impl
 
 import com.practicum.playlistmakerapp.search.domain.api.TracksInteractor
 import com.practicum.playlistmakerapp.search.domain.api.TracksRepository
-import java.util.concurrent.Executors
 
 class TracksInteractorImpl(private val repository: TracksRepository) : TracksInteractor {
     override fun searchTracks(expression: String, consumer: TracksInteractor.TracksConsumer) {

@@ -4,17 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
-import com.practicum.playlistmakerapp.App
-import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
-import com.practicum.playlistmakerapp.main.ui.MainActivity
-import com.practicum.playlistmakerapp.search.SearchViewModel
 import com.practicum.playlistmakerapp.settings.SettingsViewModel
 
-class SettingsActivity : ComponentActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var viewModel: SettingsViewModel

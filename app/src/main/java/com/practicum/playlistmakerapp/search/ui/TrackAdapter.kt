@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.TrackViewBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity

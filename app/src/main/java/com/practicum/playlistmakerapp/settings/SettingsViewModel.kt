@@ -1,9 +1,6 @@
 package com.practicum.playlistmakerapp.settings
 
 import android.app.Application
-import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,13 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.practicum.playlistmakerapp.App
-import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.creator.Creator
-//import com.practicum.playlistmakerapp.search.SearchViewModel.Companion.SEARCH_REQUEST_TOKEN
-import com.practicum.playlistmakerapp.search.TracksState
-import com.practicum.playlistmakerapp.search.data.impl.SearchHistoryRepositoryImpl
-import com.practicum.playlistmakerapp.settings.data.impl.ThemeRepositoryImpl
 import com.practicum.playlistmakerapp.settings.domain.interactor.ShareInteractor
 import com.practicum.playlistmakerapp.settings.domain.interactor.SupportInteractor
 import com.practicum.playlistmakerapp.settings.domain.interactor.TermsInteractor
