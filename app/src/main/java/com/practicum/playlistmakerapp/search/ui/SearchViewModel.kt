@@ -1,7 +1,6 @@
-package com.practicum.playlistmakerapp.search
+package com.practicum.playlistmakerapp.search.ui
 
 import android.app.Application
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -14,26 +13,17 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmakerapp.creator.Creator
 import com.practicum.playlistmakerapp.player.domain.models.Track
-import com.practicum.playlistmakerapp.search.data.impl.SearchHistoryRepositoryImpl
-import com.practicum.playlistmakerapp.search.domain.api.TracksInteractor
+import com.practicum.playlistmakerapp.search.TracksState
+import com.practicum.playlistmakerapp.search.domain.SearchHistoryInteractor
+import com.practicum.playlistmakerapp.search.domain.api.SearchInteractor
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
 
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
-        private val SEARCH_REQUEST_TOKEN = Any()
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
-    }
-
-    private val tracksInteractor = Creator.provideTracksInteractor()
-    private val searchHistoryRepository = SearchHistoryRepositoryImpl(
-        getApplication<Application>().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    )
+    private val searchInteractor = Creator.provideSearchInteractor()
+    private val searchHistoryInteractor: SearchHistoryInteractor = Creator.provideSearchHistoryInteractor(application)
+//    private val searchHistoryRepository = SearchHistoryRepositoryImpl(
+//        getApplication<Application>().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//    )
     private val handler = Handler(Looper.getMainLooper())
 
     private val stateLiveData = MutableLiveData<TracksState>()
@@ -49,20 +39,30 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun addToSearchHistory(track: Track) {
-        val currentHistory = historyLiveData.value.orEmpty().toMutableList()
-        if (!currentHistory.contains(track)) {
-            currentHistory.add(0, track)
-            historyLiveData.value = currentHistory
-        }
-        searchHistoryRepository.addTrack(track)
+//        val currentHistory = historyLiveData.value.orEmpty().toMutableList()
+//        if (!currentHistory.contains(track)) {
+//            currentHistory.add(0, track)
+//            historyLiveData.value = currentHistory
+//        }
+//        searchHistoryRepository.addTrack(track)
+        searchHistoryInteractor.addTrackToHistory(track)
+        loadSearchHistory()
+
+    }
+
+    private fun loadSearchHistory() {
+        val history = searchHistoryInteractor.getSearchHistory()
+        historyLiveData.postValue(history)
     }
 
     fun showSearchHistory() {
-        historyLiveData.postValue(searchHistoryRepository.getTracks())
+        historyLiveData.postValue(searchHistoryInteractor.getSearchHistory())
     }
 
     fun clearSearchHistory() {
-        searchHistoryRepository.clearHistory()
+//        searchHistoryRepository.clearHistory()
+//        historyLiveData.postValue(emptyList())
+        searchHistoryInteractor.clearSearchHistory()
         historyLiveData.postValue(emptyList())
     }
 
@@ -88,7 +88,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         if (newSearchText.isNotEmpty()) {
             renderState(TracksState.Loading)
 
-            tracksInteractor.searchTracks(newSearchText, object : TracksInteractor.TracksConsumer {
+            searchInteractor.searchTracks(newSearchText, object : SearchInteractor.TracksConsumer {
                 override fun consume(foundTracks: List<Track>?) {
                     val tracks = foundTracks ?: emptyList()
                     if (tracks.isNotEmpty()) {
@@ -103,5 +103,16 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     private fun renderState(state: TracksState) {
         stateLiveData.postValue(state)
+    }
+
+    companion object {
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private val SEARCH_REQUEST_TOKEN = Any()
+
+        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                SearchViewModel(this[APPLICATION_KEY] as Application)
+            }
+        }
     }
 }

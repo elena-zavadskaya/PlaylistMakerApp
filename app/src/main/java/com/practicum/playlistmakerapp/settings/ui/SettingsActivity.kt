@@ -1,12 +1,11 @@
 package com.practicum.playlistmakerapp.settings.ui
 
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.practicum.playlistmakerapp.creator.Creator
 import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
-import com.practicum.playlistmakerapp.settings.SettingsViewModel
+import com.practicum.playlistmakerapp.settings.ThemeSettings
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -19,43 +18,35 @@ class SettingsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel = ViewModelProvider(this, SettingsViewModel.getViewModelFactory())[SettingsViewModel::class.java]
+        viewModel = ViewModelProvider(this, Creator.provideSettingsViewModelFactory())[SettingsViewModel::class.java]
 
-        binding.themeSwitcher.isChecked = viewModel.themeState.value ?: false
+        viewModel.themeSettings.observe(this) { themeSettings ->
+            binding.themeSwitcher.isChecked = themeSettings.isDarkThemeEnabled
+        }
+
+        // Переключение темы
         binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.switchTheme(isChecked)
+            viewModel.switchTheme(ThemeSettings(isChecked))
         }
 
-        viewModel.themeState.observe(this) { isDarkTheme ->
-            binding.themeSwitcher.isChecked = isDarkTheme
+        // Поделиться приложением
+        binding.shareButton.setOnClickListener {
+            viewModel.shareApp()
         }
 
+        // Написать в поддержку
+        binding.supportButton.setOnClickListener {
+            viewModel.openSupport()
+        }
+
+        // Условия использования
+        binding.termsOfUseButton.setOnClickListener {
+            viewModel.openTerms()
+        }
+
+        // Назад
         binding.backButton.setOnClickListener {
             finish()
-        }
-
-        binding.shareButton.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, viewModel.getShareAppMessage())
-            }
-            startActivity(shareIntent)
-        }
-
-        binding.supportButton.setOnClickListener {
-            Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:")
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(viewModel.getSupportEmail()))
-                putExtra(Intent.EXTRA_SUBJECT, viewModel.getSupportSubject())
-                putExtra(Intent.EXTRA_TEXT, viewModel.getSupportMessage())
-                startActivity(this)
-            }
-        }
-
-        binding.termsOfUseButton.setOnClickListener {
-            val webpage: Uri = Uri.parse(viewModel.getTermsOfUseLink())
-            val termsOfUseIntent = Intent(Intent.ACTION_VIEW, webpage)
-            startActivity(termsOfUseIntent)
         }
     }
 }

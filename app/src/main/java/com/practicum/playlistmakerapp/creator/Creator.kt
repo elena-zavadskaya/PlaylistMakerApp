@@ -2,44 +2,40 @@ package com.practicum.playlistmakerapp.creator
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.gson.Gson
-import com.practicum.playlistmakerapp.App
-import com.practicum.playlistmakerapp.player.AudioPlayerViewModel
+import com.practicum.playlistmakerapp.player.ui.AudioPlayerViewModel
 import com.practicum.playlistmakerapp.player.data.impl.AudioPlayerImpl
 import com.practicum.playlistmakerapp.player.data.impl.TrackRepositoryImpl
 import com.practicum.playlistmakerapp.player.domain.usecases.PauseTrackUseCase
 import com.practicum.playlistmakerapp.player.domain.usecases.PlayTrackUseCase
 import com.practicum.playlistmakerapp.player.domain.usecases.PrepareTrackUseCase
 import com.practicum.playlistmakerapp.player.domain.usecases.UpdateTrackPositionUseCase
+import com.practicum.playlistmakerapp.search.data.impl.SearchHistoryRepositoryImpl
 import com.practicum.playlistmakerapp.search.data.network.RetrofitNetworkClient
-import com.practicum.playlistmakerapp.search.data.network.TracksRepositoryImpl
-import com.practicum.playlistmakerapp.search.domain.api.TracksInteractor
-import com.practicum.playlistmakerapp.search.domain.api.TracksRepository
-import com.practicum.playlistmakerapp.search.domain.impl.TracksInteractorImpl
-import com.practicum.playlistmakerapp.settings.SettingsViewModel
-import com.practicum.playlistmakerapp.settings.data.impl.ShareRepositoryImpl
-import com.practicum.playlistmakerapp.settings.data.impl.SupportRepositoryImpl
-import com.practicum.playlistmakerapp.settings.data.impl.TermsRepositoryImpl
-import com.practicum.playlistmakerapp.settings.data.impl.ThemeRepositoryImpl
-import com.practicum.playlistmakerapp.settings.domain.impl.ShareInteractorImpl
-import com.practicum.playlistmakerapp.settings.domain.impl.SupportInteractorImpl
-import com.practicum.playlistmakerapp.settings.domain.impl.TermsInteractorImpl
-import com.practicum.playlistmakerapp.settings.domain.impl.ThemeInteractorImpl
-import com.practicum.playlistmakerapp.settings.domain.interactor.ShareInteractor
-import com.practicum.playlistmakerapp.settings.domain.interactor.SupportInteractor
-import com.practicum.playlistmakerapp.settings.domain.interactor.TermsInteractor
-import com.practicum.playlistmakerapp.settings.domain.interactor.ThemeInteractor
-import com.practicum.playlistmakerapp.settings.domain.repository.ShareRepository
-import com.practicum.playlistmakerapp.settings.domain.repository.SupportRepository
-import com.practicum.playlistmakerapp.settings.domain.repository.TermsRepository
-import com.practicum.playlistmakerapp.settings.domain.repository.ThemeRepository
+import com.practicum.playlistmakerapp.search.data.network.SearchRepositoryImpl
+import com.practicum.playlistmakerapp.search.domain.SearchHistoryInteractor
+import com.practicum.playlistmakerapp.search.domain.api.SearchHistoryRepository
+import com.practicum.playlistmakerapp.search.domain.api.SearchInteractor
+import com.practicum.playlistmakerapp.search.domain.api.SearchRepository
+import com.practicum.playlistmakerapp.search.domain.impl.SearchHistoryInteractorImpl
+import com.practicum.playlistmakerapp.search.domain.impl.SearchInteractorImpl
+import com.practicum.playlistmakerapp.settings.domain.impl.SettingsInteractorImpl
+import com.practicum.playlistmakerapp.settings.domain.impl.SettingsRepositoryImpl
+import com.practicum.playlistmakerapp.settings.ui.SettingsViewModel
+import com.practicum.playlistmakerapp.sharing.domain.ExternalNavigator
+import com.practicum.playlistmakerapp.sharing.domain.SharingInteractor
+import com.practicum.playlistmakerapp.sharing.domain.SharingInteractorImpl
 
 object Creator {
     private val gson = Gson()
     private val audioPlayer = AudioPlayerImpl()
     private val trackRepository = TrackRepositoryImpl(gson, audioPlayer)
+    private val externalNavigator = ExternalNavigator()
 
+    // Аудиоплеер
     fun provideAudioPlayerViewModel(): AudioPlayerViewModel {
         return AudioPlayerViewModel(
             prepareTrackUseCase = PrepareTrackUseCase(trackRepository),
@@ -49,52 +45,55 @@ object Creator {
         )
     }
 
+    // Настройки
+    private fun getSharingRepository(application: Application): SharingRepository {
+        return SharingRepositoryImpl(application)
+    }
+
+    fun provideSharingInteractor(application: Application): SharingInteractor {
+        return SharingInteractorImpl(externalNavigator)
+    }
+
+    private fun getSettingsRepository(application: Application): SettingsRepository {
+        return SettingsRepositoryImpl(application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE))
+    }
+
+    fun provideSettingsInteractor(application: Application): SettingsInteractor {
+        return SettingsInteractorImpl(getSettingsRepository(application))
+    }
+
+    fun provideSettingsViewModel(application: Application): SettingsViewModel {
+        return SettingsViewModel(
+            sharingInteractor = provideSharingInteractor(application),
+            settingsInteractor = provideSettingsInteractor(application)
+        )
+    }
+
+    fun provideSettingsViewModelFactory(application: Application): ViewModelProvider.Factory {
+        return viewModelFactory {
+            initializer {
+                provideSettingsViewModel(application)
+            }
+        }
+    }
+
     // Поиск
-    private fun getTracksRepository(): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient())
+    private fun getSearchRepository(): SearchRepository {
+        return SearchRepositoryImpl(RetrofitNetworkClient())
     }
 
-    fun provideTracksInteractor(): TracksInteractor {
-        return TracksInteractorImpl(getTracksRepository())
+    fun provideSearchInteractor(): SearchInteractor {
+        return SearchInteractorImpl(getSearchRepository())
     }
 
-    // Сменить тему
-    private fun getSharedPreferences(application: Application): SharedPreferences {
-        return application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    // История поиска
+    private fun getSearchHistoryRepository(application: Application): SearchHistoryRepository {
+        return SearchHistoryRepositoryImpl(
+            application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        )
     }
 
-//    fun provideThemeRepository(application: Application): ThemeRepository {
-//        return ThemeRepositoryImpl(getSharedPreferences(application))
-//    }
-
-    fun provideThemeInteractor(application: Application): ThemeInteractor {
-        return ThemeInteractorImpl(application as App)
-    }
-
-    // Поделиться
-    private fun getShareRepository(application: Application): ShareRepository {
-        return ShareRepositoryImpl(application)
-    }
-
-    fun provideShareInteractor(application: Application): ShareInteractor {
-        return ShareInteractorImpl(getShareRepository(application))
-    }
-
-    // Поддержка
-    private fun getSupportRepository(application: Application): SupportRepository {
-        return SupportRepositoryImpl(application)
-    }
-
-    fun provideSupportInteractor(application: Application): SupportInteractor {
-        return SupportInteractorImpl(getSupportRepository(application))
-    }
-
-    // Условия использования
-    private fun getTermsRepository(application: Application): TermsRepository {
-        return TermsRepositoryImpl(application)
-    }
-
-    fun provideTermsInteractor(application: Application): TermsInteractor {
-        return TermsInteractorImpl(getTermsRepository(application))
+    fun provideSearchHistoryInteractor(application: Application): SearchHistoryInteractor {
+        return SearchHistoryInteractorImpl(getSearchHistoryRepository(application))
     }
 }

@@ -2,7 +2,6 @@ package com.practicum.playlistmakerapp.settings.data.impl
 
 import android.content.Context
 import com.practicum.playlistmakerapp.R
-import com.practicum.playlistmakerapp.settings.domain.repository.SupportRepository
 
 class SupportRepositoryImpl(private val context: Context) : SupportRepository {
     override fun getSupportEmail(): String {

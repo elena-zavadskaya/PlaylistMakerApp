@@ -20,7 +20,6 @@ import com.google.gson.Gson
 import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
-import com.practicum.playlistmakerapp.search.SearchViewModel
 import com.practicum.playlistmakerapp.search.TracksState
 
 class SearchActivity : AppCompatActivity() {
