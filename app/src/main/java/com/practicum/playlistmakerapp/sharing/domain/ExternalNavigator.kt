@@ -11,7 +11,7 @@ class ExternalNavigator(private val context: Context) {
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, shareAppLink)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Добавляем флаг для нового контекста
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         context.startActivity(Intent.createChooser(shareIntent, "Share via"))
     }
@@ -19,7 +19,7 @@ class ExternalNavigator(private val context: Context) {
     // Условия использования
     fun openLink(termsLink: String) {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(termsLink)).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Добавляем флаг
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         context.startActivity(browserIntent)
     }
@@ -31,7 +31,7 @@ class ExternalNavigator(private val context: Context) {
             putExtra(Intent.EXTRA_EMAIL, arrayOf(supportEmailData.email))
             putExtra(Intent.EXTRA_SUBJECT, supportEmailData.subject)
             putExtra(Intent.EXTRA_TEXT, supportEmailData.body)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Добавляем флаг
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         context.startActivity(emailIntent)
     }
