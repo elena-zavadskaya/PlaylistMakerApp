@@ -24,6 +24,8 @@ import com.practicum.playlistmakerapp.search.domain.impl.SearchHistoryInteractor
 import com.practicum.playlistmakerapp.search.domain.impl.SearchInteractorImpl
 import com.practicum.playlistmakerapp.settings.domain.impl.SettingsInteractorImpl
 import com.practicum.playlistmakerapp.settings.domain.impl.SettingsRepositoryImpl
+import com.practicum.playlistmakerapp.settings.domain.interactor.SettingsInteractor
+import com.practicum.playlistmakerapp.settings.domain.repository.SettingsRepository
 import com.practicum.playlistmakerapp.settings.ui.SettingsViewModel
 import com.practicum.playlistmakerapp.sharing.domain.ExternalNavigator
 import com.practicum.playlistmakerapp.sharing.domain.SharingInteractor
@@ -33,7 +35,6 @@ object Creator {
     private val gson = Gson()
     private val audioPlayer = AudioPlayerImpl()
     private val trackRepository = TrackRepositoryImpl(gson, audioPlayer)
-    private val externalNavigator = ExternalNavigator()
 
     // Аудиоплеер
     fun provideAudioPlayerViewModel(): AudioPlayerViewModel {
@@ -46,20 +47,19 @@ object Creator {
     }
 
     // Настройки
-    private fun getSharingRepository(application: Application): SharingRepository {
-        return SharingRepositoryImpl(application)
-    }
-
     fun provideSharingInteractor(application: Application): SharingInteractor {
-        return SharingInteractorImpl(externalNavigator)
+        val externalNavigator = ExternalNavigator(application)
+        return SharingInteractorImpl(externalNavigator, application)
     }
 
-    private fun getSettingsRepository(application: Application): SettingsRepository {
-        return SettingsRepositoryImpl(application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE))
-    }
+//    private fun getSettingsRepository(application: Application): SettingsRepository {
+//        return SettingsRepositoryImpl(application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE))
+//    }
 
     fun provideSettingsInteractor(application: Application): SettingsInteractor {
-        return SettingsInteractorImpl(getSettingsRepository(application))
+        val sharedPreferences = application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val settingsRepository = SettingsRepositoryImpl(sharedPreferences)
+        return SettingsInteractorImpl(settingsRepository)
     }
 
     fun provideSettingsViewModel(application: Application): SettingsViewModel {

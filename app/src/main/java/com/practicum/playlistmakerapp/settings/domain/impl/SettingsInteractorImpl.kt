@@ -1,14 +1,19 @@
 package com.practicum.playlistmakerapp.settings.domain.impl
 
+import android.content.SharedPreferences
 import com.practicum.playlistmakerapp.settings.ThemeSettings
 import com.practicum.playlistmakerapp.settings.domain.interactor.SettingsInteractor
+import com.practicum.playlistmakerapp.settings.domain.repository.SettingsRepository
 
-class SettingsInteractorImpl : SettingsInteractor {
+class SettingsInteractorImpl(
+    private val settingsRepository: SettingsRepository
+) : SettingsInteractor {
+
     override fun getThemeSettings(): ThemeSettings {
-        TODO("Not yet implemented")
+        return settingsRepository.getThemeSettings()
     }
 
     override fun updateThemeSetting(settings: ThemeSettings) {
-        TODO("Not yet implemented")
+        settingsRepository.updateThemeSetting(settings)
     }
 }

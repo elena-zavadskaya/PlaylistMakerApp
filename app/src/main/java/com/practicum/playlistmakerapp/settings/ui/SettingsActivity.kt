@@ -18,7 +18,10 @@ class SettingsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel = ViewModelProvider(this, Creator.provideSettingsViewModelFactory())[SettingsViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this,
+            Creator.provideSettingsViewModelFactory(application)
+        ).get(SettingsViewModel::class.java)
 
         viewModel.themeSettings.observe(this) { themeSettings ->
             binding.themeSwitcher.isChecked = themeSettings.isDarkThemeEnabled
@@ -26,7 +29,8 @@ class SettingsActivity : AppCompatActivity() {
 
         // Переключение темы
         binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.switchTheme(ThemeSettings(isChecked))
+            val newTheme = ThemeSettings(isDarkThemeEnabled = isChecked)
+            viewModel.switchTheme(newTheme)
         }
 
         // Поделиться приложением

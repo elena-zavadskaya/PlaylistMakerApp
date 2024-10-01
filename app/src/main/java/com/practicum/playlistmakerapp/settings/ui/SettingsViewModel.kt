@@ -20,10 +20,10 @@ class SettingsViewModel(
     }
 
     // Сменить тему
-    fun switchTheme(isDarkTheme: Boolean) {
-        val newSettings = ThemeSettings(isDarkThemeEnabled = isDarkTheme)
-        settingsInteractor.updateThemeSetting(newSettings)
-        _themeSettings.value = newSettings
+    fun switchTheme(isDarkThemeEnabled: ThemeSettings) {
+//        val newSettings = ThemeSettings(isDarkThemeEnabled = isDarkThemeEnabled)
+        settingsInteractor.updateThemeSetting(isDarkThemeEnabled)
+        _themeSettings.value = isDarkThemeEnabled
     }
 
     // Поделиться приложением
