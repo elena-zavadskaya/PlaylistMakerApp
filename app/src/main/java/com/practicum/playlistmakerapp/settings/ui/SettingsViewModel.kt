@@ -9,21 +9,18 @@ import com.practicum.playlistmakerapp.sharing.domain.SharingInteractor
 
 class SettingsViewModel(
     private val sharingInteractor: SharingInteractor,
-    private val settingsInteractor: SettingsInteractor,
+    val settingsInteractor: SettingsInteractor,
 ) : ViewModel() {
 
-    private val _themeSettings = MutableLiveData<ThemeSettings>()
-    val themeSettings: LiveData<ThemeSettings> get() = _themeSettings
-
     init {
-        _themeSettings.value = settingsInteractor.getThemeSettings()
+        // Устанавливаем начальную тему при инициализации
+        val currentTheme = settingsInteractor.getThemeSettings()
+        switchTheme(currentTheme)
     }
 
     // Сменить тему
     fun switchTheme(isDarkThemeEnabled: ThemeSettings) {
-//        val newSettings = ThemeSettings(isDarkThemeEnabled = isDarkThemeEnabled)
         settingsInteractor.updateThemeSetting(isDarkThemeEnabled)
-        _themeSettings.value = isDarkThemeEnabled
     }
 
     // Поделиться приложением

@@ -23,9 +23,8 @@ class SettingsActivity : AppCompatActivity() {
             Creator.provideSettingsViewModelFactory(application)
         ).get(SettingsViewModel::class.java)
 
-        viewModel.themeSettings.observe(this) { themeSettings ->
-            binding.themeSwitcher.isChecked = themeSettings.isDarkThemeEnabled
-        }
+        val currentTheme = viewModel.settingsInteractor.getThemeSettings()
+        binding.themeSwitcher.isChecked = currentTheme.isDarkThemeEnabled
 
         // Переключение темы
         binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
@@ -54,3 +53,4 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 }
+

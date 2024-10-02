@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.gson.Gson
+import com.practicum.playlistmakerapp.App
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerViewModel
 import com.practicum.playlistmakerapp.player.data.impl.AudioPlayerImpl
 import com.practicum.playlistmakerapp.player.data.impl.TrackRepositoryImpl
@@ -52,13 +53,8 @@ object Creator {
         return SharingInteractorImpl(externalNavigator, application)
     }
 
-//    private fun getSettingsRepository(application: Application): SettingsRepository {
-//        return SettingsRepositoryImpl(application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE))
-//    }
-
     fun provideSettingsInteractor(application: Application): SettingsInteractor {
-        val sharedPreferences = application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val settingsRepository = SettingsRepositoryImpl(sharedPreferences)
+        val settingsRepository = SettingsRepositoryImpl(application as App)
         return SettingsInteractorImpl(settingsRepository)
     }
 

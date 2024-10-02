@@ -21,9 +21,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     private val searchInteractor = Creator.provideSearchInteractor()
     private val searchHistoryInteractor: SearchHistoryInteractor = Creator.provideSearchHistoryInteractor(application)
-//    private val searchHistoryRepository = SearchHistoryRepositoryImpl(
-//        getApplication<Application>().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//    )
+
     private val handler = Handler(Looper.getMainLooper())
 
     private val stateLiveData = MutableLiveData<TracksState>()
@@ -39,12 +37,6 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun addToSearchHistory(track: Track) {
-//        val currentHistory = historyLiveData.value.orEmpty().toMutableList()
-//        if (!currentHistory.contains(track)) {
-//            currentHistory.add(0, track)
-//            historyLiveData.value = currentHistory
-//        }
-//        searchHistoryRepository.addTrack(track)
         searchHistoryInteractor.addTrackToHistory(track)
         loadSearchHistory()
 
@@ -60,8 +52,6 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun clearSearchHistory() {
-//        searchHistoryRepository.clearHistory()
-//        historyLiveData.postValue(emptyList())
         searchHistoryInteractor.clearSearchHistory()
         historyLiveData.postValue(emptyList())
     }
