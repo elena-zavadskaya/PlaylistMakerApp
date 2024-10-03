@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -41,7 +42,8 @@ class SearchActivity : AppCompatActivity() {
     private val historyAdapter = TrackAdapter(emptyList()) {
         if (clickDebounce()) {
             val intent = Intent(this, AudioPlayerActivity::class.java)
-            intent.putExtra("poster", it.artworkUrl100)
+            val trackJson = Gson().toJson(it)
+            intent.putExtra("KEY", trackJson)
             startActivity(intent)
             viewModel.addToSearchHistory(it)
         }
@@ -51,6 +53,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var tracksList: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var historyList: RecyclerView
+    private lateinit var searchHistory: ScrollView
     private lateinit var notFoundPage: LinearLayout
     private lateinit var internetErrorPage: LinearLayout
     private lateinit var backButton: ImageView
@@ -74,6 +77,7 @@ class SearchActivity : AppCompatActivity() {
         tracksList = binding.recyclerView
         progressBar = binding.progressBar
         historyList = binding.searchHistoryRecyclerView
+        searchHistory = binding.searchHistory
         notFoundPage = binding.notFound
         internetErrorPage = binding.internetError
         backButton = binding.backButton
@@ -159,7 +163,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showLoadingPage() {
-        historyList.isVisible = false
+        searchHistory.isVisible = false
         tracksList.isVisible = false
         progressBar.isVisible = true
         notFoundPage.isVisible = false
@@ -167,7 +171,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showTrackList() {
-        historyList.isVisible = false
+        searchHistory.isVisible = false
         tracksList.isVisible = true
         progressBar.isVisible = false
         notFoundPage.isVisible = false
@@ -175,7 +179,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showNotFoundPage() {
-        historyList.isVisible = false
+        searchHistory.isVisible = false
         tracksList.isVisible = false
         progressBar.isVisible = false
         notFoundPage.isVisible = true
@@ -183,7 +187,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showInternetErrorPage() {
-        historyList.isVisible = false
+        searchHistory.isVisible = false
         tracksList.isVisible = false
         progressBar.isVisible = false
         notFoundPage.isVisible = false

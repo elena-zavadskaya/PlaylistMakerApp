@@ -33,7 +33,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/back"
-            app:iconGravity="textStart" />
+            app:iconGravity="textStart"
+            app:tint="@color/text" />
 
         <!-- Обложка -->
         <ImageView
