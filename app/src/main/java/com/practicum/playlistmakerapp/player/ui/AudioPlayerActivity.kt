@@ -43,8 +43,10 @@ class AudioPlayerActivity : AppCompatActivity(){
             finish()
         }
 
-        val chosenTrackJson = intent.extras?.getString("KEY")
-        chosenTrack = Gson().fromJson(chosenTrackJson, Track::class.java)
+//        val chosenTrackJson = intent.extras?.getString("KEY")
+        intent.getStringExtra("KEY")?.also {
+            chosenTrack = Gson().fromJson(it, Track::class.java)
+        }
 
         bindTrackInfo()
 

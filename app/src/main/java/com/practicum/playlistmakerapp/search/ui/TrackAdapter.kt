@@ -23,13 +23,11 @@ class TrackAdapter(
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
-    private fun clickDebounce() : Boolean {
-        val current = isClickAllowed
+    private fun clickDebounce() {
         if (isClickAllowed) {
             isClickAllowed = false
             handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY )
         }
-        return current
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -42,14 +40,15 @@ class TrackAdapter(
         val track = tracks[position]
         holder.bind(track)
         holder.itemView.setOnClickListener {
-            if (clickDebounce()) {
-                onClick(track)
-                val context = holder.itemView.context
-                val intent = Intent(context, AudioPlayerActivity::class.java)
-                val json = Gson().toJson(track)
-                intent.putExtra("KEY", json)
-                context.startActivity(intent)
-            }
+            onClick(track)
+//            if (clickDebounce()) {
+//                onClick(track)
+//                val context = holder.itemView.context
+//                val intent = Intent(context, AudioPlayerActivity::class.java)
+//                val json = Gson().toJson(track)
+//                intent.putExtra("KEY", json)
+//                context.startActivity(intent)
+//            }
         }
     }
 

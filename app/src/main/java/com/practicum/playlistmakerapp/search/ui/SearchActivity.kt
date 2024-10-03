@@ -22,6 +22,7 @@ import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
 import com.practicum.playlistmakerapp.search.TracksState
+import okhttp3.internal.Util
 
 class SearchActivity : AppCompatActivity() {
 
@@ -29,24 +30,41 @@ class SearchActivity : AppCompatActivity() {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private val adapter = TrackAdapter(emptyList()) { track ->
-        if (clickDebounce()) {
-            val intent = Intent(this, AudioPlayerActivity::class.java)
-            val parcelable = Gson().toJson(track)
-            intent.putExtra("poster", parcelable)
-            startActivity(intent)
+    private val onTrackClick: (Track) -> Unit = {track ->
+        if (isClickAllowed) {
+            clickDebounce()
             viewModel.addToSearchHistory(track)
+            val json = Gson().toJson(track)
+            Intent(
+                this,
+                AudioPlayerActivity::class.java
+            ).apply {
+                putExtra("KEY", json)
+                startActivity((this))
+            }
         }
     }
 
-    private val historyAdapter = TrackAdapter(emptyList()) {
-        if (clickDebounce()) {
-            val intent = Intent(this, AudioPlayerActivity::class.java)
-            val trackJson = Gson().toJson(it)
-            intent.putExtra("KEY", trackJson)
-            startActivity(intent)
-            viewModel.addToSearchHistory(it)
-        }
+    private val adapter = TrackAdapter(emptyList()) { track ->
+        onTrackClick(track)
+//        if (clickDebounce()) {
+//            val intent = Intent(this, AudioPlayerActivity::class.java)
+//            val parcelable = Gson().toJson(track)
+//            intent.putExtra("poster", parcelable)
+//            startActivity(intent)
+//            viewModel.addToSearchHistory(track)
+//        }
+    }
+
+    private val historyAdapter = TrackAdapter(emptyList()) { track ->
+        onTrackClick(track)
+//        if (clickDebounce()) {
+//            val intent = Intent(this, AudioPlayerActivity::class.java)
+//            val trackJson = Gson().toJson(it)
+//            intent.putExtra("KEY", trackJson)
+//            startActivity(intent)
+//            viewModel.addToSearchHistory(it)
+//        }
     }
 
     private lateinit var queryInput: EditText
