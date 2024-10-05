@@ -1,8 +1,9 @@
-package com.practicum.playlistmakerapp.sharing.domain
+package com.practicum.playlistmakerapp.sharing.ui
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.practicum.playlistmakerapp.sharing.data.EmailData
 
 class ExternalNavigator(private val context: Context) {
 

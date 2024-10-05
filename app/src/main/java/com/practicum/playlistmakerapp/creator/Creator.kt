@@ -24,11 +24,10 @@ import com.practicum.playlistmakerapp.search.domain.api.SearchRepository
 import com.practicum.playlistmakerapp.search.domain.impl.SearchHistoryInteractorImpl
 import com.practicum.playlistmakerapp.search.domain.impl.SearchInteractorImpl
 import com.practicum.playlistmakerapp.settings.domain.impl.SettingsInteractorImpl
-import com.practicum.playlistmakerapp.settings.domain.impl.SettingsRepositoryImpl
+import com.practicum.playlistmakerapp.settings.data.SettingsRepositoryImpl
 import com.practicum.playlistmakerapp.settings.domain.interactor.SettingsInteractor
-import com.practicum.playlistmakerapp.settings.domain.repository.SettingsRepository
 import com.practicum.playlistmakerapp.settings.ui.SettingsViewModel
-import com.practicum.playlistmakerapp.sharing.domain.ExternalNavigator
+import com.practicum.playlistmakerapp.sharing.ui.ExternalNavigator
 import com.practicum.playlistmakerapp.sharing.domain.SharingInteractor
 import com.practicum.playlistmakerapp.sharing.domain.SharingInteractorImpl
 
