@@ -3,7 +3,7 @@ package com.practicum.playlistmakerapp.sharing.domain
 import android.app.Application
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.sharing.data.EmailData
-import com.practicum.playlistmakerapp.sharing.ui.ExternalNavigator
+import com.practicum.playlistmakerapp.sharing.data.ExternalNavigator
 
 class SharingInteractorImpl(
     private val externalNavigator: ExternalNavigator,

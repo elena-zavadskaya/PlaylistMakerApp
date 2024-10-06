@@ -27,7 +27,7 @@ import com.practicum.playlistmakerapp.settings.domain.impl.SettingsInteractorImp
 import com.practicum.playlistmakerapp.settings.data.SettingsRepositoryImpl
 import com.practicum.playlistmakerapp.settings.domain.interactor.SettingsInteractor
 import com.practicum.playlistmakerapp.settings.ui.SettingsViewModel
-import com.practicum.playlistmakerapp.sharing.ui.ExternalNavigator
+import com.practicum.playlistmakerapp.sharing.data.ExternalNavigator
 import com.practicum.playlistmakerapp.sharing.domain.SharingInteractor
 import com.practicum.playlistmakerapp.sharing.domain.SharingInteractorImpl
 
