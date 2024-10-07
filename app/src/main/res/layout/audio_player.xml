@@ -33,7 +33,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/back"
-            app:iconGravity="textStart" />
+            app:iconGravity="textStart"
+            app:tint="@color/text" />
 
         <!-- Обложка -->
         <ImageView
@@ -84,8 +85,9 @@
             app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/play"
-            app:tint="@color/text" />
+            android:src="@drawable/play"
+            app:tint="@color/text"
+            android:visibility="visible"/>
 
         <!-- Кнопка Пауза -->
         <ImageView
@@ -97,9 +99,9 @@
             app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/pause"
+            android:src="@drawable/pause"
             app:tint="@color/text"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
         <!-- Добавить в плейлист -->
         <ImageView
@@ -110,7 +112,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintEnd_toStartOf="@id/playIV"
-            app:srcCompat="@drawable/plus" />
+            android:src="@drawable/plus" />
 
         <!-- Плейлист создан -->
         <ImageView
@@ -121,7 +123,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintEnd_toStartOf="@id/playIV"
-            app:srcCompat="@drawable/playlist_created"
+            android:src="@drawable/playlist_created"
             android:visibility="gone"/>
 
         <!-- Добавить в избранное-->
@@ -133,7 +135,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
             app:layout_constraintStart_toEndOf="@id/playIV"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
-            app:srcCompat="@drawable/add_to_favorites" />
+            android:src="@drawable/add_to_favorites" />
 
         <!-- Добавлен в избранное-->
         <ImageView
@@ -144,7 +146,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
             app:layout_constraintStart_toEndOf="@id/playIV"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
-            app:srcCompat="@drawable/added_to_favorites"
+            android:src="@drawable/added_to_favorites"
             android:visibility="gone"/>
 
         <!-- Длительность воспроизведения -->

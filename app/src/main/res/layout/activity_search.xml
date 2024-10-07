@@ -12,6 +12,7 @@
         android:layout_height="52dp"
         android:orientation="horizontal">
 
+        <!-- Кнопка Назад -->
         <ImageView
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
@@ -33,6 +34,7 @@
             android:textColor="@color/text"/>
     </LinearLayout>
 
+    <!-- Поисковая строка -->
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -81,6 +83,7 @@
             android:visibility="gone"/>
     </FrameLayout>
 
+    <!-- Значок загрузки -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="44dp"
@@ -90,6 +93,7 @@
         android:layout_marginTop="140dp"
         android:visibility="gone"/>
 
+    <!-- История поиска -->
     <ScrollView
         android:id="@+id/search_history"
         android:layout_width="match_parent"
@@ -139,6 +143,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:visibility="gone"/>
 
+    <!-- Страница Не найдено -->
     <LinearLayout
         android:id="@+id/not_found"
         android:layout_width="match_parent"
@@ -162,6 +167,7 @@
             android:theme="@style/searchErrorText"/>
     </LinearLayout>
 
+    <!-- Страница Ошибка интернет-соединения -->
     <LinearLayout
         android:id="@+id/internet_error"
         android:layout_width="match_parent"
