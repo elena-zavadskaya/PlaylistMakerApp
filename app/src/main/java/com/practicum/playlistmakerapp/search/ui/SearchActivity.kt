@@ -14,7 +14,6 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -22,7 +21,7 @@ import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
 import com.practicum.playlistmakerapp.search.TracksState
-import okhttp3.internal.Util
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
@@ -47,24 +46,10 @@ class SearchActivity : AppCompatActivity() {
 
     private val adapter = TrackAdapter(emptyList()) { track ->
         onTrackClick(track)
-//        if (clickDebounce()) {
-//            val intent = Intent(this, AudioPlayerActivity::class.java)
-//            val parcelable = Gson().toJson(track)
-//            intent.putExtra("poster", parcelable)
-//            startActivity(intent)
-//            viewModel.addToSearchHistory(track)
-//        }
     }
 
     private val historyAdapter = TrackAdapter(emptyList()) { track ->
         onTrackClick(track)
-//        if (clickDebounce()) {
-//            val intent = Intent(this, AudioPlayerActivity::class.java)
-//            val trackJson = Gson().toJson(it)
-//            intent.putExtra("KEY", trackJson)
-//            startActivity(intent)
-//            viewModel.addToSearchHistory(it)
-//        }
     }
 
     private lateinit var queryInput: EditText
@@ -82,14 +67,15 @@ class SearchActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
+        viewModel.observeState().observe(this) { render(it) }
+        viewModel.observeHistory().observe(this) { showSearchHistory(it) }
 
         queryInput = binding.inputEditText
         tracksList = binding.recyclerView

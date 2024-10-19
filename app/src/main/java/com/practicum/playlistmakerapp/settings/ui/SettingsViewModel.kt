@@ -1,7 +1,5 @@
 package com.practicum.playlistmakerapp.settings.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmakerapp.settings.ThemeSettings
 import com.practicum.playlistmakerapp.settings.domain.interactor.SettingsInteractor
@@ -13,7 +11,7 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     init {
-        // Устанавливаем начальную тему при инициализации
+        // Начальная тема
         val currentTheme = settingsInteractor.getThemeSettings()
         switchTheme(currentTheme)
     }

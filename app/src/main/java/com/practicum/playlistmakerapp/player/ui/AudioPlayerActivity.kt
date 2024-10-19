@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -13,8 +12,9 @@ import com.google.gson.Gson
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.AudioPlayerBinding
 import com.practicum.playlistmakerapp.DpToPx
-import com.practicum.playlistmakerapp.creator.Creator
 import com.practicum.playlistmakerapp.player.domain.models.Track
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerActivity : AppCompatActivity(){
 
@@ -22,7 +22,8 @@ class AudioPlayerActivity : AppCompatActivity(){
         private const val DELAY = 1000L
     }
 
-    private lateinit var viewModel: AudioPlayerViewModel
+    private val viewModel: AudioPlayerViewModel by viewModel()
+    private val gson: Gson by inject()
     private lateinit var binding: AudioPlayerBinding
     private lateinit var chosenTrack: Track
 
@@ -35,7 +36,11 @@ class AudioPlayerActivity : AppCompatActivity(){
 
         updateUI(AudioPlayerViewModel.STATE_DEFAULT)
 
-        viewModel = Creator.provideAudioPlayerViewModel()
+        intent.getStringExtra("KEY")?.also {
+            chosenTrack = gson.fromJson(it, Track::class.java)
+        }
+
+        viewModel.prepareTrack(chosenTrack.previewUrl)
 
         handler = Handler(Looper.getMainLooper())
 
@@ -43,14 +48,9 @@ class AudioPlayerActivity : AppCompatActivity(){
             finish()
         }
 
-//        val chosenTrackJson = intent.extras?.getString("KEY")
-        intent.getStringExtra("KEY")?.also {
-            chosenTrack = Gson().fromJson(it, Track::class.java)
-        }
-
         bindTrackInfo()
 
-        viewModel.prepareTrack(chosenTrack.previewUrl)
+//        viewModel.prepareTrack(chosenTrack.previewUrl)
 
         binding.playIV.setOnClickListener {
             viewModel.playTrack()
