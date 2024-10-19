@@ -5,7 +5,7 @@ import com.practicum.playlistmakerapp.search.data.impl.SearchHistoryRepositoryIm
 import com.practicum.playlistmakerapp.search.data.network.NetworkClient
 import com.practicum.playlistmakerapp.search.data.network.RetrofitNetworkClient
 import com.practicum.playlistmakerapp.search.data.network.SearchRepositoryImpl
-import com.practicum.playlistmakerapp.search.domain.SearchHistoryInteractor
+import com.practicum.playlistmakerapp.search.domain.interactor.SearchHistoryInteractor
 import com.practicum.playlistmakerapp.search.domain.api.SearchHistoryRepository
 import com.practicum.playlistmakerapp.search.domain.api.SearchInteractor
 import com.practicum.playlistmakerapp.search.domain.api.SearchRepository

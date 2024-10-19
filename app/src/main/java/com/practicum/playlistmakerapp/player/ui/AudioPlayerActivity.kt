@@ -50,8 +50,6 @@ class AudioPlayerActivity : AppCompatActivity(){
 
         bindTrackInfo()
 
-//        viewModel.prepareTrack(chosenTrack.previewUrl)
-
         binding.playIV.setOnClickListener {
             viewModel.playTrack()
             startTimer()

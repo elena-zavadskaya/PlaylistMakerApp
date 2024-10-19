@@ -45,4 +45,8 @@ class TrackRepositoryImpl(
     override fun getTrackPosition(): Int {
         return audioPlayer.getCurrentPosition()
     }
+
+    override fun release() {
+        audioPlayer.release()
+    }
 }

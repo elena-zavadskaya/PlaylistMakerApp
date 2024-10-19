@@ -11,7 +11,6 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     init {
-        // Начальная тема
         val currentTheme = settingsInteractor.getThemeSettings()
         switchTheme(currentTheme)
     }

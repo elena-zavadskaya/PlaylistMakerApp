@@ -1,6 +1,6 @@
 package com.practicum.playlistmakerapp.settings.di
 
-import com.practicum.playlistmakerapp.settings.data.SettingsRepositoryImpl
+import com.practicum.playlistmakerapp.settings.data.impl.SettingsRepositoryImpl
 import com.practicum.playlistmakerapp.settings.domain.impl.SettingsInteractorImpl
 import com.practicum.playlistmakerapp.settings.domain.interactor.SettingsInteractor
 import com.practicum.playlistmakerapp.settings.domain.repository.SettingsRepository

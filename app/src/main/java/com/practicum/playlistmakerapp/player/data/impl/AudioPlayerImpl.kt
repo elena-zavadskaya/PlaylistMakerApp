@@ -8,6 +8,7 @@ class AudioPlayerImpl : AudioPlayerRepository {
     private val mediaPlayer = MediaPlayer()
 
     override fun prepare(url: String, onPrepared: () -> Unit, onError: () -> Unit) {
+        mediaPlayer.reset()
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener { onPrepared() }

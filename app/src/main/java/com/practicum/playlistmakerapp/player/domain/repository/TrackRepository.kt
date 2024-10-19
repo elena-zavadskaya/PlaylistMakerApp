@@ -8,4 +8,5 @@ interface TrackRepository {
     fun playTrack()
     fun pauseTrack()
     fun getTrackPosition(): Int
+    fun release()
 }
