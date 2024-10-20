@@ -2,6 +2,8 @@ package com.practicum.playlistmakerapp.settings.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toolbar
+import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
 import com.practicum.playlistmakerapp.settings.ThemeSettings
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -16,6 +18,8 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val toolbar: Toolbar = findViewById(R.id.backbutton_toolbar)
 
         viewModel.currentTheme.observe(this) { themeSettings ->
             binding.themeSwitcher.isChecked = themeSettings.isDarkThemeEnabled
@@ -43,7 +47,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Назад
-        binding.backButton.setOnClickListener {
+        toolbar.setNavigationOnClickListener {
             finish()
         }
     }

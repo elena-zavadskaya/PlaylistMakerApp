@@ -12,11 +12,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivitySearchBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
@@ -59,7 +61,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchHistory: ScrollView
     private lateinit var notFoundPage: LinearLayout
     private lateinit var internetErrorPage: LinearLayout
-    private lateinit var backButton: ImageView
+    private lateinit var toolbar: Toolbar
     private lateinit var clearButton: ImageView
     private lateinit var clearHistoryButton: Button
 
@@ -84,7 +86,7 @@ class SearchActivity : AppCompatActivity() {
         searchHistory = binding.searchHistory
         notFoundPage = binding.notFound
         internetErrorPage = binding.internetError
-        backButton = binding.backButton
+        toolbar = findViewById(R.id.backbutton_toolbar)
         clearButton = binding.clearIcon
         clearHistoryButton = binding.clearHistoryButton
 
@@ -111,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        backButton.setOnClickListener {
+        toolbar.setNavigationOnClickListener {
             finish()
         }
 

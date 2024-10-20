@@ -7,31 +7,44 @@
     android:orientation="vertical"
     android:theme="@style/Theme.PlaylistMaker.Settings">
 
-    <LinearLayout
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/backbutton_toolbar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:orientation="horizontal">
+        app:background="@android:color/transparent"
+        app:navigationIcon="@drawable/back"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="@string/button_settings"
+        app:titleTextColor="@color/text"
+        app:titleTextAppearance="@style/toolbarTitleStyle"
+        app:elevation="0dp"/>
 
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            style="@style/settingsButton"
-            app:iconGravity="textStart"/>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="52dp"-->
+<!--        android:orientation="horizontal">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_settings"
-            android:textColor="@color/text"
-            android:textSize="22sp"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="@dimen/text_margin"
-            android:fontFamily="@font/ys_display_medium"
-            android:textFontWeight="500"/>
-    </LinearLayout>
+<!--        <ImageView-->
+<!--            android:id="@+id/back_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/back"-->
+<!--            style="@style/settingsButton"-->
+<!--            app:iconGravity="textStart"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/button_settings"-->
+<!--            android:textColor="@color/text"-->
+<!--            android:textSize="22sp"-->
+<!--            android:layout_marginStart="@dimen/text_margin"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginBottom="@dimen/text_margin"-->
+<!--            android:fontFamily="@font/ys_display_medium"-->
+<!--            android:textFontWeight="500"/>-->
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
