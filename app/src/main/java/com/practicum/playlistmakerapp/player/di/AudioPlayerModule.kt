@@ -1,5 +1,6 @@
 package com.practicum.playlistmakerapp.player.di
 
+import android.media.MediaPlayer
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.player.data.impl.AudioPlayerImpl
 import com.practicum.playlistmakerapp.player.data.impl.TrackRepositoryImpl
@@ -13,7 +14,11 @@ import org.koin.dsl.module
 
 val audioPlayerModule = module {
     single { Gson() }
-    single<AudioPlayerRepository> { AudioPlayerImpl() }
+
+    factory { MediaPlayer() }
+
+    factory<AudioPlayerRepository> { AudioPlayerImpl(get()) }
+
     single<TrackRepository> { TrackRepositoryImpl(get(), get()) }
 
     single<AudioPlayerInteractor> { AudioPlayerInteractorImpl(get()) }

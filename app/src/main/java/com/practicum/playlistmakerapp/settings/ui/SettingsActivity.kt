@@ -17,8 +17,9 @@ class SettingsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val currentTheme = viewModel.settingsInteractor.getThemeSettings()
-        binding.themeSwitcher.isChecked = currentTheme.isDarkThemeEnabled
+        viewModel.currentTheme.observe(this) { themeSettings ->
+            binding.themeSwitcher.isChecked = themeSettings.isDarkThemeEnabled
+        }
 
         // Переключение темы
         binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->

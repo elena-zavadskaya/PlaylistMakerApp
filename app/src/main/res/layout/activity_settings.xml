@@ -38,23 +38,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-            <!--<TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/settingsText"
-                android:text="@string/dark_theme" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                app:icon="@drawable/control"
-                app:iconGravity="textStart"
-                android:layout_gravity="center"
-                android:alpha="0.6"
-                tools:ignore="UseSwitchCompatOrMaterialXml"/>-->
-
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/themeSwitcher"
             android:text="@string/dark_theme"
