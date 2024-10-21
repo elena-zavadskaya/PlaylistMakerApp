@@ -4,13 +4,14 @@ import com.google.gson.Gson
 import com.practicum.playlistmakerapp.search.data.network.ITunesApi
 import com.practicum.playlistmakerapp.player.domain.repository.TrackRepository
 import com.practicum.playlistmakerapp.player.domain.models.Track
+import com.practicum.playlistmakerapp.player.domain.repository.AudioPlayerRepository
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class TrackRepositoryImpl(
     private val gson: Gson,
-    private val audioPlayer: AudioPlayerImpl
+    private val audioPlayer: AudioPlayerRepository
 ) : TrackRepository {
 
     private val api: ITunesApi
@@ -43,5 +44,9 @@ class TrackRepositoryImpl(
 
     override fun getTrackPosition(): Int {
         return audioPlayer.getCurrentPosition()
+    }
+
+    override fun release() {
+        audioPlayer.release()
     }
 }

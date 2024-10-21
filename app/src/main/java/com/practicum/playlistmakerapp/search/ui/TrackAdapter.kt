@@ -1,15 +1,12 @@
 package com.practicum.playlistmakerapp.search.ui
 
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.practicum.playlistmakerapp.databinding.TrackViewBinding
 import com.practicum.playlistmakerapp.player.domain.models.Track
-import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
 
 class TrackAdapter(
     private var tracks: List<Track>,
@@ -41,14 +38,6 @@ class TrackAdapter(
         holder.bind(track)
         holder.itemView.setOnClickListener {
             onClick(track)
-//            if (clickDebounce()) {
-//                onClick(track)
-//                val context = holder.itemView.context
-//                val intent = Intent(context, AudioPlayerActivity::class.java)
-//                val json = Gson().toJson(track)
-//                intent.putExtra("KEY", json)
-//                context.startActivity(intent)
-//            }
         }
     }
 

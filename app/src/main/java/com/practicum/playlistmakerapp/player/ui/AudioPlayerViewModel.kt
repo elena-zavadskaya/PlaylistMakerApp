@@ -3,16 +3,10 @@ package com.practicum.playlistmakerapp.player.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.practicum.playlistmakerapp.player.domain.usecases.PauseTrackUseCase
-import com.practicum.playlistmakerapp.player.domain.usecases.PlayTrackUseCase
-import com.practicum.playlistmakerapp.player.domain.usecases.PrepareTrackUseCase
-import com.practicum.playlistmakerapp.player.domain.usecases.UpdateTrackPositionUseCase
+import com.practicum.playlistmakerapp.player.domain.interactor.AudioPlayerInteractor
 
 class AudioPlayerViewModel(
-    private val prepareTrackUseCase: PrepareTrackUseCase,
-    private val playTrackUseCase: PlayTrackUseCase,
-    private val pauseTrackUseCase: PauseTrackUseCase,
-    private val updateTrackPositionUseCase: UpdateTrackPositionUseCase
+    private val audioPlayerInteractor: AudioPlayerInteractor
 ) : ViewModel() {
 
     companion object {
@@ -23,33 +17,36 @@ class AudioPlayerViewModel(
     }
 
     private val playerState = MutableLiveData(0)
-
     private val trackPosition = MutableLiveData(0)
 
     fun prepareTrack(url: String) {
-        prepareTrackUseCase.execute(PrepareTrackUseCase.Params(url, {
+        audioPlayerInteractor.prepareTrack(url, {
             playerState.postValue(STATE_PREPARED)
         }, {
             playerState.postValue(STATE_DEFAULT)
-        }))
-
+        })
     }
 
     fun playTrack() {
-        playTrackUseCase.play()
+        audioPlayerInteractor.playTrack()
         playerState.postValue(STATE_PLAYING)
     }
 
     fun pauseTrack() {
-        pauseTrackUseCase.pause()
+        audioPlayerInteractor.pauseTrack()
         playerState.postValue(STATE_PAUSED)
     }
 
     fun updateTrackPosition() {
-        trackPosition.postValue(updateTrackPositionUseCase.execute(Unit))
+        trackPosition.postValue(audioPlayerInteractor.getTrackPosition())
     }
 
     fun getPlayerStateLiveData(): LiveData<Int> = playerState
-
     fun getTrackPositionLiveData(): LiveData<Int> = trackPosition
+
+    override fun onCleared() {
+        super.onCleared()
+        audioPlayerInteractor.release()
+    }
 }
+

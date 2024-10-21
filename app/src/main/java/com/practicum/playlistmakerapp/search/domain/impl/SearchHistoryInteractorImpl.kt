@@ -1,7 +1,7 @@
 package com.practicum.playlistmakerapp.search.domain.impl
 
 import com.practicum.playlistmakerapp.player.domain.models.Track
-import com.practicum.playlistmakerapp.search.domain.SearchHistoryInteractor
+import com.practicum.playlistmakerapp.search.domain.interactor.SearchHistoryInteractor
 import com.practicum.playlistmakerapp.search.domain.api.SearchHistoryRepository
 
 class SearchHistoryInteractorImpl(
