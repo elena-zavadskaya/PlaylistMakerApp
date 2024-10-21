@@ -2,11 +2,11 @@ package com.practicum.playlistmakerapp.settings.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toolbar
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
 import com.practicum.playlistmakerapp.settings.ThemeSettings
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.appcompat.widget.Toolbar
 
 class SettingsActivity : AppCompatActivity() {
 

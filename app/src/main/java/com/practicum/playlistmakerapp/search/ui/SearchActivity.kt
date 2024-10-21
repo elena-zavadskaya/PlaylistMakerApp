@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,7 +86,8 @@ class SearchActivity : AppCompatActivity() {
         searchHistory = binding.searchHistory
         notFoundPage = binding.notFound
         internetErrorPage = binding.internetError
-        toolbar = findViewById(R.id.backbutton_toolbar)
+        toolbar = findViewById<Toolbar>(R.id.backbutton_toolbar)
+        setSupportActionBar(toolbar)
         clearButton = binding.clearIcon
         clearHistoryButton = binding.clearHistoryButton
 
