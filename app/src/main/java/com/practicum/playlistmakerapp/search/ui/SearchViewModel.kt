@@ -34,7 +34,7 @@ class SearchViewModel(
 
     fun addToSearchHistory(track: Track) {
         searchHistoryInteractor.addTrackToHistory(track)
-        loadSearchHistory()
+//        loadSearchHistory()
 
     }
 

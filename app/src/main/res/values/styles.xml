@@ -53,8 +53,19 @@
         <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="toolbarTitleStyle">
-        <item name="android:theme">@style/Theme.PlaylistMaker.Settings</item>
+    <style name="searchToolbarTitleStyle">
+        <item name="android:theme">@style/Theme.PlaylistMaker.PopupOverlay</item>
+        <item name="android:layout_margin">@dimen/settings_image_margin</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:titleMarginStart">10dp</item>
+    </style>
+
+    <style name="settingsToolbarTitleStyle">
+        <item name="navigationIconTint">@color/white</item>
+<!--        <item name="android:theme">@style/Theme.PlaylistMaker.PopupOverlay</item>-->
         <item name="android:layout_margin">@dimen/settings_image_margin</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">22sp</item>

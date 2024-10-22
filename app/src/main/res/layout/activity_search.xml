@@ -9,7 +9,7 @@
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/backbutton_toolbar"
+        android:id="@+id/search_backbutton_toolbar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         app:background="@android:color/transparent"
@@ -17,7 +17,7 @@
         app:contentInsetStartWithNavigation="0dp"
         app:title="@string/button_search"
         app:titleTextColor="@color/text"
-        app:titleTextAppearance="@style/toolbarTitleStyle"
+        app:titleTextAppearance="@style/searchToolbarTitleStyle"
         app:elevation="0dp"/>
 
 <!--    <LinearLayout-->

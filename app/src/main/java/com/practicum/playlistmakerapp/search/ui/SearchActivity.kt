@@ -86,7 +86,7 @@ class SearchActivity : AppCompatActivity() {
         searchHistory = binding.searchHistory
         notFoundPage = binding.notFound
         internetErrorPage = binding.internetError
-        toolbar = findViewById<Toolbar>(R.id.backbutton_toolbar)
+        toolbar = findViewById<Toolbar>(R.id.search_backbutton_toolbar)
         setSupportActionBar(toolbar)
         clearButton = binding.clearIcon
         clearHistoryButton = binding.clearHistoryButton
@@ -126,12 +126,12 @@ class SearchActivity : AppCompatActivity() {
             viewModel.clearSearchHistory()
         }
 
-        viewModel.observeState().observe(this) {
-            render(it)
-        }
-
         viewModel.observeHistory().observe(this) {
             showSearchHistory(it)
+        }
+
+        viewModel.observeState().observe(this) {
+            render(it)
         }
     }
 

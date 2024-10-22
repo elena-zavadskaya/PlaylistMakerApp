@@ -19,7 +19,7 @@ class SettingsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val toolbar: Toolbar = findViewById(R.id.backbutton_toolbar)
+        val toolbar: Toolbar = findViewById(R.id.search_backbutton_toolbar)
 
         viewModel.currentTheme.observe(this) { themeSettings ->
             binding.themeSwitcher.isChecked = themeSettings.isDarkThemeEnabled
