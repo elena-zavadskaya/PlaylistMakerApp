@@ -3,15 +3,22 @@ package com.practicum.playlistmakerapp.player.data.impl
 import android.media.MediaPlayer
 import com.practicum.playlistmakerapp.player.domain.repository.AudioPlayerRepository
 
-class AudioPlayerImpl : AudioPlayerRepository {
-
-    private val mediaPlayer = MediaPlayer()
+class AudioPlayerImpl(
+    private var mediaPlayer: MediaPlayer
+) : AudioPlayerRepository {
 
     override fun prepare(url: String, onPrepared: () -> Unit, onError: () -> Unit) {
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener { onPrepared() }
-        mediaPlayer.setOnErrorListener { _, _, _ -> onError(); true }
+        resetMediaPlayer()
+        mediaPlayer?.apply {
+            try {
+                setDataSource(url)
+                prepareAsync()
+                setOnPreparedListener { onPrepared() }
+                setOnErrorListener { _, _, _ -> onError(); true }
+            } catch (e: IllegalStateException) {
+                onError()
+            }
+        }
     }
 
     override fun play() {
@@ -28,5 +35,10 @@ class AudioPlayerImpl : AudioPlayerRepository {
 
     override fun release() {
         mediaPlayer.release()
+    }
+
+    private fun resetMediaPlayer() {
+        mediaPlayer.release()
+        mediaPlayer = MediaPlayer()
     }
 }

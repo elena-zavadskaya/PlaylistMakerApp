@@ -15,7 +15,7 @@
         android:layout_marginVertical="8dp"
         android:layout_marginLeft="13dp"
         android:src="@drawable/album"
-        app:cornerRadius="2dp"/>
+        app:cornerRadius="2dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

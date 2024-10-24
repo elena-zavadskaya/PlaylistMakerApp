@@ -2,15 +2,16 @@ package com.practicum.playlistmakerapp.settings.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
-import com.practicum.playlistmakerapp.creator.Creator
+import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivitySettingsBinding
 import com.practicum.playlistmakerapp.settings.ThemeSettings
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.appcompat.widget.Toolbar
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,13 +19,11 @@ class SettingsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel = ViewModelProvider(
-            this,
-            Creator.provideSettingsViewModelFactory(application)
-        ).get(SettingsViewModel::class.java)
+        val toolbar: Toolbar = findViewById(R.id.search_backbutton_toolbar)
 
-        val currentTheme = viewModel.settingsInteractor.getThemeSettings()
-        binding.themeSwitcher.isChecked = currentTheme.isDarkThemeEnabled
+        viewModel.currentTheme.observe(this) { themeSettings ->
+            binding.themeSwitcher.isChecked = themeSettings.isDarkThemeEnabled
+        }
 
         // Переключение темы
         binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
@@ -48,7 +47,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Назад
-        binding.backButton.setOnClickListener {
+        toolbar.setNavigationOnClickListener {
             finish()
         }
     }

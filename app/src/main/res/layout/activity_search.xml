@@ -7,32 +7,45 @@
     android:orientation="vertical"
     android:theme="@style/Theme.PlaylistMaker.Search">
 
-    <LinearLayout
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/search_backbutton_toolbar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:orientation="horizontal">
+        app:background="@android:color/transparent"
+        app:navigationIcon="@drawable/back"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="@string/button_search"
+        app:titleTextColor="@color/text"
+        app:titleTextAppearance="@style/searchToolbarTitleStyle"
+        app:elevation="0dp"/>
 
-        <!-- Кнопка Назад -->
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            style="@style/settingsButton"
-            app:iconGravity="textStart"/>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="52dp"-->
+<!--        android:orientation="horizontal">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_search"
-            android:textSize="26sp"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="@dimen/text_margin"
-            android:fontFamily="@font/ys_display_medium"
-            android:textFontWeight="500"
-            android:textColor="@color/text"/>
-    </LinearLayout>
+<!--        &lt;!&ndash; Кнопка Назад &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/back_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/back"-->
+<!--            style="@style/settingsButton"-->
+<!--            app:iconGravity="textStart"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/button_search"-->
+<!--            android:textSize="26sp"-->
+<!--            android:layout_marginStart="@dimen/text_margin"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginBottom="@dimen/text_margin"-->
+<!--            android:fontFamily="@font/ys_display_medium"-->
+<!--            android:textFontWeight="500"-->
+<!--            android:textColor="@color/text"/>-->
+<!--    </LinearLayout>-->
 
     <!-- Поисковая строка -->
     <FrameLayout
@@ -69,7 +82,8 @@
             android:layout_marginRight="40dp"
             android:textColorHint="@color/dark_gray"
             android:imeOptions="actionDone"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textCursorDrawable="@color/background"/>
 
         <ImageView
             android:id="@+id/clearIcon"

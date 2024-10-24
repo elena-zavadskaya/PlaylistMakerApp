@@ -1,20 +1,19 @@
-package com.practicum.playlistmakerapp.settings.data
+package com.practicum.playlistmakerapp.settings.data.impl
 
-import android.content.SharedPreferences
+import android.app.Application
 import com.practicum.playlistmakerapp.App
 import com.practicum.playlistmakerapp.settings.ThemeSettings
 import com.practicum.playlistmakerapp.settings.domain.repository.SettingsRepository
 
 class SettingsRepositoryImpl(
-    private val app: App
+    private val application: Application
 ) : SettingsRepository {
 
     override fun getThemeSettings(): ThemeSettings {
-        return ThemeSettings(isDarkThemeEnabled = app.darkTheme)
+        return ThemeSettings(isDarkThemeEnabled = (application as App).darkTheme)
     }
 
     override fun updateThemeSetting(settings: ThemeSettings) {
-        app.switchTheme(settings.isDarkThemeEnabled)
+        (application as App).switchTheme(settings.isDarkThemeEnabled)
     }
-
 }

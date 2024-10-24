@@ -1,6 +1,5 @@
 package com.practicum.playlistmakerapp.settings.domain.impl
 
-import android.content.SharedPreferences
 import com.practicum.playlistmakerapp.settings.ThemeSettings
 import com.practicum.playlistmakerapp.settings.domain.interactor.SettingsInteractor
 import com.practicum.playlistmakerapp.settings.domain.repository.SettingsRepository
