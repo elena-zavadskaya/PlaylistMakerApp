@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/not_found"
         android:layout_gravity="center"
-        android:layout_marginTop="102dp"/>
+        android:layout_marginTop="180dp"/>
     <TextView
         android:id="@+id/not_found_text"
         android:layout_width="match_parent"
