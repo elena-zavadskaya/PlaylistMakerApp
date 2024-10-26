@@ -19,4 +19,7 @@
     <string name="reload" translatable="false">Обновить</string>
     <string name="clear_history" translatable="false">Очистить историю</string>
     <string name="you_searched" translatable="false">Вы искали</string>
+    <string name="empty_favorites">Ваша медиатека пуста</string>
+    <string name="no_playlists">Вы не создали ни одного плейлиста</string>
+    <string name="new_playlist">Новый плейлист</string>
 </resources>
