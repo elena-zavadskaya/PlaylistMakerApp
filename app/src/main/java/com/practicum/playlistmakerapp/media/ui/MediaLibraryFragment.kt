@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
+import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.FragmentMediaLibraryBinding
 
 class MediaLibraryFragment : Fragment() {
@@ -34,8 +35,8 @@ class MediaLibraryFragment : Fragment() {
         binding.viewPager.adapter = mediaLibraryPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Избранные треки"
-                1 -> "Плейлисты"
+                0 -> getString(R.string.tab_favorites)
+                1 -> getString(R.string.tab_playlists)
                 else -> ""
             }
         }.attach()
