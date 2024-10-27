@@ -24,4 +24,8 @@
     <color name="usual_text">#FFFFFFFF</color>
     <color name="another_text">#AEAFB4</color>
     <color name="icons">#AEAFB4</color>
+
+    <color name="tab_indicator">#FFFFFF</color>
+    <color name="tab_text_color">#AEAFB4</color>
+    <color name="tab_selected_text_color">#FFFFFF</color>
 </resources>

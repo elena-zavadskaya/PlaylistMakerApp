@@ -11,14 +11,15 @@ import com.practicum.playlistmakerapp.databinding.FragmentMediaLibraryBinding
 
 class MediaLibraryFragment : Fragment() {
 
-    private lateinit var binding: FragmentMediaLibraryBinding
+    private var _binding: FragmentMediaLibraryBinding? = null
+    private val binding get() = _binding!!
     private lateinit var mediaLibraryPagerAdapter: MediaLibraryPagerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMediaLibraryBinding.inflate(inflater, container, false)
+        _binding = FragmentMediaLibraryBinding.inflate(inflater, container, false)
 
         setupViewPager()
 
@@ -40,5 +41,10 @@ class MediaLibraryFragment : Fragment() {
                 else -> ""
             }
         }.attach()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
