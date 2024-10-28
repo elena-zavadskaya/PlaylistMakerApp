@@ -12,9 +12,7 @@
         <item name="android:backgroundTint">@color/almost_black</item>
         <item name="android:tint">@color/white</item>
     </style>
-    <style name="Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:background">@color/almost_black</item>
-    </style>
+
     <style name="Theme.PlaylistMaker.Search" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/almost_black</item>
         <item name="android:textColor">@color/white</item>
