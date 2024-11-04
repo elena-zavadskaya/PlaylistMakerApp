@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/Theme.PlaylistMaker.Search">
+    tools:context=".ui.search.SearchFragment">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -25,13 +25,11 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:theme="@style/SearchButton"
         android:layout_marginHorizontal="16dp"
-        android:background="@drawable/search_bar"
-        android:layout_marginVertical="8dp">
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/search_bar">
 
         <ImageView
-            android:theme="@style/SearchButton"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/search"
@@ -41,8 +39,6 @@
 
         <EditText
             android:id="@+id/inputEditText"
-            android:theme="@style/SearchButton"
-            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text"
@@ -98,7 +94,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/you_searched"
                 android:layout_marginTop="24dp"
-                android:theme="@style/searchErrorText"
                 android:layout_marginBottom="20dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -114,23 +109,19 @@
                 android:text="@string/clear_history"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/reload_button"
-                app:cornerRadius="54dp"
                 android:textSize="@dimen/textSize14"
-                android:textAllCaps="false"
-                android:layout_marginTop="34dp"
-                android:textColor="@color/button_text"
-                android:fontFamily="@font/ys_display_medium"/>
+                android:layout_marginTop="34dp"/>
         </LinearLayout>
     </ScrollView>
 
+    <!-- Результаты поиска -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:visibility="gone"/>
 
-    <!-- Страница Не найдено -->
+    <!-- Страница "Не найдено" -->
     <LinearLayout
         android:id="@+id/not_found"
         android:layout_width="match_parent"
@@ -150,8 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/not_found"
-            android:layout_marginTop="16dp"
-            android:theme="@style/searchErrorText"/>
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
 
     <!-- Страница Ошибка интернет-соединения -->
@@ -175,8 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/internet_error"
-            android:layout_marginTop="16dp"
-            android:theme="@style/searchErrorText"/>
+            android:layout_marginTop="16dp"/>
 
         <TextView
             android:id="@+id/check_internet_text"
@@ -185,8 +174,7 @@
             android:text="@string/check_internet"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="24dp"
-            android:textAlignment="center"
-            android:theme="@style/searchErrorText"/>
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/reload_button"
@@ -195,12 +183,7 @@
             android:text="@string/reload"
             android:layout_gravity="center"
             android:backgroundTint="@color/reload_button"
-            app:cornerRadius="54dp"
             android:textSize="@dimen/textSize14"
-            android:textAllCaps="false"
-            android:layout_marginTop="24dp"
-            android:textColor="@color/button_text"
-            android:fontFamily="@font/ys_display_medium"/>
+            android:layout_marginTop="24dp"/>
     </LinearLayout>
-
 </LinearLayout>

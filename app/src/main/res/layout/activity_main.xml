@@ -1,47 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Auto layout, variables, and unit scale are not yet supported -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:theme="@style/Theme.PlaylistMaker.Menu"
-    android:background="?attr/colorPrimary">
+    tools:context=".media.ui.MediaActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:navGraph="@navigation/navigation_graph"
+        app:defaultNavHost="true" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="@string/title"
-        android:textColor="@color/white"
-        android:textSize="@dimen/button_textSize"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/ys_display_medium"
-        android:textFontWeight="500"/>
+        android:layout_alignParentBottom="true"
+        android:background="?attr/colorSurface"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
+        app:menu="@menu/bottom_navigation_menu" />
+</RelativeLayout>
 
-    <Button
-        android:id="@+id/search_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        style="@style/mainButton"
-        android:text="@string/button_search"
-        app:icon="@drawable/search"/>
-
-    <Button
-        android:id="@+id/media_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        style="@style/mainButton"
-        android:text="@string/button_media"
-        app:icon="@drawable/media"/>
-
-    <Button
-        android:id="@+id/setting_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        style="@style/mainButton"
-        android:text="@string/button_settings"
-        app:icon="@drawable/settings"/>
-
-</LinearLayout>
