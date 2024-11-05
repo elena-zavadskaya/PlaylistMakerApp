@@ -24,4 +24,8 @@
     <string name="new_playlist" translatable="false">Новый плейлист</string>
     <string name="tab_favorites" translatable="false">Избранные треки</string>
     <string name="tab_playlists" translatable="false">Плейлисты</string>
+    <string name="library">Library</string>
+    <string name="favorites">Favorites</string>
+    <string name="playlists">Playlists</string>
+    <string name="settings">Settings</string>
 </resources>

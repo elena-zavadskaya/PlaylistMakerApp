@@ -1,5 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+    <style name="Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+    </style>
     <style name="Theme.PlaylistMaker.Menu" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/almost_black</item>
         <item name="android:textColor">@color/white</item>
@@ -30,9 +33,8 @@
         <item name="android:tint">@color/white</item>
         <item name="android:navigationIcon">@color/white</item>
     </style>
-    <style name="Theme.PlaylistMaker.TabTextAppearance" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="tabIndicatorColor">@color/tab_indicator</item>
-        <item name="tabTextColor">@color/tab_text_color</item>
-        <item name="tabSelectedTextColor">@color/tab_selected_text_color</item>
+
+    <style name="Theme.PlaylistMaker.Navigation" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="bottomNavigationStyle">@style/BottomNavigationDark</item>
     </style>
 </resources>

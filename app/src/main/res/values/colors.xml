@@ -5,6 +5,7 @@
     <!-- статичные цвета -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="blue">#3772E7</color>
     <!-- ГЛАВНАЯ СТРАНИЦА ФИНИЩ -->
 
     <!-- СТРАНИЦА НАСТРОЕК СТАРТ -->
@@ -25,7 +26,5 @@
     <color name="another_text">#AEAFB4</color>
     <color name="icons">#1A1B22</color>
 
-    <color name="tab_indicator">#3772E7</color>
-    <color name="tab_text_color">#FF000000</color>
-    <color name="tab_selected_text_color">#3772E7</color>
+    <color name="color_gray">#FFFFFFFF</color>
 </resources>

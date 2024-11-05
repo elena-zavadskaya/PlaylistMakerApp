@@ -24,7 +24,7 @@ class MediaLibraryFragment : Fragment() {
         setupViewPager()
 
         binding.backButton.setOnClickListener {
-            activity?.onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         return binding.root
