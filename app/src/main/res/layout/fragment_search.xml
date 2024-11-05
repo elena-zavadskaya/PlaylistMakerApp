@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="60dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -118,7 +118,6 @@
                 app:cornerRadius="54dp"
                 android:textSize="@dimen/textSize14"
                 android:textAllCaps="false"
-                android:layout_marginTop="34dp"
                 android:textColor="@color/button_text"
                 android:fontFamily="@font/ys_display_medium"/>
         </LinearLayout>

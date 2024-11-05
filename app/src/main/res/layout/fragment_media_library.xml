@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/color_gray">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/backButton"
@@ -23,7 +24,8 @@
         app:tabIndicatorColor="@color/text"
         app:tabTextColor="@color/text"
         app:tabSelectedTextColor="@color/text"
-        app:tabTextAppearance="@style/TabTextAppearance" />
+        app:tabTextAppearance="@style/TabTextAppearance"
+        android:background="@color/color_gray"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:background">@color/almost_black</item>
         <item name="colorPrimary">@color/blue</item>
     </style>
     <style name="Theme.PlaylistMaker.Menu" parent="Theme.MaterialComponents.DayNight.NoActionBar">
