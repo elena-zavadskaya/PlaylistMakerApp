@@ -25,4 +25,6 @@
     <color name="usual_text">#FFFFFFFF</color>
     <color name="another_text">#AEAFB4</color>
     <color name="icons">#AEAFB4</color>
+
+    <color name="color_gray">#1A1B22</color>
 </resources>

@@ -24,11 +24,13 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="36dp"
+        android:theme="@style/SearchButton"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         android:background="@drawable/search_bar">
 
         <ImageView
+            android:theme="@style/SearchButton"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/search"
@@ -38,6 +40,8 @@
 
         <EditText
             android:id="@+id/inputEditText"
+            android:theme="@style/SearchButton"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text"
@@ -147,7 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/not_found"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:theme="@style/searchErrorText"/>
     </LinearLayout>
 
     <!-- Страница Ошибка интернет-соединения -->

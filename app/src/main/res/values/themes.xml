@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/background</item>
+        <item name="android:background">@color/white</item>
     </style>
     <style name="Theme.PlaylistMaker.Settings." parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:textColor">@color/black</item>
