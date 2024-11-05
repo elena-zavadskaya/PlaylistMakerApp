@@ -29,9 +29,11 @@ class SearchFragment : Fragment() {
         if (clickDebounce()) {
             viewModel.addToSearchHistory(track)
             val json = Gson().toJson(track)
-            Intent(requireContext(), AudioPlayerActivity::class.java).apply {
-                putExtra("KEY", json)
-                startActivity(this)
+            activity?.let { context ->
+                Intent(context, AudioPlayerActivity::class.java).apply {
+                    putExtra("KEY", json)
+                    context.startActivity(this)
+                }
             }
         }
     }

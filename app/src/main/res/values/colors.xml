@@ -5,6 +5,7 @@
     <!-- статичные цвета -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="blue">#3772E7</color>
     <!-- ГЛАВНАЯ СТРАНИЦА ФИНИЩ -->
 
     <!-- СТРАНИЦА НАСТРОЕК СТАРТ -->
@@ -24,14 +25,4 @@
     <color name="usual_text">#1A1B22</color>
     <color name="another_text">#AEAFB4</color>
     <color name="icons">#1A1B22</color>
-
-    <color name="tab_indicator">#3772E7</color>
-    <color name="tab_text_color">#FF000000</color>
-    <color name="tab_selected_text_color">#3772E7</color>
-
-    <color name="colorPrimary">#FF6200EE</color>
-    <color name="colorPrimaryDark">#FF3700B3</color>
-    <color name="colorAccent">#FF03DAC5</color>
-    <color name="colorSurface">#FFFFFF</color>
-    <color name="bottom_nav_item_color">#1A1B22</color>
 </resources>

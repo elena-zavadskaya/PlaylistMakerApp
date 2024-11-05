@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.search.SearchFragment">
+    tools:context=".search.ui.SearchFragment">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         app:background="@android:color/transparent"
-        app:navigationIcon="@drawable/back"
         app:contentInsetStartWithNavigation="0dp"
         app:title="@string/button_search"
         app:titleTextColor="@color/text"
@@ -52,7 +51,8 @@
             android:textColorHint="@color/dark_gray"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:textCursorDrawable="@color/background"/>
+            android:textCursorDrawable="@color/background"
+            android:background="@null"/>
 
         <ImageView
             android:id="@+id/clearIcon"
@@ -81,6 +81,7 @@
         android:id="@+id/search_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="60dp"
         android:visibility="gone">
 
         <LinearLayout
@@ -94,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/you_searched"
                 android:layout_marginTop="24dp"
+                android:theme="@style/searchErrorText"
                 android:layout_marginBottom="20dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -109,8 +111,12 @@
                 android:text="@string/clear_history"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/reload_button"
+                app:cornerRadius="54dp"
                 android:textSize="@dimen/textSize14"
-                android:layout_marginTop="34dp"/>
+                android:textAllCaps="false"
+                android:layout_marginTop="34dp"
+                android:textColor="@color/button_text"
+                android:fontFamily="@font/ys_display_medium"/>
         </LinearLayout>
     </ScrollView>
 

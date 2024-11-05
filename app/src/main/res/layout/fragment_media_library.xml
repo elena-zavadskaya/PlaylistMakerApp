@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         app:background="@android:color/transparent"
-        app:navigationIcon="@drawable/back"
         app:contentInsetStartWithNavigation="0dp"
         app:title="@string/button_media"
         app:titleTextColor="@color/text"
