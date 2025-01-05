@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/libraryFragment">
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.practicum.playlistmakerapp.media.ui.MediaLibraryFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_media_library" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.practicum.playlistmakerapp.search.ui.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.practicum.playlistmakerapp.settings.ui.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

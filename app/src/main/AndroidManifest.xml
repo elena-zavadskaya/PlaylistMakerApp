@@ -26,15 +26,11 @@
             android:exported="false" />
         <activity
             android:name=".media.ui.MediaActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMaker" />
-        <activity
-            android:name=".main.ui.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:exported="true"
             android:theme="@style/Theme.PlaylistMaker">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

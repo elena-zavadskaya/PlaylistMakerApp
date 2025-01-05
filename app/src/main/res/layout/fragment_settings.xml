@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         app:background="@android:color/transparent"
-        app:navigationIcon="@drawable/back"
         app:contentInsetStartWithNavigation="0dp"
         app:title="@string/button_settings"
         app:titleTextColor="@color/text"
@@ -37,7 +36,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1">
 
@@ -58,7 +57,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1">
 
@@ -79,7 +78,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1">
 
