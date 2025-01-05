@@ -41,4 +41,10 @@ class AudioPlayerImpl(
         mediaPlayer.release()
         mediaPlayer = MediaPlayer()
     }
+
+    override fun setOnCompletionListener(onComplete: () -> Unit) {
+        mediaPlayer.setOnCompletionListener {
+            onComplete()
+        }
+    }
 }

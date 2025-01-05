@@ -1,11 +1,10 @@
 package com.practicum.playlistmakerapp.player.ui
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
@@ -14,20 +13,13 @@ import com.practicum.playlistmakerapp.databinding.AudioPlayerBinding
 import com.practicum.playlistmakerapp.DpToPx
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AudioPlayerActivity : AppCompatActivity(){
+class AudioPlayerActivity : AppCompatActivity() {
 
-    companion object {
-        private const val DELAY = 1000L
-    }
-
-    private val viewModel: AudioPlayerViewModel by viewModel()
+    private val viewModel: AudioPlayerViewModel by inject()
     private val gson: Gson by inject()
     private lateinit var binding: AudioPlayerBinding
     private lateinit var chosenTrack: Track
-
-    private var handler: Handler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +34,6 @@ class AudioPlayerActivity : AppCompatActivity(){
 
         viewModel.prepareTrack(chosenTrack.previewUrl)
 
-        handler = Handler(Looper.getMainLooper())
-
         binding.backButton.setOnClickListener {
             finish()
         }
@@ -52,22 +42,20 @@ class AudioPlayerActivity : AppCompatActivity(){
 
         binding.playIV.setOnClickListener {
             viewModel.playTrack()
-            startTimer()
         }
 
         binding.pauseIV.setOnClickListener {
             viewModel.pauseTrack()
-            stopTimer()
-            handler?.removeCallbacksAndMessages(null)
         }
 
-        viewModel.getPlayerStateLiveData().observe(this) { state ->
+        viewModel.playerState.observe(this) { state ->
             updateUI(state)
         }
 
-        viewModel.getTrackPositionLiveData().observe(this) { position ->
+        viewModel.trackPosition.observe(this, Observer { position ->
+            Log.d("AudioPlayer", "Track position: $position")
             binding.durationTV.text = formatTime(position)
-        }
+        })
     }
 
     private fun bindTrackInfo() {
@@ -81,28 +69,10 @@ class AudioPlayerActivity : AppCompatActivity(){
 
         binding.trackAuthorTV.text = chosenTrack.artistName
         binding.trackTimeMillisTV.text = formatTime(chosenTrack.trackTimeMillis.toInt())
-            .format(chosenTrack.trackTimeMillis.toLong())
         binding.collectionNameTV.text = chosenTrack.collectionName
         binding.releaseDateTV.text = chosenTrack.releaseDate.substring(0, 4)
         binding.primaryGenreNameTV.text = chosenTrack.primaryGenreName
         binding.countryTV.text = chosenTrack.country
-    }
-
-    private fun startTimer() {
-        handler?.post(timeCount())
-    }
-
-    private fun stopTimer() {
-        handler?.removeCallbacksAndMessages(null)
-    }
-
-    private fun timeCount(): Runnable {
-        return object : Runnable {
-            override fun run() {
-                viewModel.updateTrackPosition()
-                handler?.postDelayed(this, DELAY)
-            }
-        }
     }
 
     override fun onPause() {
@@ -110,15 +80,9 @@ class AudioPlayerActivity : AppCompatActivity(){
         viewModel.pauseTrack()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        stopTimer()
-        handler = null
-    }
-
     private fun updateUI(state: Int) {
         Log.d("AudioPlayer", "Updating UI with state: $state")
-        when(state) {
+        when (state) {
             AudioPlayerViewModel.STATE_PLAYING -> {
                 binding.playIV.visibility = View.INVISIBLE
                 binding.pauseIV.visibility = View.VISIBLE
