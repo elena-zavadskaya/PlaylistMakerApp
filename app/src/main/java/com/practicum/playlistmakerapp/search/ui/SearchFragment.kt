@@ -2,14 +2,11 @@ package com.practicum.playlistmakerapp.search.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +22,9 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModel()
 
-    private val onTrackClick: (Track) -> Unit = { track ->
-        if (clickDebounce()) {
-            viewModel.addToSearchHistory(track)
-            val json = Gson().toJson(track)
+    private val adapter = TrackAdapter(emptyList()) { track ->
+        viewModel.handleTrackClick(track) { clickedTrack ->
+            val json = Gson().toJson(clickedTrack)
             activity?.let { context ->
                 Intent(context, AudioPlayerActivity::class.java).apply {
                     putExtra("KEY", json)
@@ -38,11 +34,17 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private val adapter = TrackAdapter(emptyList(), onTrackClick)
-    private val historyAdapter = TrackAdapter(emptyList(), onTrackClick)
-
-    private val handler = Handler(Looper.getMainLooper())
-    private var isClickAllowed = true
+    private val historyAdapter = TrackAdapter(emptyList()) { track ->
+        viewModel.handleTrackClick(track) { clickedTrack ->
+            val json = Gson().toJson(clickedTrack)
+            activity?.let { context ->
+                Intent(context, AudioPlayerActivity::class.java).apply {
+                    putExtra("KEY", json)
+                    context.startActivity(this)
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -78,24 +80,28 @@ class SearchFragment : Fragment() {
 
     private fun setupListeners() {
         binding.inputEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus && binding.inputEditText.text.isEmpty()) {
-                viewModel.showSearchHistory()
+            if (hasFocus) {
+                if (binding.inputEditText.text.isEmpty()) {
+                    viewModel.showSearchHistory()
+                }
+            } else {
+                binding.searchHistory.isVisible = false
             }
         }
 
-        binding.inputEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchDebounce(s?.toString() ?: "")
-                binding.clearIcon.isVisible = !s.isNullOrEmpty()
+        binding.inputEditText.addTextChangedListener { s ->
+            val text = s?.toString() ?: ""
+            if (text.isEmpty()) {
+                viewModel.clearSearchResults()
+            } else {
+                viewModel.searchDebounce(text)
             }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+            binding.clearIcon.isVisible = text.isNotEmpty()
+        }
 
         binding.clearIcon.setOnClickListener {
             binding.inputEditText.text.clear()
+            viewModel.clearSearchResults()
         }
 
         binding.clearHistoryButton.setOnClickListener {
@@ -118,12 +124,14 @@ class SearchFragment : Fragment() {
     private fun showSearchHistory(history: List<Track>) {
         if (history.isNotEmpty()) {
             binding.searchHistory.isVisible = true
+            binding.youSearched.isVisible = true
+            binding.clearHistoryButton.isVisible = true
             historyAdapter.updateTracks(history)
             binding.recyclerView.isVisible = false
             binding.progressBar.isVisible = false
             binding.notFound.isVisible = false
         } else {
-            binding.searchHistory.isVisible = false
+            hideAllExceptSearchBar()
         }
     }
 
@@ -159,16 +167,11 @@ class SearchFragment : Fragment() {
         binding.internetError.isVisible = true
     }
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-        }
-        return current
-    }
-
-    companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+    private fun hideAllExceptSearchBar() {
+        binding.searchHistory.isVisible = false
+        binding.recyclerView.isVisible = false
+        binding.progressBar.isVisible = false
+        binding.notFound.isVisible = false
+        binding.internetError.isVisible = false
     }
 }

@@ -6,10 +6,10 @@ import com.practicum.playlistmakerapp.search.data.dto.TracksSearchResponse
 import com.practicum.playlistmakerapp.search.domain.api.SearchRepository
 
 class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRepository {
-    override fun searchTracks(expression: String): List<Track> {
+    override suspend fun searchTracks(expression: String): List<Track> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
-        if (response.resultCode == 200) {
-            return (response as TracksSearchResponse).results.map {
+        return if (response.resultCode == 200) {
+            (response as TracksSearchResponse).results.map {
                 Track(
                     it.trackId,
                     it.trackName,
@@ -21,9 +21,11 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
                     it.primaryGenreName,
                     it.country,
                     it.previewUrl
-                ) }
+                )
+            }
         } else {
-            return emptyList()
+            emptyList()
         }
     }
 }
+

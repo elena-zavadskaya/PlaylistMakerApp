@@ -49,4 +49,8 @@ class TrackRepositoryImpl(
     override fun release() {
         audioPlayer.release()
     }
+
+    override fun setOnCompletionListener(onComplete: () -> Unit) {
+        audioPlayer.setOnCompletionListener(onComplete)
+    }
 }

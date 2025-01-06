@@ -3,7 +3,10 @@ package com.practicum.playlistmakerapp.player.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmakerapp.player.domain.interactor.AudioPlayerInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class AudioPlayerViewModel(
     private val audioPlayerInteractor: AudioPlayerInteractor
@@ -16,37 +19,67 @@ class AudioPlayerViewModel(
         const val STATE_PAUSED = 3
     }
 
-    private val playerState = MutableLiveData(0)
-    private val trackPosition = MutableLiveData(0)
+    private val _playerState = MutableLiveData(STATE_DEFAULT)
+    val playerState: LiveData<Int> get() = _playerState
+
+    private val _trackPosition = MutableLiveData(0)
+    val trackPosition: LiveData<Int> get() = _trackPosition
+
+    private var updateJob: Job? = null
 
     fun prepareTrack(url: String) {
-        audioPlayerInteractor.prepareTrack(url, {
-            playerState.postValue(STATE_PREPARED)
-        }, {
-            playerState.postValue(STATE_DEFAULT)
+        audioPlayerInteractor.prepareTrack(url, onPrepared = {
+            _playerState.postValue(STATE_PREPARED)
+        }, onError = {
+            _playerState.postValue(STATE_DEFAULT)
         })
+    }
+
+    fun observeTrackCompletion(onComplete: () -> Unit) {
+        audioPlayerInteractor.observeTrackCompletion {
+            onComplete()
+        }
     }
 
     fun playTrack() {
         audioPlayerInteractor.playTrack()
-        playerState.postValue(STATE_PLAYING)
+        _playerState.postValue(STATE_PLAYING)
+        startUpdatingTrackPosition()
+
+        observeTrackCompletion {
+            resetTrack()
+        }
     }
 
     fun pauseTrack() {
         audioPlayerInteractor.pauseTrack()
-        playerState.postValue(STATE_PAUSED)
+        _playerState.postValue(STATE_PAUSED)
+        stopUpdatingTrackPosition()
     }
 
-    fun updateTrackPosition() {
-        trackPosition.postValue(audioPlayerInteractor.getTrackPosition())
+    private fun resetTrack() {
+        _playerState.postValue(STATE_DEFAULT)
+        _trackPosition.postValue(0)
+        stopUpdatingTrackPosition()
     }
 
-    fun getPlayerStateLiveData(): LiveData<Int> = playerState
-    fun getTrackPositionLiveData(): LiveData<Int> = trackPosition
+    private fun startUpdatingTrackPosition() {
+        stopUpdatingTrackPosition()
+        updateJob = viewModelScope.launch {
+            audioPlayerInteractor.observeTrackProgress().collect { position ->
+                _trackPosition.postValue(position)
+            }
+        }
+    }
+
+    private fun stopUpdatingTrackPosition() {
+        updateJob?.cancel()
+        updateJob = null
+    }
 
     override fun onCleared() {
         super.onCleared()
+        stopUpdatingTrackPosition()
         audioPlayerInteractor.release()
     }
 }
-
