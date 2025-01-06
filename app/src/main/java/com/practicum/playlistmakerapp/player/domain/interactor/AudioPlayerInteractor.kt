@@ -9,4 +9,5 @@ interface AudioPlayerInteractor {
     fun pauseTrack()
     fun getTrackPosition(): Int
     fun release()
+    fun observeTrackCompletion(onComplete: () -> Unit)
 }

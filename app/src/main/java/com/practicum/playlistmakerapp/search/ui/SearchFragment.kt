@@ -80,18 +80,28 @@ class SearchFragment : Fragment() {
 
     private fun setupListeners() {
         binding.inputEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus && binding.inputEditText.text.isEmpty()) {
-                viewModel.showSearchHistory()
+            if (hasFocus) {
+                if (binding.inputEditText.text.isEmpty()) {
+                    viewModel.showSearchHistory()
+                }
+            } else {
+                binding.searchHistory.isVisible = false
             }
         }
 
         binding.inputEditText.addTextChangedListener { s ->
-            viewModel.searchDebounce(s?.toString() ?: "")
-            binding.clearIcon.isVisible = !s.isNullOrEmpty()
+            val text = s?.toString() ?: ""
+            if (text.isEmpty()) {
+                viewModel.clearSearchResults()
+            } else {
+                viewModel.searchDebounce(text)
+            }
+            binding.clearIcon.isVisible = text.isNotEmpty()
         }
 
         binding.clearIcon.setOnClickListener {
             binding.inputEditText.text.clear()
+            viewModel.clearSearchResults()
         }
 
         binding.clearHistoryButton.setOnClickListener {
@@ -114,12 +124,14 @@ class SearchFragment : Fragment() {
     private fun showSearchHistory(history: List<Track>) {
         if (history.isNotEmpty()) {
             binding.searchHistory.isVisible = true
+            binding.youSearched.isVisible = true
+            binding.clearHistoryButton.isVisible = true
             historyAdapter.updateTracks(history)
             binding.recyclerView.isVisible = false
             binding.progressBar.isVisible = false
             binding.notFound.isVisible = false
         } else {
-            binding.searchHistory.isVisible = false
+            hideAllExceptSearchBar()
         }
     }
 
@@ -153,5 +165,13 @@ class SearchFragment : Fragment() {
         binding.progressBar.isVisible = false
         binding.notFound.isVisible = false
         binding.internetError.isVisible = true
+    }
+
+    private fun hideAllExceptSearchBar() {
+        binding.searchHistory.isVisible = false
+        binding.recyclerView.isVisible = false
+        binding.progressBar.isVisible = false
+        binding.notFound.isVisible = false
+        binding.internetError.isVisible = false
     }
 }

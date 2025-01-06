@@ -9,4 +9,5 @@ interface TrackRepository {
     fun pauseTrack()
     fun getTrackPosition(): Int
     fun release()
+    fun setOnCompletionListener(onComplete: () -> Unit)
 }

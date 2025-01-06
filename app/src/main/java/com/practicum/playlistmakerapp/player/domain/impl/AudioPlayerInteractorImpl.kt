@@ -20,6 +20,12 @@ class AudioPlayerInteractorImpl(
         }
     }
 
+    override fun observeTrackCompletion(onComplete: () -> Unit) {
+        trackRepository.setOnCompletionListener {
+            onComplete()
+        }
+    }
+
     override fun prepareTrack(url: String, onPrepared: () -> Unit, onError: () -> Unit) {
         trackRepository.prepareTrack(url, onPrepared, onError)
     }

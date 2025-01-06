@@ -1,5 +1,6 @@
 package com.practicum.playlistmakerapp.player.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,6 +22,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private lateinit var binding: AudioPlayerBinding
     private lateinit var chosenTrack: Track
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = AudioPlayerBinding.inflate(layoutInflater)
@@ -56,6 +58,13 @@ class AudioPlayerActivity : AppCompatActivity() {
             Log.d("AudioPlayer", "Track position: $position")
             binding.durationTV.text = formatTime(position)
         })
+
+        viewModel.playerState.observe(this) { state ->
+            updateUI(state)
+            if (state == AudioPlayerViewModel.STATE_DEFAULT) {
+                binding.durationTV.text = "00:00"
+            }
+        }
     }
 
     private fun bindTrackInfo() {

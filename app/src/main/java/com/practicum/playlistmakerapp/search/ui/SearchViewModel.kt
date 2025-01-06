@@ -110,6 +110,15 @@ class SearchViewModel(
         stateLiveData.postValue(state)
     }
 
+    fun clearSearchResults() {
+        renderState(TracksState.Empty)
+        if (searchHistoryInteractor.getSearchHistory().isNotEmpty()) {
+            historyLiveData.postValue(searchHistoryInteractor.getSearchHistory())
+        } else {
+            historyLiveData.postValue(emptyList())
+        }
+    }
+
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }

@@ -35,15 +35,31 @@ class AudioPlayerViewModel(
         })
     }
 
+    fun observeTrackCompletion(onComplete: () -> Unit) {
+        audioPlayerInteractor.observeTrackCompletion {
+            onComplete()
+        }
+    }
+
     fun playTrack() {
         audioPlayerInteractor.playTrack()
         _playerState.postValue(STATE_PLAYING)
         startUpdatingTrackPosition()
+
+        observeTrackCompletion {
+            resetTrack()
+        }
     }
 
     fun pauseTrack() {
         audioPlayerInteractor.pauseTrack()
         _playerState.postValue(STATE_PAUSED)
+        stopUpdatingTrackPosition()
+    }
+
+    private fun resetTrack() {
+        _playerState.postValue(STATE_DEFAULT)
+        _trackPosition.postValue(0)
         stopUpdatingTrackPosition()
     }
 
