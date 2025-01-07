@@ -34,7 +34,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             chosenTrack = gson.fromJson(it, Track::class.java)
         }
 
-        viewModel.prepareTrack(chosenTrack.previewUrl)
+        viewModel.prepareTrack(chosenTrack)
 
         binding.backButton.setOnClickListener {
             finish()
@@ -48,6 +48,10 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         binding.pauseIV.setOnClickListener {
             viewModel.pauseTrack()
+        }
+
+        binding.addToFavoritesIV.setOnClickListener {
+            viewModel.onFavoriteClicked()
         }
 
         viewModel.playerState.observe(this) { state ->
@@ -64,6 +68,11 @@ class AudioPlayerActivity : AppCompatActivity() {
             if (state == AudioPlayerViewModel.STATE_DEFAULT) {
                 binding.durationTV.text = "00:00"
             }
+        }
+
+        viewModel.isFavorite.observe(this) { isFavorite ->
+            val favoriteIcon = if (isFavorite) R.drawable.added_to_favorites else R.drawable.add_to_favorites
+            binding.addToFavoritesIV.setImageResource(favoriteIcon)
         }
     }
 
