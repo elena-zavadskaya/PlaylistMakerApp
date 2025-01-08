@@ -37,4 +37,7 @@
     <style name="Theme.PlaylistMaker.Navigation" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="bottomNavigationStyle">@style/BottomNavigationDark</item>
     </style>
+    <style name="Theme.PlaylistMaker.Playlist" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:tint">@color/dark_gray</item>
+    </style>
 </resources>

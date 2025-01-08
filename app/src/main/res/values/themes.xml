@@ -23,4 +23,7 @@
     <style name="Theme.PlaylistMaker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:tint">@color/black</item>
     </style>
+    <style name="Theme.PlaylistMaker.Playlist" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:tint">@color/dark_gray</item>
+    </style>
 </resources>
