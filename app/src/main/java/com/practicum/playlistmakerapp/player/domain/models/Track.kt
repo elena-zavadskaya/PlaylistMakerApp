@@ -11,7 +11,8 @@ data class Track(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String,
-    var isPlaying: Boolean = false
+    var isPlaying: Boolean = false,
+    var isFavorite: Boolean = false
 ) {
     fun getCoverArtwork(): String {
         return artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")

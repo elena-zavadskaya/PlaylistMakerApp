@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmakerapp.media.domain.interactor.FavoritesInteractor
 import com.practicum.playlistmakerapp.player.domain.interactor.AudioPlayerInteractor
+import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class AudioPlayerViewModel(
-    private val audioPlayerInteractor: AudioPlayerInteractor
+    private val audioPlayerInteractor: AudioPlayerInteractor,
+    private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
 
     companion object {
@@ -25,10 +28,17 @@ class AudioPlayerViewModel(
     private val _trackPosition = MutableLiveData(0)
     val trackPosition: LiveData<Int> get() = _trackPosition
 
-    private var updateJob: Job? = null
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    fun prepareTrack(url: String) {
-        audioPlayerInteractor.prepareTrack(url, onPrepared = {
+    private var updateJob: Job? = null
+    private lateinit var currentTrack: Track
+
+    fun prepareTrack(track: Track) {
+        currentTrack = track
+        _isFavorite.value = track.isFavorite
+
+        audioPlayerInteractor.prepareTrack(track.previewUrl, onPrepared = {
             _playerState.postValue(STATE_PREPARED)
         }, onError = {
             _playerState.postValue(STATE_DEFAULT)
@@ -75,6 +85,18 @@ class AudioPlayerViewModel(
     private fun stopUpdatingTrackPosition() {
         updateJob?.cancel()
         updateJob = null
+    }
+
+    fun onFavoriteClicked() {
+        viewModelScope.launch {
+            if (currentTrack.isFavorite) {
+                favoritesInteractor.removeTrack(currentTrack)
+            } else {
+                favoritesInteractor.addTrack(currentTrack)
+            }
+            currentTrack.isFavorite = !currentTrack.isFavorite
+            _isFavorite.postValue(currentTrack.isFavorite)
+        }
     }
 
     override fun onCleared() {

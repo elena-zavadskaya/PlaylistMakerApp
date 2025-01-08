@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:orientation="horizontal">
-    
+    android:layout_height="64dp">
+
+    <!-- Обложка трека -->
     <ImageView
         android:id="@+id/trackImage"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_marginVertical="8dp"
-        android:layout_marginLeft="13dp"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="13dp"
         android:src="@drawable/album"
         app:cornerRadius="2dp" />
 
@@ -21,55 +20,66 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="58dp">
+        android:layout_marginStart="68dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="center_vertical">
 
+        <!-- Название трека -->
         <TextView
             android:id="@+id/trackName"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="@color/search_text"
-            tools:text="Yesterday (Remastered 2009)"
-            android:layout_marginTop="14dp"
-            android:layout_marginLeft="8dp"
-            android:textSize="16sp"/>
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="13dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:textColor="@color/search_text"
+            tools:text="Очень длинное название трека, которое нужно обрезать" />
+
+        <!-- Имя исполнителя и время -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center_vertical|left">
 
             <TextView
                 android:id="@+id/artistName"
-                android:layout_width="wrap_content"
-                android:layout_height="13dp"
-                tools:text="The Beatles"
-                android:layout_marginLeft="8dp"
-                android:theme="@style/searchText"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="13sp"
+                android:textColor="@color/search_small_text"
+                tools:text="Очень длинное имя исполнителя, которое нужно обрезать" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/point"
-                app:tint="@color/search_small_text" />
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:tint="@color/search_small_text"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:id="@+id/trackTime"
                 android:layout_width="wrap_content"
-                android:layout_height="13dp"
-                tools:text="2:55"
-                android:theme="@style/searchText"/>
-
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:textSize="13sp"
+                android:textColor="@color/search_small_text"
+                tools:text="2:55" />
         </LinearLayout>
-
     </LinearLayout>
 
     <ImageView
-        android:layout_width="@dimen/settings_image_width"
-        android:layout_height="@dimen/settings_image_height"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/arrow"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="12dp"
-        android:layout_gravity="right"
-        app:tint="@color/search_small_text"/>
-
+        app:tint="@color/search_small_text" />
 </FrameLayout>

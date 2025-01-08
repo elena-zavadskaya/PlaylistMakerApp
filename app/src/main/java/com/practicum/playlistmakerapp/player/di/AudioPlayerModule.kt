@@ -24,6 +24,6 @@ val audioPlayerModule = module {
     single<AudioPlayerInteractor> { AudioPlayerInteractorImpl(get()) }
 
     viewModel {
-        AudioPlayerViewModel(get())
+        AudioPlayerViewModel(get(), get())
     }
 }
