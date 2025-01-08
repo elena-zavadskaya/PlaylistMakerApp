@@ -98,6 +98,16 @@ class AudioPlayerActivity : AppCompatActivity() {
         viewModel.pauseTrack()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (viewModel.playerState.value == AudioPlayerViewModel.STATE_DEFAULT ||
+            viewModel.playerState.value == AudioPlayerViewModel.STATE_PAUSED
+        ) {
+            viewModel.prepareTrack(chosenTrack)
+        }
+    }
+
     private fun updateUI(state: Int) {
         Log.d("AudioPlayer", "Updating UI with state: $state")
         when (state) {

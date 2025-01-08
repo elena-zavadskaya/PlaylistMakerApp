@@ -34,7 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/back"
-            app:iconGravity="textStart"
             app:tint="@color/text" />
 
         <!-- Обложка -->
@@ -45,42 +44,44 @@
             android:layout_marginTop="24dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/back_button"
+            app:layout_constraintEnd_toStartOf="@id/right_guideline"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintTop_toBottomOf="@id/back_button"
             app:srcCompat="@drawable/placeholder" />
 
         <!-- Название -->
         <TextView
             android:id="@+id/trackTitleTV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Yesterday (Remastered 2009)"
             android:textColor="@color/usual_text"
             android:textSize="22sp"
             android:fontFamily="@font/ys_display_medium"
-            app:layout_constraintTop_toBottomOf="@id/albumIV"
-            app:layout_constraintStart_toEndOf="@id/left_guideline"
             android:ellipsize="end"
             android:singleLine="true"
-            android:maxLines="1" />
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/albumIV"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintEnd_toEndOf="@id/right_guideline" />
 
         <!-- Автор трека -->
         <TextView
             android:id="@+id/trackAuthorTV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="The Beatles"
             android:textColor="@color/usual_text"
             android:textSize="14sp"
             android:fontFamily="@font/ys_display_medium"
-            app:layout_constraintTop_toBottomOf="@id/trackTitleTV"
-            app:layout_constraintStart_toEndOf="@+id/left_guideline"
             android:ellipsize="end"
             android:singleLine="true"
-            android:maxLines="1" />
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/trackTitleTV"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintEnd_toEndOf="@id/right_guideline" />
 
         <!-- Кнопка Play -->
         <ImageView
@@ -89,12 +90,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
+            app:layout_constraintTop_toBottomOf="@id/trackAuthorTV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/play"
             app:tint="@color/text"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <!-- Кнопка Пауза -->
         <ImageView
@@ -103,12 +104,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
+            app:layout_constraintTop_toBottomOf="@id/trackAuthorTV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/pause"
             app:tint="@color/text"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <!-- Добавить в плейлист -->
         <ImageView
@@ -116,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="54dp"
-            app:layout_constraintTop_toBottomOf="@+id/trackAuthorTV"
+            app:layout_constraintTop_toBottomOf="@id/trackAuthorTV"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintEnd_toStartOf="@id/playIV"
             android:src="@drawable/plus" />
@@ -167,8 +168,8 @@
             android:textSize="14sp"
             android:fontFamily="@font/ys_display_medium"
             app:layout_constraintTop_toBottomOf="@id/playIV"
-            app:layout_constraintStart_toEndOf="@+id/left_guideline"
-            app:layout_constraintEnd_toEndOf="@id/right_guideline"/>
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintEnd_toEndOf="@id/right_guideline" />
 
         <!-- Уведомление -->
         <TextView
@@ -192,15 +193,17 @@
         <!-- Информация о треке -->
         <TextView
             android:id="@+id/trackTimeTV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:fontFamily="@font/ys_display_medium"
             android:text="Длительность"
             android:textColor="@color/another_text"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/playIV" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="@id/left_guideline"
+            app:layout_constraintTop_toBottomOf="@id/playIV" />
 
         <TextView
             android:id="@+id/trackTimeMillisTV"

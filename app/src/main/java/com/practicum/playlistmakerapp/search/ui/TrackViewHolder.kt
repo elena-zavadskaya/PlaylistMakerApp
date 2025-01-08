@@ -10,11 +10,12 @@ import com.practicum.playlistmakerapp.databinding.TrackViewBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackViewHolder(private val binding: TrackViewBinding): RecyclerView.ViewHolder(binding.root) {
+class TrackViewHolder(private val binding: TrackViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(track: Track) {
         binding.trackName.text = track.trackName
         binding.artistName.text = track.artistName
+
         binding.trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis.toLong())
 
         Glide.with(binding.trackImage)
@@ -23,5 +24,10 @@ class TrackViewHolder(private val binding: TrackViewBinding): RecyclerView.ViewH
             .placeholder(R.drawable.placeholder)
             .transform(RoundedCorners(DpToPx.dpToPx(2f, itemView.findViewById(R.id.trackImage))))
             .into(binding.trackImage)
+
+        binding.trackName.requestLayout()
+        binding.artistName.requestLayout()
+        binding.trackTime.requestLayout()
+        binding.trackImage.requestLayout()
     }
 }
