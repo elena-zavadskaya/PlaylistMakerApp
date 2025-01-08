@@ -3,6 +3,8 @@ package com.practicum.playlistmakerapp
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.playlistmakerapp.create.di.createPlaylistModule
+import com.practicum.playlistmakerapp.create.di.databaseModule
 import com.practicum.playlistmakerapp.media.di.dataModule
 import com.practicum.playlistmakerapp.media.di.domainModule
 import com.practicum.playlistmakerapp.media.di.mediaModule
@@ -27,7 +29,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(listOf(audioPlayerModule, settingsModule, searchModule, mediaModule, dataModule,
-                repositoryModule, domainModule))
+                repositoryModule, domainModule, createPlaylistModule, databaseModule))
         }
 
         sharedPrefs = getSharedPreferences(SHARED_PREFERENCES_FOR_DARK_THEME, MODE_PRIVATE)

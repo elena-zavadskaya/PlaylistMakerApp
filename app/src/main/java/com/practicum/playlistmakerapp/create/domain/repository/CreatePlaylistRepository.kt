@@ -1,9 +1,10 @@
 package com.practicum.playlistmakerapp.create.domain.repository
 
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
+import kotlinx.coroutines.flow.Flow
 
-interface PlaylistRepository {
-    suspend fun addPlaylist(playlist: PlaylistEntity)
+interface CreatePlaylistRepository {
+    suspend fun savePlaylist(playlist: PlaylistEntity)
     suspend fun updatePlaylist(playlist: PlaylistEntity)
-    suspend fun getPlaylistById(id: Int): PlaylistEntity?
+    fun getAllPlaylists(): Flow<List<PlaylistEntity>>
 }
