@@ -29,7 +29,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(listOf(audioPlayerModule, settingsModule, searchModule, mediaModule, dataModule,
-                repositoryModule, domainModule, createPlaylistModule, databaseModule))
+                repositoryModule, domainModule, databaseModule))
         }
 
         sharedPrefs = getSharedPreferences(SHARED_PREFERENCES_FOR_DARK_THEME, MODE_PRIVATE)

@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import com.practicum.playlistmakerapp.create.domain.repository.CreatePlaylistRepository
+import kotlinx.coroutines.flow.Flow
 
 class CreatePlaylistInteractorImpl(
     private val playlistRepository: CreatePlaylistRepository
@@ -17,5 +18,9 @@ class CreatePlaylistInteractorImpl(
             trackCount = 0
         )
         playlistRepository.savePlaylist(playlist)
+    }
+
+    override fun getAllPlaylists(): Flow<List<PlaylistEntity>> {
+        return playlistRepository.getAllPlaylists()
     }
 }
