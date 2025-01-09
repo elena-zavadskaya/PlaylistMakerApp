@@ -1,26 +1,32 @@
 package com.practicum.playlistmakerapp.create.ui
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivityCreatePlaylistBinding
 import org.koin.android.ext.android.inject
+import java.io.File
+import java.io.FileOutputStream
 
 class CreatePlaylistActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreatePlaylistBinding
     private var selectedImageUri: Uri? = null
-    private val pickImageRequestCode = 1001
     private val viewModel: CreatePlaylistViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,13 +34,28 @@ class CreatePlaylistActivity : AppCompatActivity() {
         binding = ActivityCreatePlaylistBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.playlistImage.visibility = View.VISIBLE
+        binding.storageImage.visibility = View.GONE
+
         binding.backbuttonToolbar.setNavigationOnClickListener {
             handleBackPress()
         }
 
-        binding.playlistImage.setOnClickListener {
-            openGallery()
+        val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                Log.d("PhotoPicker", "Выбранный URI: $uri")
+                saveImageToPrivateStorage(uri)
+                binding.playlistImage.visibility = View.GONE
+                binding.storageImage.visibility = View.VISIBLE
+            } else {
+                Log.d("PhotoPicker", "Ничего не выбрано")
+            }
         }
+
+        binding.playlistImage.setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
 
         binding.playlistName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -58,32 +79,17 @@ class CreatePlaylistActivity : AppCompatActivity() {
         })
 
         binding.createButton.setOnClickListener {
-            val name = binding.playlistName.text.toString()
-            val description = binding.playlistDescription.text.toString()
-            viewModel.createPlaylist(name, description, selectedImageUri) { uri ->
-                contentResolver.openInputStream(uri)
+            val filePath = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlist_covers")
+            val files = filePath.listFiles() ?: emptyArray()
+            if (files.isNotEmpty()) {
+                val lastFile = files.last()
+                binding.storageImage.setImageURI(lastFile.toUri())
+            } else {
+                Log.d("PhotoPicker", "Нет сохраненных изображений")
             }
         }
-    }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK).apply {
-            type = "image/*"
-        }
-        startActivityForResult(intent, pickImageRequestCode)
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == pickImageRequestCode && resultCode == Activity.RESULT_OK) {
-            selectedImageUri = data?.data
-            selectedImageUri?.let { uri ->
-                binding.playlistImage.background = uriToDrawable(uri)
-            }
-        }
-    }
-
-    private fun uriToDrawable(uri: Uri) = Drawable.createFromStream(contentResolver.openInputStream(uri), uri.toString())
 
     private fun handleBackPress() {
         if (hasUnsavedChanges()) {
@@ -109,5 +115,25 @@ class CreatePlaylistActivity : AppCompatActivity() {
         val isNameFilled = !binding.playlistName.text.isNullOrBlank()
         val isDescriptionFilled = !binding.playlistDescription.text.isNullOrBlank()
         return isImageSet || isNameFilled || isDescriptionFilled
+    }
+
+    private fun saveImageToPrivateStorage(uri: Uri) {
+        val filePath = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlist_covers")
+        if (!filePath.exists()) {
+            filePath.mkdirs()
+        }
+
+        val file = File(filePath, "cover_${System.currentTimeMillis()}.jpg")
+        val inputStream = contentResolver.openInputStream(uri)
+        val outputStream = FileOutputStream(file)
+
+        inputStream.use { input ->
+            outputStream.use { output ->
+                BitmapFactory.decodeStream(input).compress(Bitmap.CompressFormat.JPEG, 80, output)
+            }
+        }
+
+        binding.storageImage.setImageURI(file.toUri())
+        Log.d("PhotoPicker", "Изображение сохранено в: ${file.absolutePath}")
     }
 }

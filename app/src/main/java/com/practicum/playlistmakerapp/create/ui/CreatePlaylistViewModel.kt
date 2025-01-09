@@ -27,21 +27,8 @@ class CreatePlaylistViewModel(
         _isCreateButtonEnabled.value = name.isNotBlank()
     }
 
-    fun createPlaylist(name: String, description: String, imageUri: Uri?, contentResolver: (Uri) -> InputStream?) {
-        if (imageUri == null) {
-            _toastMessage.value = "Выберите обложку для плейлиста"
-            return
-        }
+    fun createPlaylist() {
 
-        viewModelScope.launch(Dispatchers.IO) {
-            val copiedImagePath = copyImageToInternalStorage(imageUri, contentResolver)
-            if (copiedImagePath != null) {
-                createPlaylistInteractor.createPlaylist(name, description, copiedImagePath)
-                _toastMessage.postValue("Плейлист \"$name\" создан")
-            } else {
-                _toastMessage.postValue("Не удалось сохранить обложку")
-            }
-        }
     }
 
     private suspend fun copyImageToInternalStorage(uri: Uri, contentResolver: (Uri) -> InputStream?): String? {

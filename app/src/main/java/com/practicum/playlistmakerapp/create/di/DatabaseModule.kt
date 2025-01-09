@@ -7,7 +7,7 @@ import org.koin.dsl.module
 val databaseModule = module {
     single {
         Room.databaseBuilder(
-            get(), // контекст приложения
+            get(),
             PlaylistDatabase::class.java,
             "playlist_database"
         ).build()

@@ -9,7 +9,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val createPlaylistModule = module {
-    factory<CreatePlaylistRepository> { CreatePlaylistRepositoryImpl(get()) } // Замените на вашу реализацию
+    factory<CreatePlaylistRepository> { CreatePlaylistRepositoryImpl(get()) }
     factory<CreatePlaylistInteractor> { CreatePlaylistInteractorImpl(get()) }
     viewModel { CreatePlaylistViewModel(get()) }
 }
