@@ -79,14 +79,16 @@ class CreatePlaylistActivity : AppCompatActivity() {
         })
 
         binding.createButton.setOnClickListener {
-            val filePath = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlist_covers")
-            val files = filePath.listFiles() ?: emptyArray()
-            if (files.isNotEmpty()) {
-                val lastFile = files.last()
-                binding.storageImage.setImageURI(lastFile.toUri())
-            } else {
-                Log.d("PhotoPicker", "Нет сохраненных изображений")
+            val name = binding.playlistName.text.toString().trim()
+            val description = binding.playlistDescription.text.toString().trim()
+            val coverImagePath = selectedImageUri?.path
+
+            if (name.isBlank()) {
+                Toast.makeText(this, "Название плейлиста не может быть пустым", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            viewModel.createPlaylist(name, description, coverImagePath)
         }
 
     }

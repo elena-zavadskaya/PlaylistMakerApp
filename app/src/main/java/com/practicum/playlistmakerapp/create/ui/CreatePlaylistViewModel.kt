@@ -1,17 +1,11 @@
 package com.practicum.playlistmakerapp.create.ui
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 
 class CreatePlaylistViewModel(
     private val createPlaylistInteractor: CreatePlaylistInteractor
@@ -27,23 +21,18 @@ class CreatePlaylistViewModel(
         _isCreateButtonEnabled.value = name.isNotBlank()
     }
 
-    fun createPlaylist() {
-
-    }
-
-    private suspend fun copyImageToInternalStorage(uri: Uri, contentResolver: (Uri) -> InputStream?): String? {
-        return withContext(Dispatchers.IO) {
+    fun createPlaylist(name: String, description: String, coverImagePath: String?) {
+        viewModelScope.launch {
             try {
-                val inputStream = contentResolver(uri) ?: return@withContext null
-                val file = File("playlist_${System.currentTimeMillis()}.jpg")
-                val outputStream = FileOutputStream(file)
-                inputStream.copyTo(outputStream)
-                outputStream.close()
-                inputStream.close()
-                file.absolutePath
+                createPlaylistInteractor.createPlaylist(
+                    name = name,
+                    description = description,
+                    coverImagePath = coverImagePath ?: ""
+                )
+                _toastMessage.postValue("Плейлист \"$name\" успешно создан")
             } catch (e: Exception) {
                 e.printStackTrace()
-                null
+                _toastMessage.postValue("Ошибка при создании плейлиста")
             }
         }
     }
