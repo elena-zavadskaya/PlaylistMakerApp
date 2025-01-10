@@ -2,6 +2,7 @@ package com.practicum.playlistmakerapp.create.domain.impl
 
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
+import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import com.practicum.playlistmakerapp.create.domain.repository.CreatePlaylistRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,5 +23,21 @@ class CreatePlaylistInteractorImpl(
 
     override fun getAllPlaylists(): Flow<List<PlaylistEntity>> {
         return playlistRepository.getAllPlaylists()
+    }
+
+    override suspend fun updatePlaylist(playlist: PlaylistEntity) {
+        playlistRepository.updatePlaylist(playlist)
+    }
+
+    override suspend fun addTrackToPlaylist(track: PlaylistTrackEntity) {
+        playlistRepository.addTrackToPlaylist(track)
+    }
+
+    override suspend fun getTrackById(id: String): PlaylistTrackEntity? {
+        return playlistRepository.getTrackById(id)
+    }
+
+    override suspend fun getAllTracks(): List<PlaylistTrackEntity> {
+        return playlistRepository.getAllTracks()
     }
 }

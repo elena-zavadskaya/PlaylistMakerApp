@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp">
+
+    <!-- Обложка плейлиста -->
+    <ImageView
+        android:id="@+id/playlistImage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="13dp"
+        android:src="@drawable/album"
+        app:cornerRadius="2dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="68dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="center_vertical">
+
+        <!-- Название плейлиста -->
+        <TextView
+            android:id="@+id/playlist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:textColor="@color/search_text"
+            tools:text="Очень длинное название плейлиста, которое нужно обрезать" />
+
+        <!-- Количество треков -->
+        <TextView
+            android:id="@+id/track_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="13sp"
+            android:textColor="@color/search_small_text"
+            tools:text="98 треков" />
+    </LinearLayout>
+</FrameLayout>

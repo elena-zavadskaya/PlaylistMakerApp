@@ -4,7 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
+import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
+import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import com.practicum.playlistmakerapp.media.domain.interactor.FavoritesInteractor
+import com.practicum.playlistmakerapp.media.domain.model.Playlist
 import com.practicum.playlistmakerapp.player.domain.interactor.AudioPlayerInteractor
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.Job
@@ -12,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class AudioPlayerViewModel(
     private val audioPlayerInteractor: AudioPlayerInteractor,
-    private val favoritesInteractor: FavoritesInteractor
+    private val favoritesInteractor: FavoritesInteractor,
+    private val createPlaylistInteractor: CreatePlaylistInteractor
 ) : ViewModel() {
 
     companion object {
@@ -30,6 +36,12 @@ class AudioPlayerViewModel(
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
+
+    private val _playlists = MutableLiveData<List<Playlist>>()
+    val playlists: LiveData<List<Playlist>> get() = _playlists
+
+    private val _trackAddStatus = MutableLiveData<String>()
+    val trackAddStatus: LiveData<String> get() = _trackAddStatus
 
     private var updateJob: Job? = null
     private lateinit var currentTrack: Track
@@ -96,6 +108,60 @@ class AudioPlayerViewModel(
             }
             currentTrack.isFavorite = !currentTrack.isFavorite
             _isFavorite.postValue(currentTrack.isFavorite)
+        }
+    }
+
+    fun loadPlaylists() {
+        viewModelScope.launch {
+            createPlaylistInteractor.getAllPlaylists().collect { playlistEntities ->
+                val playlistList = playlistEntities.map { entity ->
+                    Playlist(
+                        id = entity.id,
+                        name = entity.name,
+                        description = entity.description,
+                        coverImagePath = entity.coverImagePath,
+                        trackIds = entity.trackIds,
+                        trackCount = entity.trackCount
+                    )
+                }
+                _playlists.postValue(playlistList)
+            }
+        }
+    }
+
+    fun addTrackToPlaylist(track: PlaylistTrackEntity, playlistId: Long) {
+        viewModelScope.launch {
+            val playlist = _playlists.value?.find { it.id == playlistId }
+
+            playlist?.let {
+                val trackIds = Gson().fromJson(it.trackIds, Array<Long>::class.java).toList()
+
+                if (trackIds.contains(track.id.toLong())) {
+                    _trackAddStatus.postValue("Трек уже присутствует в плейлисте")
+                } else {
+                    val updatedTrackIds = trackIds + track.id.toLong()
+                    val updatedPlaylist = it.copy(
+                        trackIds = Gson().toJson(updatedTrackIds),
+                        trackCount = updatedTrackIds.size
+                    )
+
+                    createPlaylistInteractor.updatePlaylist(
+                        PlaylistEntity(
+                            id = playlist.id,
+                            name = updatedPlaylist.name,
+                            description = updatedPlaylist.description,
+                            coverImagePath = updatedPlaylist.coverImagePath,
+                            trackIds = updatedPlaylist.trackIds,
+                            trackCount = updatedPlaylist.trackCount
+                        )
+                    )
+
+                    createPlaylistInteractor.addTrackToPlaylist(track)
+                    _trackAddStatus.postValue("Трек успешно добавлен в плейлист")
+                }
+            } ?: run {
+                _trackAddStatus.postValue("Плейлист не найден")
+            }
         }
     }
 
