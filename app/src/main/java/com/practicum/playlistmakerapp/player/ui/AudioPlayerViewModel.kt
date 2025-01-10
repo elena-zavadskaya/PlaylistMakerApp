@@ -40,8 +40,8 @@ class AudioPlayerViewModel(
     private val _playlists = MutableLiveData<List<Playlist>>()
     val playlists: LiveData<List<Playlist>> get() = _playlists
 
-    private val _trackAddStatus = MutableLiveData<String>()
-    val trackAddStatus: LiveData<String> get() = _trackAddStatus
+    private val _trackAddStatus = MutableLiveData<String?>()
+    val trackAddStatus: LiveData<String?> get() = _trackAddStatus
 
     private var updateJob: Job? = null
     private lateinit var currentTrack: Track
@@ -137,7 +137,7 @@ class AudioPlayerViewModel(
                 val trackIds = Gson().fromJson(it.trackIds, Array<Long>::class.java).toList()
 
                 if (trackIds.contains(track.id.toLong())) {
-                    _trackAddStatus.postValue("Трек уже присутствует в плейлисте")
+                    _trackAddStatus.postValue("Трек уже добавлен в плейлист ${it.name}")
                 } else {
                     val updatedTrackIds = trackIds + track.id.toLong()
                     val updatedPlaylist = it.copy(

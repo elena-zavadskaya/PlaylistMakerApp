@@ -19,7 +19,7 @@ class PlaylistsAdapter(
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         val playlist = playlists[position]
         holder.playlistName.text = playlist.name
-        holder.trackCount.text = "${playlist.trackCount} треков"
+        holder.trackCount.text = "${playlist.trackCount} ${getTrackWord(playlist.trackCount)}"
 
         if (playlist.coverImagePath.isNotEmpty()) {
             val imageUri = Uri.parse(playlist.coverImagePath)
@@ -30,6 +30,12 @@ class PlaylistsAdapter(
     }
 
     override fun getItemCount(): Int = playlists.size
+
+    private fun getTrackWord(count: Int): String {
+        return when {
+            count % 10 == 1 && count % 100 != 11 -> "трек"
+            count % 10 in 2..4 && (count % 100 !in 12..14) -> "трека"
+            else -> "треков"
+        }
+    }
 }
-
-

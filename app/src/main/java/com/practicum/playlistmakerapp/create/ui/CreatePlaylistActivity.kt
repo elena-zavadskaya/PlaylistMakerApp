@@ -2,13 +2,17 @@ package com.practicum.playlistmakerapp.create.ui
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.RectF
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -42,14 +46,10 @@ class CreatePlaylistActivity : AppCompatActivity() {
         }
 
         val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null) {
-                Log.d("PhotoPicker", "Выбранный URI: $uri")
+            if (uri != null)
                 saveImageToPrivateStorage(uri)
-                binding.playlistImage.visibility = View.GONE
+                binding.playlistImage.visibility = View.VISIBLE
                 binding.storageImage.visibility = View.VISIBLE
-            } else {
-                Log.d("PhotoPicker", "Ничего не выбрано")
-            }
         }
 
         binding.playlistImage.setOnClickListener {
@@ -59,15 +59,30 @@ class CreatePlaylistActivity : AppCompatActivity() {
 
         binding.playlistName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.onPlaylistNameChanged(s.toString())
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateEditTextBorderColor(binding.playlistName, !s.isNullOrEmpty())
             }
+            override fun afterTextChanged(s: Editable?) {
+                val isNameFilled = !s.isNullOrBlank()
+                binding.createButton.isEnabled = isNameFilled
+                val buttonColor = if (isNameFilled) R.color.blue else R.color.dark_gray
+                binding.createButton.backgroundTintList = ContextCompat.getColorStateList(this@CreatePlaylistActivity, buttonColor)
+            }
+        })
+
+        binding.playlistDescription.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateEditTextBorderColor(binding.playlistDescription, !s.isNullOrEmpty())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
         })
 
         viewModel.isCreateButtonEnabled.observe(this, Observer { isEnabled ->
             binding.createButton.isEnabled = isEnabled
-            val colorRes = if (isEnabled) R.color.blue else R.color.dark_gray
+            val colorRes = if (isEnabled) R.color.blue else R.color.another_text
             binding.createButton.setBackgroundTintList(ContextCompat.getColorStateList(this, colorRes))
         })
 
@@ -131,11 +146,35 @@ class CreatePlaylistActivity : AppCompatActivity() {
 
         inputStream.use { input ->
             outputStream.use { output ->
-                BitmapFactory.decodeStream(input).compress(Bitmap.CompressFormat.JPEG, 80, output)
+                val bitmap = BitmapFactory.decodeStream(input)
+                val roundedBitmap = createRoundedBitmap(bitmap)
+                roundedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, output)
             }
         }
 
-        binding.storageImage.setImageURI(file.toUri())
-        Log.d("PhotoPicker", "Изображение сохранено в: ${file.absolutePath}")
+        selectedImageUri = file.toUri()
+        binding.storageImage.setImageURI(selectedImageUri)
+    }
+
+    private fun createRoundedBitmap(bitmap: Bitmap): Bitmap {
+        val output = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(output)
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        val rectF = RectF(rect)
+
+        paint.isAntiAlias = true
+        canvas.drawARGB(0, 0, 0, 0)
+        canvas.drawRoundRect(rectF, 16f, 16f, paint)
+
+        paint.xfermode = android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+
+        return output
+    }
+
+    private fun updateEditTextBorderColor(editText: EditText, hasText: Boolean) {
+        val colorResId = if (hasText) R.drawable.edit_text_border_filled else R.drawable.edit_text_border_empty
+        editText.setBackgroundResource(colorResId)
     }
 }

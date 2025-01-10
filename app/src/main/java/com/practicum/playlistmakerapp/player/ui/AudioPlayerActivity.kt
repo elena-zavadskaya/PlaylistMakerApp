@@ -3,7 +3,6 @@ package com.practicum.playlistmakerapp.player.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -66,6 +65,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         setupBottomSheet()
 
         binding.plusIV.setOnClickListener {
+            binding.overlay.visibility = View.VISIBLE
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
@@ -74,7 +74,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
 
         viewModel.trackPosition.observe(this, Observer { position ->
-            Log.d("AudioPlayer", "Track position: $position")
             binding.durationTV.text = formatTime(position)
         })
 
@@ -120,11 +119,10 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        viewModel.loadPlaylists()
-                    }
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    viewModel.loadPlaylists()
                 }
+                binding.overlay.visibility = if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
@@ -153,7 +151,6 @@ class AudioPlayerActivity : AppCompatActivity() {
                     fileUrl = chosenTrack.previewUrl
                 )
                 viewModel.addTrackToPlaylist(trackEntity, selectedPlaylist.id)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
         }
     }
@@ -180,7 +177,6 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun updateUI(state: Int) {
-        Log.d("AudioPlayer", "Updating UI with state: $state")
         when (state) {
             AudioPlayerViewModel.STATE_PLAYING -> {
                 binding.playIV.visibility = View.INVISIBLE

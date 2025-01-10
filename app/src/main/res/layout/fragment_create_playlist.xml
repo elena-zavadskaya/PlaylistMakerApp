@@ -39,21 +39,21 @@
                 android:layout_height="100dp"
                 android:src="@drawable/playlist_image"
                 android:layout_centerInParent="true"/>
-
-            <androidx.constraintlayout.utils.widget.ImageFilterView
-                android:id="@+id/storageImage"
-                android:layout_width="312dp"
-                android:layout_height="312dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:roundPercent="0.1" />
-
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/storageImage"
+            android:layout_width="312dp"
+            android:layout_height="312dp"
+            android:src="@drawable/placeholder"
+            android:layout_centerInParent="true"
+            android:layout_margin="24dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/playlist_name"
-            android:textColor="@color/text"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -71,7 +71,7 @@
 
         <EditText
             android:id="@+id/playlist_description"
-            android:textColor="@color/text"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -82,7 +82,7 @@
             android:textColorHint="@color/text"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:textCursorDrawable="@color/text"
+            android:textCursorDrawable="@color/background"
             android:background="@drawable/edit_text_border"
             android:layout_marginHorizontal="16dp"
             android:paddingStart="16dp"/>
@@ -103,4 +103,3 @@
         app:cornerRadius="8dp"
         android:enabled="false" />
 </LinearLayout>
-

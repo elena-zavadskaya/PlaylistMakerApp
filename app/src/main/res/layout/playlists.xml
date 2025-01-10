@@ -12,7 +12,6 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_gravity="start|center_vertical"
-        android:layout_marginStart="13dp"
         android:src="@drawable/album"
         app:cornerRadius="2dp" />
 
@@ -20,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginStart="68dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginEnd="10dp"
         android:gravity="center_vertical">
 
         <!-- Название плейлиста -->
@@ -42,7 +41,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="13sp"
+            android:textSize="11sp"
             android:textColor="@color/search_small_text"
             tools:text="98 треков" />
     </LinearLayout>

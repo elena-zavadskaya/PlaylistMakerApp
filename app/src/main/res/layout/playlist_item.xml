@@ -2,22 +2,26 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="160dp"
     android:layout_height="wrap_content"
-    android:background="@null"
-    card_view:cardElevation="4dp">
+    android:backgroundTint="@color/color_gray"
+    card_view:cardElevation="0dp"
+    android:layout_margin="16dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/playlistImage"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder" />
+            app:roundPercent="0.1"
+            android:src="@drawable/placeholder"
+            android:background="@drawable/rounded_image"/>
 
         <TextView
             android:id="@+id/playlistName"

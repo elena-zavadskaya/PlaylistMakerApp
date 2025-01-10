@@ -29,7 +29,7 @@ class CreatePlaylistViewModel(
                     description = description,
                     coverImagePath = coverImagePath ?: ""
                 )
-                _toastMessage.postValue("Плейлист \"$name\" успешно создан")
+                _toastMessage.postValue("Плейлист \"$name\" создан")
             } catch (e: Exception) {
                 e.printStackTrace()
                 _toastMessage.postValue("Ошибка при создании плейлиста")

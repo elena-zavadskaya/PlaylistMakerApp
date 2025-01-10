@@ -63,14 +63,14 @@ class PlaylistsFragment : Fragment() {
         _binding = null
     }
 
-    private fun showEmptyState() {
-        binding.recyclerView.visibility = View.GONE
-        binding.emptyStateLayout.visibility = View.VISIBLE
+    private fun showEmptyState() = with(binding) {
+        recyclerView.visibility = View.GONE
+        emptyStateLayout.visibility = View.VISIBLE
     }
 
-    private fun showPlaylists() {
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.emptyStateLayout.visibility = View.GONE
+    private fun showPlaylists() = with(binding) {
+        recyclerView.visibility = View.VISIBLE
+        emptyStateLayout.visibility = View.GONE
     }
 
     companion object {
