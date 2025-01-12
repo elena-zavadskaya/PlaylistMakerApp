@@ -43,6 +43,9 @@ class AudioPlayerViewModel(
     private val _trackAddStatus = MutableLiveData<String?>()
     val trackAddStatus: LiveData<String?> get() = _trackAddStatus
 
+    private val _closeBottomSheet = MutableLiveData<Boolean>()
+    val closeBottomSheet: LiveData<Boolean> get() = _closeBottomSheet
+
     private var updateJob: Job? = null
     private lateinit var currentTrack: Track
 
@@ -129,6 +132,14 @@ class AudioPlayerViewModel(
         }
     }
 
+    fun closeBottomSheet() {
+        _closeBottomSheet.postValue(true)
+    }
+
+    fun resetBottomSheetCloseState() {
+        _closeBottomSheet.postValue(false)
+    }
+
     fun addTrackToPlaylist(track: PlaylistTrackEntity, playlistId: Long) {
         viewModelScope.launch {
             val playlist = _playlists.value?.find { it.id == playlistId }
@@ -157,7 +168,8 @@ class AudioPlayerViewModel(
                     )
 
                     createPlaylistInteractor.addTrackToPlaylist(track)
-                    _trackAddStatus.postValue("Трек успешно добавлен в плейлист")
+                    _trackAddStatus.postValue("Добавлено в плейлист ${it.name}")
+                    closeBottomSheet()
                 }
             } ?: run {
                 _trackAddStatus.postValue("Плейлист не найден")

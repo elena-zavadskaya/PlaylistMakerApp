@@ -1,14 +1,7 @@
 package com.practicum.playlistmakerapp.create.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
-import android.graphics.RectF
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -19,13 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivityCreatePlaylistBinding
 import org.koin.android.ext.android.inject
-import java.io.File
-import java.io.FileOutputStream
 
 class CreatePlaylistActivity : AppCompatActivity() {
 
@@ -45,11 +35,21 @@ class CreatePlaylistActivity : AppCompatActivity() {
             handleBackPress()
         }
 
+        binding.playlistName.setOnFocusChangeListener { _, hasFocus ->
+            binding.clueName.visibility = if (hasFocus) View.VISIBLE else View.GONE
+        }
+
+        binding.playlistDescription.setOnFocusChangeListener { _, hasFocus ->
+            binding.clueDescription.visibility = if (hasFocus) View.VISIBLE else View.GONE
+        }
+
         val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null)
-                saveImageToPrivateStorage(uri)
-                binding.playlistImage.visibility = View.VISIBLE
+            if (uri != null) {
+                selectedImageUri = uri
+                binding.storageImage.setImageURI(selectedImageUri)
+                binding.playlistImage.visibility = View.GONE
                 binding.storageImage.visibility = View.VISIBLE
+            }
         }
 
         binding.playlistImage.setOnClickListener {
@@ -96,7 +96,7 @@ class CreatePlaylistActivity : AppCompatActivity() {
         binding.createButton.setOnClickListener {
             val name = binding.playlistName.text.toString().trim()
             val description = binding.playlistDescription.text.toString().trim()
-            val coverImagePath = selectedImageUri?.path
+            val coverImagePath = selectedImageUri
 
             if (name.isBlank()) {
                 Toast.makeText(this, "Название плейлиста не может быть пустым", Toast.LENGTH_SHORT).show()
@@ -106,6 +106,10 @@ class CreatePlaylistActivity : AppCompatActivity() {
             viewModel.createPlaylist(name, description, coverImagePath)
         }
 
+    }
+
+    override fun onBackPressed() {
+        handleBackPress()
     }
 
     private fun handleBackPress() {
@@ -132,45 +136,6 @@ class CreatePlaylistActivity : AppCompatActivity() {
         val isNameFilled = !binding.playlistName.text.isNullOrBlank()
         val isDescriptionFilled = !binding.playlistDescription.text.isNullOrBlank()
         return isImageSet || isNameFilled || isDescriptionFilled
-    }
-
-    private fun saveImageToPrivateStorage(uri: Uri) {
-        val filePath = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlist_covers")
-        if (!filePath.exists()) {
-            filePath.mkdirs()
-        }
-
-        val file = File(filePath, "cover_${System.currentTimeMillis()}.jpg")
-        val inputStream = contentResolver.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
-
-        inputStream.use { input ->
-            outputStream.use { output ->
-                val bitmap = BitmapFactory.decodeStream(input)
-                val roundedBitmap = createRoundedBitmap(bitmap)
-                roundedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, output)
-            }
-        }
-
-        selectedImageUri = file.toUri()
-        binding.storageImage.setImageURI(selectedImageUri)
-    }
-
-    private fun createRoundedBitmap(bitmap: Bitmap): Bitmap {
-        val output = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(output)
-        val paint = Paint()
-        val rect = Rect(0, 0, bitmap.width, bitmap.height)
-        val rectF = RectF(rect)
-
-        paint.isAntiAlias = true
-        canvas.drawARGB(0, 0, 0, 0)
-        canvas.drawRoundRect(rectF, 16f, 16f, paint)
-
-        paint.xfermode = android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bitmap, rect, rect, paint)
-
-        return output
     }
 
     private fun updateEditTextBorderColor(editText: EditText, hasText: Boolean) {

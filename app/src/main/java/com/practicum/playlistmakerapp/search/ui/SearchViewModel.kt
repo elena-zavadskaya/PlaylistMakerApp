@@ -1,7 +1,6 @@
 package com.practicum.playlistmakerapp.search.ui
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -68,12 +67,8 @@ class SearchViewModel(
     private suspend fun performSearch(query: String) {
         renderState(TracksState.Loading)
 
-        Log.d("SearchViewModel", "Performing search for query: $query")
-
         try {
             val tracks = searchInteractor.searchTracks(query)
-
-            Log.d("SearchViewModel", "Found ${tracks.size} tracks")
 
             if (tracks.isNotEmpty()) {
                 renderState(TracksState.Content(tracks))
@@ -81,7 +76,6 @@ class SearchViewModel(
                 renderState(TracksState.Empty)
             }
         } catch (e: Exception) {
-            Log.e("SearchViewModel", "Error during search: ${e.message}")
             renderState(TracksState.Error)
         }
     }

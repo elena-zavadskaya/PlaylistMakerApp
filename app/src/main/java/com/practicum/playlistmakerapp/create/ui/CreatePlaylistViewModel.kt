@@ -1,5 +1,6 @@
 package com.practicum.playlistmakerapp.create.ui
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,22 +18,28 @@ class CreatePlaylistViewModel(
     private val _toastMessage = MutableLiveData<String>()
     val toastMessage: LiveData<String> get() = _toastMessage
 
+    private val _playlistCreated = MutableLiveData<Boolean>()
+    val playlistCreated: LiveData<Boolean> get() = _playlistCreated
+
     fun onPlaylistNameChanged(name: String) {
         _isCreateButtonEnabled.value = name.isNotBlank()
     }
 
-    fun createPlaylist(name: String, description: String, coverImagePath: String?) {
+    fun createPlaylist(name: String, description: String, coverImageUri: Uri?) {
         viewModelScope.launch {
             try {
-                createPlaylistInteractor.createPlaylist(
-                    name = name,
-                    description = description,
-                    coverImagePath = coverImagePath ?: ""
-                )
+                val coverImagePath = coverImageUri?.let {
+                    createPlaylistInteractor.saveImage(it).toString()
+                } ?: ""
+
+                createPlaylistInteractor.createPlaylist(name, description, coverImagePath)
+
                 _toastMessage.postValue("Плейлист \"$name\" создан")
+                _playlistCreated.postValue(true)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _toastMessage.postValue("Ошибка при создании плейлиста")
+                _playlistCreated.postValue(false)
             }
         }
     }

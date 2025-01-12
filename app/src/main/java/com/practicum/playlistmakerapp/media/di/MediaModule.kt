@@ -26,12 +26,15 @@ val mediaModule = module {
     single { get<PlaylistDatabase>().playlistDao() }
     single { get<PlaylistDatabase>().playlistTrackDao() }
 
-    factory<CreatePlaylistRepository> { CreatePlaylistRepositoryImpl(get(), get()) }
+    factory<CreatePlaylistRepository> {
+        CreatePlaylistRepositoryImpl(
+            playlistDao = get(),
+            playlistTrackDao = get(),
+            context = get()
+        )
+    }
     factory<CreatePlaylistInteractor> { CreatePlaylistInteractorImpl(get()) }
-    viewModel { CreatePlaylistViewModel(get()) }
 
-    factory<CreatePlaylistRepository> { CreatePlaylistRepositoryImpl(get(), get()) }
-    factory<CreatePlaylistInteractor> { CreatePlaylistInteractorImpl(get()) }
     viewModel { CreatePlaylistViewModel(get()) }
     viewModel { PlaylistsViewModel(get()) }
     viewModel { FavoritesViewModel(get()) }

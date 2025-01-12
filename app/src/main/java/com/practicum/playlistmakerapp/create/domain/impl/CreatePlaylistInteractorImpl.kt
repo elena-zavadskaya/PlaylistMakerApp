@@ -1,5 +1,6 @@
 package com.practicum.playlistmakerapp.create.domain.impl
 
+import android.net.Uri
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
 import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 class CreatePlaylistInteractorImpl(
     private val playlistRepository: CreatePlaylistRepository
 ) : CreatePlaylistInteractor {
+
     override suspend fun createPlaylist(name: String, description: String, coverImagePath: String) {
         val playlist = PlaylistEntity(
             name = name,
@@ -39,5 +41,10 @@ class CreatePlaylistInteractorImpl(
 
     override suspend fun getAllTracks(): List<PlaylistTrackEntity> {
         return playlistRepository.getAllTracks()
+    }
+
+    override suspend fun saveImage(uri: Uri): Uri {
+        val fileName = "cover_${System.currentTimeMillis()}.jpg"
+        return playlistRepository.saveImageToStorage(uri, fileName)
     }
 }

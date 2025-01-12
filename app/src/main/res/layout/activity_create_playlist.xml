@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/color_gray">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/backbutton_toolbar"
@@ -40,52 +41,92 @@
                 android:src="@drawable/playlist_image"
                 android:layout_centerInParent="true"/>
 
-            <androidx.constraintlayout.utils.widget.ImageFilterView
-                android:id="@+id/storageImage"
-                android:layout_width="312dp"
-                android:layout_height="312dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:roundPercent="0.1" />
-
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/playlist_name"
-            android:textColor="@color/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="Название*"
-            android:lines="1"
-            android:maxLength="15"
-            android:textSize="@dimen/textSize16"
-            android:textColorHint="@color/text"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:textCursorDrawable="@color/background"
-            android:background="@drawable/edit_text_border"
-            android:layout_margin="16dp"
-            android:paddingStart="16dp"/>
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/storageImage"
+            android:layout_width="312dp"
+            android:layout_height="312dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:roundPercent="0.1" />
 
-        <EditText
-            android:id="@+id/playlist_description"
-            android:textColor="@color/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="Описание"
-            android:lines="1"
-            android:maxLength="15"
-            android:textSize="@dimen/textSize16"
-            android:textColorHint="@color/text"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:textCursorDrawable="@color/text"
-            android:background="@drawable/edit_text_border"
-            android:layout_marginHorizontal="16dp"
-            android:paddingStart="16dp"/>
+        <RelativeLayout
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/playlist_name"
+                android:textColor="@color/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="Название*"
+                android:lines="1"
+                android:maxLength="15"
+                android:textSize="@dimen/textSize16"
+                android:textColorHint="@color/text"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:textCursorDrawable="@color/background"
+                android:background="@drawable/edit_text_border"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:paddingStart="16dp"/>
+
+            <TextView
+                android:id="@+id/clue_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Название*"
+                android:textSize="12sp"
+                android:textColor="#3772E7"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_gray"
+                android:padding="4dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/playlist_description"
+                android:textColor="@color/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="Описание"
+                android:lines="1"
+                android:maxLength="15"
+                android:textSize="@dimen/textSize16"
+                android:textColorHint="@color/text"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:textCursorDrawable="@color/text"
+                android:background="@drawable/edit_text_border"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:paddingStart="16dp"/>
+
+            <TextView
+                android:id="@+id/clue_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Описание"
+                android:textSize="12sp"
+                android:textColor="#3772E7"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_gray"
+                android:padding="4dp"
+                android:visibility="gone" />
+        </RelativeLayout>
     </LinearLayout>
 
     <Button

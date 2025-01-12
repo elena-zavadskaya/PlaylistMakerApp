@@ -1,5 +1,6 @@
 package com.practicum.playlistmakerapp.create.domain.interactor
 
+import android.net.Uri
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
 import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
 import kotlinx.coroutines.flow.Flow
@@ -15,4 +16,6 @@ interface CreatePlaylistInteractor {
     suspend fun getTrackById(id: String): PlaylistTrackEntity?
     suspend fun getAllTracks(): List<PlaylistTrackEntity>
 
+    // Работа с файлами
+    suspend fun saveImage(uri: Uri): Uri
 }
