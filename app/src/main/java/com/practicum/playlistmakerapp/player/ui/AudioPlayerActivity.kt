@@ -92,6 +92,14 @@ class AudioPlayerActivity : AppCompatActivity() {
         viewModel.trackAddStatus.observe(this) { statusMessage ->
             Toast.makeText(this, statusMessage, Toast.LENGTH_SHORT).show()
         }
+
+        viewModel.closeBottomSheet.observe(this) { shouldClose ->
+            if (shouldClose) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                binding.overlay.visibility = View.GONE
+                viewModel.resetBottomSheetCloseState()
+            }
+        }
     }
 
     private fun bindTrackInfo() {
