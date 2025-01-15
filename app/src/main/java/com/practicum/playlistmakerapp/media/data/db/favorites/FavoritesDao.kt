@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.media.data.db
+package com.practicum.playlistmakerapp.media.data.db.favorites
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -1,17 +1,24 @@
 package com.practicum.playlistmakerapp.player.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.AudioPlayerBinding
 import com.practicum.playlistmakerapp.DpToPx
+import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
+import com.practicum.playlistmakerapp.create.ui.CreatePlaylistActivity
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import org.koin.android.ext.android.inject
 
@@ -21,6 +28,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private val gson: Gson by inject()
     private lateinit var binding: AudioPlayerBinding
     private lateinit var chosenTrack: Track
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,12 +62,18 @@ class AudioPlayerActivity : AppCompatActivity() {
             viewModel.onFavoriteClicked()
         }
 
+        setupBottomSheet()
+
+        binding.plusIV.setOnClickListener {
+            binding.overlay.visibility = View.VISIBLE
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
         viewModel.playerState.observe(this) { state ->
             updateUI(state)
         }
 
         viewModel.trackPosition.observe(this, Observer { position ->
-            Log.d("AudioPlayer", "Track position: $position")
             binding.durationTV.text = formatTime(position)
         })
 
@@ -73,6 +87,18 @@ class AudioPlayerActivity : AppCompatActivity() {
         viewModel.isFavorite.observe(this) { isFavorite ->
             val favoriteIcon = if (isFavorite) R.drawable.added_to_favorites else R.drawable.add_to_favorites
             binding.addToFavoritesIV.setImageResource(favoriteIcon)
+        }
+
+        viewModel.trackAddStatus.observe(this) { statusMessage ->
+            Toast.makeText(this, statusMessage, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.closeBottomSheet.observe(this) { shouldClose ->
+            if (shouldClose) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                binding.overlay.visibility = View.GONE
+                viewModel.resetBottomSheetCloseState()
+            }
         }
     }
 
@@ -93,6 +119,56 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.countryTV.text = chosenTrack.country
     }
 
+    private fun setupBottomSheet() {
+        val bottomSheetContainer = findViewById<LinearLayout>(R.id.bottom_sheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    viewModel.loadPlaylists()
+                }
+                binding.overlay.visibility = if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
+
+        val newPlaylistButton = bottomSheetContainer.findViewById<View>(R.id.newPlaylistButton)
+        newPlaylistButton.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            navigateToCreatePlaylistScreen()
+        }
+
+        viewModel.playlists.observe(this) { playlists ->
+            val recyclerView = bottomSheetContainer.findViewById<RecyclerView>(R.id.playlistsRecyclerView)
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            recyclerView.adapter = BottomSheetAdapter(playlists) { selectedPlaylist ->
+                val trackEntity = PlaylistTrackEntity(
+                    id = chosenTrack.trackId.toString(),
+                    coverUrl = chosenTrack.getCoverArtwork(),
+                    title = chosenTrack.trackName,
+                    artist = chosenTrack.artistName,
+                    album = chosenTrack.collectionName,
+                    releaseYear = chosenTrack.releaseDate.substring(0, 4).toInt(),
+                    genre = chosenTrack.primaryGenreName,
+                    country = chosenTrack.country,
+                    duration = formatTime(chosenTrack.trackTimeMillis.toInt()),
+                    fileUrl = chosenTrack.previewUrl
+                )
+                viewModel.addTrackToPlaylist(trackEntity, selectedPlaylist.id)
+            }
+        }
+    }
+
+
+    private fun navigateToCreatePlaylistScreen() {
+        val intent = Intent(this, CreatePlaylistActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun onPause() {
         super.onPause()
         viewModel.pauseTrack()
@@ -109,7 +185,6 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun updateUI(state: Int) {
-        Log.d("AudioPlayer", "Updating UI with state: $state")
         when (state) {
             AudioPlayerViewModel.STATE_PLAYING -> {
                 binding.playIV.visibility = View.INVISIBLE

@@ -1,7 +1,7 @@
 package com.practicum.playlistmakerapp.media.data.impl
 
-import com.practicum.playlistmakerapp.media.data.db.FavoritesDao
-import com.practicum.playlistmakerapp.media.data.db.FavoritesEntity
+import com.practicum.playlistmakerapp.media.data.db.favorites.FavoritesDao
+import com.practicum.playlistmakerapp.media.data.db.favorites.FavoritesEntity
 import com.practicum.playlistmakerapp.media.domain.repository.FavoritesRepository
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.flow.Flow

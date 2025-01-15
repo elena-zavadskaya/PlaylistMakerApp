@@ -1,10 +1,10 @@
-package com.practicum.playlistmakerapp.media.data.db
+package com.practicum.playlistmakerapp.create.data.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "favorites")
-data class FavoritesEntity(
+@Entity(tableName = "playlist_tracks")
+data class PlaylistTrackEntity(
     @PrimaryKey val id: String,
     val coverUrl: String,
     val title: String,

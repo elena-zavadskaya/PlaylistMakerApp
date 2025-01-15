@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/backbutton_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        app:background="@android:color/transparent"
+        app:navigationIcon="@drawable/back"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="Новый плейлист"
+        app:titleTextColor="@color/text"
+        app:titleTextAppearance="@style/settingsToolbarTitleStyle"
+        app:elevation="0dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/playlistImage"
+            android:layout_width="312dp"
+            android:layout_height="312dp"
+            android:layout_gravity="center"
+            android:layout_margin="24dp"
+            android:background="@drawable/dashed_border"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/playlist_image"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/storageImage"
+            android:layout_width="312dp"
+            android:layout_height="312dp"
+            android:src="@drawable/placeholder"
+            android:layout_centerInParent="true"
+            android:layout_margin="24dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/playlist_name"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Название*"
+            android:lines="1"
+            android:maxLength="15"
+            android:textSize="@dimen/textSize16"
+            android:textColorHint="@color/text"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:textCursorDrawable="@color/background"
+            android:background="@drawable/edit_text_border"
+            android:layout_margin="16dp"
+            android:paddingStart="16dp"/>
+
+        <EditText
+            android:id="@+id/playlist_description"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Описание"
+            android:lines="1"
+            android:maxLength="15"
+            android:textSize="@dimen/textSize16"
+            android:textColorHint="@color/text"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:textCursorDrawable="@color/background"
+            android:background="@drawable/edit_text_border"
+            android:layout_marginHorizontal="16dp"
+            android:paddingStart="16dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/create_button"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="Создать"
+        android:textSize="@dimen/textSize16"
+        android:textAllCaps="false"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/ys_display_medium"
+        android:backgroundTint="#AEAFB4"
+        android:layout_marginHorizontal="16dp"
+        app:cornerRadius="8dp"
+        android:enabled="false" />
+</LinearLayout>

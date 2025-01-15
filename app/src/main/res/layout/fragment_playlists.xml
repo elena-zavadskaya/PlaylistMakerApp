@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_marginTop="16dp">
+    tools:context=".create.ui.CreatePlaylistActivity">
 
+    <!-- Кнопка "Новый плейлист" -->
     <Button
-        android:id="@+id/clear_history_button"
+        android:id="@+id/newPlaylistButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_playlist"
-        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/reload_button"
         app:cornerRadius="54dp"
         android:textSize="@dimen/textSize14"
         android:textAllCaps="false"
-        android:layout_marginTop="34dp"
         android:textColor="@color/button_text"
-        android:fontFamily="@font/ys_display_medium"/>
+        android:fontFamily="@font/ys_display_medium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/not_found_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/not_found"
-        android:layout_gravity="center"
-        android:layout_marginTop="102dp"/>
-    <TextView
-        android:id="@+id/not_found_text"
+    <!-- RecyclerView для списка плейлистов -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/no_playlists"
-        android:layout_marginTop="16dp"
-        android:theme="@style/searchErrorText"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_marginTop="68dp"
+        android:foregroundGravity="center"
+        android:visibility="visible"
+        android:layout_marginBottom="56dp"
+        android:layout_marginHorizontal="12dp"/>
+
+    <!-- Плейсхолдер для пустого состояния -->
+    <LinearLayout
+        android:id="@+id/emptyStateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/not_found_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/not_found"
+            android:layout_gravity="center"
+            android:layout_marginTop="180dp"/>
+
+        <TextView
+            android:id="@+id/not_found_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_playlists"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:theme="@style/searchErrorText" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

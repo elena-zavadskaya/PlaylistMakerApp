@@ -82,4 +82,14 @@
     <style name="BottomNavigationDark" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="backgroundTint">#1A1B22</item>
     </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize8dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Corners.Radius10dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
 </resources>
