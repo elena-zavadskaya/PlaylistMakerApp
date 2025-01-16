@@ -37,6 +37,10 @@ class CreatePlaylistInteractorImpl(
         playlistRepository.updatePlaylist(playlist)
     }
 
+    override suspend fun deletePlaylist(playlistId: Long) {
+        playlistRepository.deletePlaylist(playlistId)
+    }
+
     // Методы для треков
     override suspend fun addTrackToPlaylist(track: PlaylistTrackEntity) {
         playlistRepository.addTrackToPlaylist(track)

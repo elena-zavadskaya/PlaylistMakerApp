@@ -22,4 +22,5 @@ interface CreatePlaylistInteractor {
     suspend fun saveImage(uri: Uri): Uri
     suspend fun getTracksByIds(ids: List<String>): List<Track>
     suspend fun deleteTrackFromPlaylist(trackId: String)
+    suspend fun deletePlaylist(playlistId: Long)
 }

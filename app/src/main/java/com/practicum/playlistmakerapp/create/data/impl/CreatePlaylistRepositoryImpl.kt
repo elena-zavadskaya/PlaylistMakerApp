@@ -48,6 +48,12 @@ class CreatePlaylistRepositoryImpl(
         playlistTrackDao.insertTrackToPlaylist(track)
     }
 
+    override suspend fun deletePlaylist(playlistId: Long) {
+        playlistDao.deletePlaylistById(playlistId)
+        playlistTrackDao.deleteUnusedTracks()
+    }
+
+
     // Методы для треков
     override suspend fun getTrackById(id: String): PlaylistTrackEntity? {
         return playlistTrackDao.getTrackById(id)

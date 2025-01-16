@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -43,6 +44,10 @@ class PlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as? MediaActivity)?.binding?.bottomNavigation?.visibility = View.GONE
+
+        binding.backbuttonToolbar.setNavigationOnClickListener {
+            navigateBack()
+        }
 
         binding.tracksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -79,6 +84,10 @@ class PlaylistFragment : Fragment() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
+
+        binding.share.setOnClickListener { viewModel.onShareButtonClicked() }
+
+        binding.delete.setOnClickListener { onDeletePlaylistClicked() }
     }
 
     private fun setupObservers() {
@@ -157,12 +166,32 @@ class PlaylistFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Удалить трек")
             .setMessage("Вы уверены, что хотите удалить трек из плейлиста?")
-            .setNegativeButton("Отмена") { dialog, _ ->
+            .setNegativeButton("Нет") { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton("Удалить") { dialog, _ ->
+            .setPositiveButton("Да") { dialog, _ ->
                 dialog.dismiss()
                 viewModel.deleteTrackFromPlaylist(track)
+            }
+            .show()
+    }
+
+    private fun onDeletePlaylistClicked() {
+        bottomSheetBehaviorForMenu.state = BottomSheetBehavior.STATE_HIDDEN
+        binding.overlay.visibility = View.GONE
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Удалить плейлист")
+            .setMessage("Хотите удалить плейлист?")
+            .setNegativeButton("Нет") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Да") { dialog, _ ->
+                dialog.dismiss()
+                val playlistId = arguments?.getInt("playlistId")?.toLong() ?: return@setPositiveButton
+                viewModel.deletePlaylist(playlistId) {
+                    navigateBack()
+                }
             }
             .show()
     }
@@ -183,5 +212,9 @@ class PlaylistFragment : Fragment() {
         super.onDestroyView()
         (activity as? MediaActivity)?.binding?.bottomNavigation?.visibility = View.VISIBLE
         _binding = null
+    }
+
+    private fun navigateBack() {
+        findNavController().popBackStack()
     }
 }

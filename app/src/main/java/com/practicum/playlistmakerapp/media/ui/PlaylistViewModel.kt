@@ -132,4 +132,11 @@ $trackList
             _playlist.value?.id?.let { loadPlaylistById(it) }
         }
     }
+
+    fun deletePlaylist(playlistId: Long, onComplete: () -> Unit) {
+        viewModelScope.launch {
+            createPlaylistInteractor.deletePlaylist(playlistId)
+            onComplete()
+        }
+    }
 }
