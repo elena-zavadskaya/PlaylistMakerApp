@@ -3,6 +3,7 @@ package com.practicum.playlistmakerapp.create.domain.repository
 import android.net.Uri
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
 import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
+import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 interface CreatePlaylistRepository {
@@ -19,6 +20,7 @@ interface CreatePlaylistRepository {
 
     // Работа с файлами
     suspend fun saveImageToStorage(uri: Uri, fileName: String): Uri
-    suspend fun getTracksByIds(ids: List<String>): List<PlaylistTrackEntity>
+    suspend fun getTracksByIds(ids: List<String>): List<Track>
+    suspend fun deleteTrackFromPlaylist(trackId: String)
 }
 

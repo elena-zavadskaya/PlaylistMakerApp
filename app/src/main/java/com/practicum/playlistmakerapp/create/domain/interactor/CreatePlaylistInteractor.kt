@@ -3,6 +3,7 @@ package com.practicum.playlistmakerapp.create.domain.interactor
 import android.net.Uri
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
 import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
+import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 interface CreatePlaylistInteractor {
@@ -19,5 +20,6 @@ interface CreatePlaylistInteractor {
 
     // Работа с файлами
     suspend fun saveImage(uri: Uri): Uri
-    suspend fun getTracksByIds(ids: List<String>): List<PlaylistTrackEntity>
+    suspend fun getTracksByIds(ids: List<String>): List<Track>
+    suspend fun deleteTrackFromPlaylist(trackId: String)
 }

@@ -6,6 +6,7 @@ import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
 import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import com.practicum.playlistmakerapp.create.domain.repository.CreatePlaylistRepository
+import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 class CreatePlaylistInteractorImpl(
@@ -49,8 +50,12 @@ class CreatePlaylistInteractorImpl(
         return playlistRepository.getAllTracks()
     }
 
-    override suspend fun getTracksByIds(ids: List<String>): List<PlaylistTrackEntity> {
+    override suspend fun getTracksByIds(ids: List<String>): List<Track> {
         return playlistRepository.getTracksByIds(ids)
+    }
+
+    override suspend fun deleteTrackFromPlaylist(trackId: String) {
+        playlistRepository.deleteTrackFromPlaylist(trackId)
     }
 
     override suspend fun saveImage(uri: Uri): Uri {
