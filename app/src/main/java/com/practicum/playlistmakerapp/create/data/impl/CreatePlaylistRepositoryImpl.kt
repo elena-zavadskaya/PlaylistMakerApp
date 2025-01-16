@@ -24,12 +24,17 @@ class CreatePlaylistRepositoryImpl(
     private val context: Context
 ) : CreatePlaylistRepository {
 
+    // Методы для плейлистов
     override suspend fun savePlaylist(playlist: PlaylistEntity) {
         playlistDao.insertPlaylist(playlist)
     }
 
     override suspend fun updatePlaylist(playlist: PlaylistEntity) {
         playlistDao.updatePlaylist(playlist)
+    }
+
+    override suspend fun getPlaylistById(id: Long): PlaylistEntity? {
+        return playlistDao.getPlaylistById(id)
     }
 
     override fun getAllPlaylists(): Flow<List<PlaylistEntity>> {
@@ -40,12 +45,17 @@ class CreatePlaylistRepositoryImpl(
         playlistTrackDao.insertTrackToPlaylist(track)
     }
 
+    // Методы для треков
     override suspend fun getTrackById(id: String): PlaylistTrackEntity? {
         return playlistTrackDao.getTrackById(id)
     }
 
     override suspend fun getAllTracks(): List<PlaylistTrackEntity> {
         return playlistTrackDao.getAllTracks()
+    }
+
+    override suspend fun getTracksByIds(ids: List<String>): List<PlaylistTrackEntity> {
+        return playlistTrackDao.getTracksByIds(ids)
     }
 
     override suspend fun saveImageToStorage(uri: Uri, fileName: String): Uri {

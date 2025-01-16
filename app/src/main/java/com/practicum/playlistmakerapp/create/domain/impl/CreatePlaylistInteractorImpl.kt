@@ -12,6 +12,7 @@ class CreatePlaylistInteractorImpl(
     private val playlistRepository: CreatePlaylistRepository
 ) : CreatePlaylistInteractor {
 
+    // Методы для плейлистов
     override suspend fun createPlaylist(name: String, description: String, coverImagePath: String) {
         val playlist = PlaylistEntity(
             name = name,
@@ -23,6 +24,10 @@ class CreatePlaylistInteractorImpl(
         playlistRepository.savePlaylist(playlist)
     }
 
+    override suspend fun getPlaylistById(id: Long): PlaylistEntity? {
+        return playlistRepository.getPlaylistById(id)
+    }
+
     override fun getAllPlaylists(): Flow<List<PlaylistEntity>> {
         return playlistRepository.getAllPlaylists()
     }
@@ -31,6 +36,7 @@ class CreatePlaylistInteractorImpl(
         playlistRepository.updatePlaylist(playlist)
     }
 
+    // Методы для треков
     override suspend fun addTrackToPlaylist(track: PlaylistTrackEntity) {
         playlistRepository.addTrackToPlaylist(track)
     }
@@ -41,6 +47,10 @@ class CreatePlaylistInteractorImpl(
 
     override suspend fun getAllTracks(): List<PlaylistTrackEntity> {
         return playlistRepository.getAllTracks()
+    }
+
+    override suspend fun getTracksByIds(ids: List<String>): List<PlaylistTrackEntity> {
+        return playlistRepository.getTracksByIds(ids)
     }
 
     override suspend fun saveImage(uri: Uri): Uri {

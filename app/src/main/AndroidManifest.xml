@@ -27,7 +27,7 @@
             android:name=".search.ui.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".media.ui.MediaActivity"
+            android:name=".media.ui.media.MediaActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:exported="true"
             android:theme="@style/Theme.PlaylistMaker">

@@ -9,6 +9,7 @@ interface CreatePlaylistRepository {
     // Методы для плейлистов
     suspend fun savePlaylist(playlist: PlaylistEntity)
     suspend fun updatePlaylist(playlist: PlaylistEntity)
+    suspend fun getPlaylistById(id: Long): PlaylistEntity?
     fun getAllPlaylists(): Flow<List<PlaylistEntity>>
 
     // Методы для треков
@@ -18,5 +19,6 @@ interface CreatePlaylistRepository {
 
     // Работа с файлами
     suspend fun saveImageToStorage(uri: Uri, fileName: String): Uri
+    suspend fun getTracksByIds(ids: List<String>): List<PlaylistTrackEntity>
 }
 
