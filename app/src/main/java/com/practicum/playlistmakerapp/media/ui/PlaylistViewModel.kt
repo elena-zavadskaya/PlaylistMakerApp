@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
-import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.launch
@@ -25,6 +24,12 @@ class PlaylistViewModel(
 
     private val _playlist = MutableLiveData<PlaylistEntity?>()
     val playlist: LiveData<PlaylistEntity?> get() = _playlist
+
+    private val _shareEvent = MutableLiveData<String>()
+    val shareEvent: LiveData<String> get() = _shareEvent
+
+    private val _toastMessage = MutableLiveData<String>()
+    val toastMessage: LiveData<String> get() = _toastMessage
 
     fun loadPlaylistById(playlistId: Long) {
         viewModelScope.launch {
@@ -46,6 +51,41 @@ class PlaylistViewModel(
                 if (tracks.isEmpty()) PlaylistState.Empty
                 else PlaylistState.Loaded(tracks, totalDuration)
             )
+        }
+    }
+
+    fun onShareButtonClicked() {
+        val playlist = _playlist.value
+        val state = _state.value
+
+        if (playlist != null && state is PlaylistState.Loaded && state.tracks.isNotEmpty()) {
+            val shareText = generateShareText(playlist, state.tracks)
+            _shareEvent.value = shareText
+        } else {
+            _toastMessage.value = "В этом плейлисте нет списка треков, которым можно поделиться"
+        }
+    }
+
+    private fun generateShareText(playlist: PlaylistEntity, tracks: List<Track>): String {
+        val trackList = tracks.mapIndexed { index, track ->
+            "${index + 1}. ${track.artistName} - ${track.trackName} (${track.trackTimeMillis})"
+        }.joinToString("\n")
+
+        return """
+${playlist.name}
+${playlist.description}
+${tracks.size} ${getTrackWord(tracks.size)}
+
+$trackList
+        """.trimMargin()
+    }
+
+
+    private fun getTrackWord(count: Int): String {
+        return when {
+            count % 10 == 1 && count % 100 != 11 -> "трек"
+            count % 10 in 2..4 && (count % 100 !in 12..14) -> "трека"
+            else -> "треков"
         }
     }
 
@@ -92,5 +132,4 @@ class PlaylistViewModel(
             _playlist.value?.id?.let { loadPlaylistById(it) }
         }
     }
-
 }

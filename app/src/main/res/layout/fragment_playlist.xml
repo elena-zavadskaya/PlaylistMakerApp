@@ -138,7 +138,7 @@
 
             <!-- Настройки -->
             <ImageView
-                android:id="@+id/settings_button"
+                android:id="@+id/menu_button"
                 android:layout_width="16dp"
                 android:layout_height="18dp"
                 android:src="@drawable/points"

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +51,8 @@ class PlaylistFragment : Fragment() {
 
         val playlistId = arguments?.getInt("playlistId") ?: 0
         viewModel.loadPlaylistById(playlistId.toLong())
+
+        binding.shareButton.setOnClickListener { viewModel.onShareButtonClicked() }
     }
 
     private fun setupObservers() {
@@ -73,6 +76,14 @@ class PlaylistFragment : Fragment() {
                     binding.playlistImage.setImageResource(R.drawable.placeholder)
                 }
             }
+        }
+
+        viewModel.shareEvent.observe(viewLifecycleOwner) { shareText ->
+            sharePlaylist(shareText)
+        }
+
+        viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
+            showToast(message)
         }
     }
 
@@ -116,15 +127,6 @@ class PlaylistFragment : Fragment() {
         }
     }
 
-    private fun setupAdapter() {
-        trackAdapter = TracksAdapter(
-            tracks = emptyList(),
-            onTrackClick = { track -> onTrackClick(track) },
-            onTrackLongClick = { track -> showDeleteTrackDialog(track) }
-        )
-        binding.tracksRecyclerView.adapter = trackAdapter
-    }
-
     private fun showDeleteTrackDialog(track: Track) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Удалить трек")
@@ -137,6 +139,18 @@ class PlaylistFragment : Fragment() {
                 viewModel.deleteTrackFromPlaylist(track)
             }
             .show()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun sharePlaylist(shareText: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, shareText)
+        }
+        startActivity(Intent.createChooser(shareIntent, "Поделиться плейлистом через"))
     }
 
     override fun onDestroyView() {
