@@ -148,6 +148,13 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"/>
+
     <!-- BottomSheet для просмотра треков -->
     <LinearLayout
         android:id="@+id/bottom_sheet"
@@ -179,10 +186,11 @@
     <LinearLayout
         android:id="@+id/bottom_sheet_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/bottom_sheet_border"
         android:orientation="vertical"
         android:layout_marginTop="24dp"
+        android:paddingBottom="40dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="266dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
@@ -201,10 +209,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_sheet_border"
             android:orientation="horizontal"
-            android:layout_marginTop="24dp"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="266dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+            android:layout_marginTop="24dp">
 
             <androidx.constraintlayout.utils.widget.ImageFilterView
                 android:id="@+id/playlistSmallImage"

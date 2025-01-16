@@ -10,10 +10,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.FragmentPlaylistBinding
+import com.practicum.playlistmakerapp.media.ui.media.MediaActivity
 import com.practicum.playlistmakerapp.player.domain.models.Track
 import com.practicum.playlistmakerapp.player.ui.AudioPlayerActivity
 import org.koin.android.ext.android.inject
@@ -26,6 +28,9 @@ class PlaylistFragment : Fragment() {
 
     private lateinit var trackAdapter: TracksAdapter
 
+    private lateinit var bottomSheetBehaviorForMenu: BottomSheetBehavior<View>
+    private lateinit var overlay: View
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +41,8 @@ class PlaylistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as? MediaActivity)?.binding?.bottomNavigation?.visibility = View.GONE
 
         binding.tracksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -53,6 +60,25 @@ class PlaylistFragment : Fragment() {
         viewModel.loadPlaylistById(playlistId.toLong())
 
         binding.shareButton.setOnClickListener { viewModel.onShareButtonClicked() }
+
+        binding.menuButton.setOnClickListener {
+            binding.bottomSheetInfo.visibility = View.VISIBLE
+            bottomSheetBehaviorForMenu.state = BottomSheetBehavior.STATE_COLLAPSED
+            binding.overlay.visibility = View.VISIBLE
+        }
+
+        val bottomSheetInfo: View = binding.root.findViewById(R.id.bottom_sheet_info)
+        bottomSheetBehaviorForMenu = BottomSheetBehavior.from(bottomSheetInfo)
+
+        overlay = binding.root.findViewById(R.id.overlay)
+
+        bottomSheetBehaviorForMenu.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                binding.overlay.visibility = if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
     }
 
     private fun setupObservers() {
@@ -155,6 +181,7 @@ class PlaylistFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (activity as? MediaActivity)?.binding?.bottomNavigation?.visibility = View.VISIBLE
         _binding = null
     }
 }
