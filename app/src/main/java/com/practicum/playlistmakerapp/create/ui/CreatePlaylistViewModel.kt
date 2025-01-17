@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import kotlinx.coroutines.launch
 
-class CreatePlaylistViewModel(
-    private val createPlaylistInteractor: CreatePlaylistInteractor
+open class CreatePlaylistViewModel(
+    protected val createPlaylistInteractor: CreatePlaylistInteractor
 ) : ViewModel() {
 
     private val _isCreateButtonEnabled = MutableLiveData(false)
@@ -25,7 +25,7 @@ class CreatePlaylistViewModel(
         _isCreateButtonEnabled.value = name.isNotBlank()
     }
 
-    fun createPlaylist(name: String, description: String, coverImageUri: Uri?) {
+     open fun createPlaylist(name: String, description: String, coverImageUri: Uri?) {
         viewModelScope.launch {
             try {
                 val coverImagePath = coverImageUri?.let {

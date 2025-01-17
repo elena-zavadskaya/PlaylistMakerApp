@@ -17,11 +17,11 @@ import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivityCreatePlaylistBinding
 import org.koin.android.ext.android.inject
 
-class CreatePlaylistActivity : AppCompatActivity() {
+open class CreatePlaylistActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCreatePlaylistBinding
+    protected open lateinit var binding: ActivityCreatePlaylistBinding
     private var selectedImageUri: Uri? = null
-    private val viewModel: CreatePlaylistViewModel by inject()
+    protected open val viewModel: CreatePlaylistViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +112,7 @@ class CreatePlaylistActivity : AppCompatActivity() {
         handleBackPress()
     }
 
-    private fun handleBackPress() {
+    protected open fun handleBackPress() {
         if (hasUnsavedChanges()) {
             showExitConfirmationDialog()
         } else {

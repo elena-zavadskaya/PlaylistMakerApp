@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.practicum.playlistmakerapp.R
+import com.practicum.playlistmakerapp.create.ui.EditPlaylistActivity
 import com.practicum.playlistmakerapp.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmakerapp.media.ui.media.MediaActivity
 import com.practicum.playlistmakerapp.player.domain.models.Track
@@ -88,6 +89,18 @@ class PlaylistFragment : Fragment() {
         binding.share.setOnClickListener { viewModel.onShareButtonClicked() }
 
         binding.delete.setOnClickListener { onDeletePlaylistClicked() }
+
+        binding.edit.setOnClickListener {
+            bottomSheetBehaviorForMenu.state = BottomSheetBehavior.STATE_HIDDEN
+            binding.overlay.visibility = View.GONE
+            val playlist = viewModel.playlist.value
+            playlist?.let {
+                val intent = Intent(requireContext(), EditPlaylistActivity::class.java).apply {
+                    putExtra("playlistId", it.id)
+                }
+                startActivity(intent)
+            }
+        }
     }
 
     private fun setupObservers() {

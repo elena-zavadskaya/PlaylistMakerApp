@@ -41,6 +41,10 @@
             android:name=".create.ui.CreatePlaylistActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".create.ui.EditPlaylistActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import com.practicum.playlistmakerapp.create.domain.impl.CreatePlaylistInteracto
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import com.practicum.playlistmakerapp.create.domain.repository.CreatePlaylistRepository
 import com.practicum.playlistmakerapp.create.ui.CreatePlaylistViewModel
+import com.practicum.playlistmakerapp.create.ui.EditPlaylistViewModel
 import com.practicum.playlistmakerapp.media.ui.PlaylistViewModel
 import com.practicum.playlistmakerapp.media.ui.favorites.FavoritesViewModel
 import com.practicum.playlistmakerapp.media.ui.media.MediaLibraryViewModel
@@ -41,4 +42,5 @@ val mediaModule = module {
     viewModel { FavoritesViewModel(get()) }
     viewModel { MediaLibraryViewModel() }
     viewModel { PlaylistViewModel(get()) }
+    viewModel { EditPlaylistViewModel(get()) }
 }
