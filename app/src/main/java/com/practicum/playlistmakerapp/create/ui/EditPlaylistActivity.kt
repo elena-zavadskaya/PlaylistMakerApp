@@ -3,6 +3,7 @@ package com.practicum.playlistmakerapp.create.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import org.koin.android.ext.android.inject
 
@@ -19,6 +20,8 @@ class EditPlaylistActivity : CreatePlaylistActivity() {
             finish()
             return
         }
+
+        viewModel.setPlaylistId(playlistId)
 
         binding.createButton.text = "Сохранить"
         binding.backbuttonToolbar.title= "Редактировать плейлист"
@@ -49,11 +52,14 @@ class EditPlaylistActivity : CreatePlaylistActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        handleBackPress()
-    }
+    override fun showExitConfirmationDialog() {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Завершить редактирование плейлиста?")
+            .setMessage("Все несохраненные данные будут потеряны")
+            .setPositiveButton("Завершить") { _, _ -> finish() }
+            .setNegativeButton("Отмена") { dialog, _ -> dialog.dismiss() }
+            .create()
 
-    override fun handleBackPress() {
-        finish()
+        dialog.show()
     }
 }

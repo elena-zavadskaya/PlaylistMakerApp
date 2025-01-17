@@ -1,5 +1,6 @@
 package com.practicum.playlistmakerapp.create.ui
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,9 @@ class EditPlaylistViewModel(
 
     private val _playlistId = MutableLiveData<Long>()
     val playlistId: LiveData<Long> get() = _playlistId
+    fun setPlaylistId(id: Long) {
+        _playlistId.value = id
+    }
 
     fun getPlaylistById(id: Long): LiveData<Playlist?> {
         val playlistLiveData = MutableLiveData<Playlist?>()
@@ -34,4 +38,34 @@ class EditPlaylistViewModel(
         return playlistLiveData
     }
 
+    override fun savePlaylist(name: String, description: String, coverImageUri: Uri?) {
+        viewModelScope.launch {
+            try {
+                val playlistId = _playlistId.value
+                    ?: throw IllegalArgumentException("ID плейлиста не найден")
+
+                val playlist = createPlaylistInteractor.getPlaylistById(playlistId)
+                    ?: throw IllegalArgumentException("Плейлист с id $playlistId не найден")
+
+                val coverImagePath = coverImageUri?.let {
+                    createPlaylistInteractor.saveImage(it).toString()
+                } ?: playlist.coverImagePath
+
+                val updatedPlaylist = playlist.copy(
+                    name = name,
+                    description = description,
+                    coverImagePath = coverImagePath
+                )
+
+                createPlaylistInteractor.updatePlaylist(updatedPlaylist)
+
+                _toastMessage.postValue("Плейлист \"$name\" обновлен")
+                _playlistCreated.postValue(true)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _toastMessage.postValue("Ошибка при обновлении плейлиста: ${e.message}")
+                _playlistCreated.postValue(false)
+            }
+        }
+    }
 }

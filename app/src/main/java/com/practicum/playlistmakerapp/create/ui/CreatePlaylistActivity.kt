@@ -103,7 +103,7 @@ open class CreatePlaylistActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            viewModel.createPlaylist(name, description, coverImagePath)
+            viewModel.savePlaylist(name, description, coverImagePath)
         }
 
     }
@@ -112,7 +112,7 @@ open class CreatePlaylistActivity : AppCompatActivity() {
         handleBackPress()
     }
 
-    protected open fun handleBackPress() {
+    private fun handleBackPress() {
         if (hasUnsavedChanges()) {
             showExitConfirmationDialog()
         } else {
@@ -120,7 +120,7 @@ open class CreatePlaylistActivity : AppCompatActivity() {
         }
     }
 
-    private fun showExitConfirmationDialog() {
+    protected open fun showExitConfirmationDialog() {
         val dialog = AlertDialog.Builder(this)
             .setTitle("Завершить создание плейлиста?")
             .setMessage("Все несохраненные данные будут потеряны")
