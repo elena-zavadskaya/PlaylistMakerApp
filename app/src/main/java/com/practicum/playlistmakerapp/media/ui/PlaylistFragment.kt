@@ -103,6 +103,13 @@ class PlaylistFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val playlistId = arguments?.getInt("playlistId") ?: 0
+        viewModel.loadPlaylistById(playlistId.toLong())
+    }
+
     private fun setupObservers() {
         viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
@@ -114,8 +121,10 @@ class PlaylistFragment : Fragment() {
         viewModel.playlist.observe(viewLifecycleOwner) { playlist ->
             playlist?.let {
                 binding.titleTV.text = it.name
+                binding.title.text = it.name
                 binding.descriptionTV.text = it.description
                 binding.trackCountTV.text = "${it.trackCount} ${getTrackWord(it.trackCount)}"
+                binding.trackCount.text = "${it.trackCount} ${getTrackWord(it.trackCount)}"
 
                 if (it.coverImagePath.isNotEmpty()) {
                     val imageUri = Uri.parse(it.coverImagePath)

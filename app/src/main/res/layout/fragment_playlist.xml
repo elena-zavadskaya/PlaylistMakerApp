@@ -226,6 +226,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Best songs 2021"
@@ -236,6 +237,7 @@
                     android:layout_marginTop="8dp"/>
 
                 <TextView
+                    android:id="@+id/track_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="98 треков"
