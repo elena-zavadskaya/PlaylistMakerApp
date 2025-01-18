@@ -194,7 +194,7 @@
         app:behavior_hideable="true"
         app:behavior_peekHeight="266dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <View
             android:layout_width="50dp"
@@ -203,7 +203,6 @@
             android:layout_marginTop="10dp"
             android:background="#E6E8EB" />
 
-        <!-- Краткая информация о плейлисте -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

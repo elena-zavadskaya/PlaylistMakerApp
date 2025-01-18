@@ -13,7 +13,6 @@ class CreatePlaylistInteractorImpl(
     private val playlistRepository: CreatePlaylistRepository
 ) : CreatePlaylistInteractor {
 
-    // Методы для плейлистов
     override suspend fun createPlaylist(name: String, description: String, coverImagePath: String) {
         val playlist = PlaylistEntity(
             name = name,
@@ -41,7 +40,6 @@ class CreatePlaylistInteractorImpl(
         playlistRepository.deletePlaylist(playlistId)
     }
 
-    // Методы для треков
     override suspend fun addTrackToPlaylist(track: PlaylistTrackEntity) {
         playlistRepository.addTrackToPlaylist(track)
     }

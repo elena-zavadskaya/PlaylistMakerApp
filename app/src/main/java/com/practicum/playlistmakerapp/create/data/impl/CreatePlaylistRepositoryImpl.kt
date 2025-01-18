@@ -27,7 +27,6 @@ class CreatePlaylistRepositoryImpl(
     private val context: Context
 ) : CreatePlaylistRepository {
 
-    // Методы для плейлистов
     override suspend fun savePlaylist(playlist: PlaylistEntity) {
         playlistDao.insertPlaylist(playlist)
     }
@@ -53,8 +52,6 @@ class CreatePlaylistRepositoryImpl(
         playlistTrackDao.deleteUnusedTracks()
     }
 
-
-    // Методы для треков
     override suspend fun getTrackById(id: String): PlaylistTrackEntity? {
         return playlistTrackDao.getTrackById(id)
     }

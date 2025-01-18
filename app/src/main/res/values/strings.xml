@@ -20,7 +20,7 @@
     <string name="clear_history" translatable="false">Очистить историю</string>
     <string name="you_searched" translatable="false">Вы искали</string>
     <string name="empty_favorites" translatable="false">Ваша медиатека пуста</string>
-    <string name="no_playlists" translatable="false">Вы не создали ни одного плейлиста</string>
+    <string name="no_playlists" translatable="false">Вы не создали\nни одного плейлиста</string>
     <string name="new_playlist" translatable="false">Новый плейлист</string>
     <string name="tab_favorites" translatable="false">Избранные треки</string>
     <string name="tab_playlists" translatable="false">Плейлисты</string>
