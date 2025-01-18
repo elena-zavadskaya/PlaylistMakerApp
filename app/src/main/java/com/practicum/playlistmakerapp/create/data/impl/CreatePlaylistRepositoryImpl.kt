@@ -9,12 +9,15 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.net.Uri
 import androidx.core.net.toUri
+import com.google.gson.Gson
 import com.practicum.playlistmakerapp.create.data.db.PlaylistDao
 import com.practicum.playlistmakerapp.create.data.db.PlaylistEntity
 import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackDao
 import com.practicum.playlistmakerapp.create.data.db.PlaylistTrackEntity
 import com.practicum.playlistmakerapp.create.domain.repository.CreatePlaylistRepository
+import com.practicum.playlistmakerapp.player.domain.models.Track
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import java.io.File
 import java.io.FileOutputStream
 
@@ -32,6 +35,10 @@ class CreatePlaylistRepositoryImpl(
         playlistDao.updatePlaylist(playlist)
     }
 
+    override suspend fun getPlaylistById(id: Long): PlaylistEntity? {
+        return playlistDao.getPlaylistById(id)
+    }
+
     override fun getAllPlaylists(): Flow<List<PlaylistEntity>> {
         return playlistDao.getAllPlaylists()
     }
@@ -40,12 +47,44 @@ class CreatePlaylistRepositoryImpl(
         playlistTrackDao.insertTrackToPlaylist(track)
     }
 
+    override suspend fun deletePlaylist(playlistId: Long) {
+        playlistDao.deletePlaylistById(playlistId)
+        playlistTrackDao.deleteUnusedTracks()
+    }
+
     override suspend fun getTrackById(id: String): PlaylistTrackEntity? {
         return playlistTrackDao.getTrackById(id)
     }
 
     override suspend fun getAllTracks(): List<PlaylistTrackEntity> {
         return playlistTrackDao.getAllTracks()
+    }
+
+    override suspend fun getTracksByIds(ids: List<String>): List<Track> {
+        val playlistTrackEntities = playlistTrackDao.getTracksByIds(ids)
+        return playlistTrackEntities.map { it.toTrack() }
+    }
+
+    override suspend fun deleteTrackFromPlaylist(trackId: String) {
+        val playlists = playlistDao.getAllPlaylists().first()
+        playlists.forEach { playlist ->
+            val trackIds = Gson().fromJson(playlist.trackIds, Array<String>::class.java).toMutableList()
+            if (trackIds.contains(trackId)) {
+                trackIds.remove(trackId)
+                playlistDao.updatePlaylist(
+                    playlist.copy(trackIds = Gson().toJson(trackIds), trackCount = trackIds.size)
+                )
+            }
+        }
+
+        val isTrackInUse = playlists.any { playlist ->
+            val trackIds = Gson().fromJson(playlist.trackIds, Array<String>::class.java)
+            trackIds.contains(trackId)
+        }
+
+        if (!isTrackInUse) {
+            playlistTrackDao.deleteTrack(trackId)
+        }
     }
 
     override suspend fun saveImageToStorage(uri: Uri, fileName: String): Uri {
@@ -87,4 +126,17 @@ class CreatePlaylistRepositoryImpl(
     }
 }
 
-
+fun PlaylistTrackEntity.toTrack(): Track {
+    return Track(
+        trackId = id,
+        trackName = title,
+        artistName = artist,
+        trackTimeMillis = duration,
+        artworkUrl100 = coverUrl,
+        collectionName = album.orEmpty(),
+        releaseDate = releaseYear.toString(),
+        primaryGenreName = genre,
+        country = country,
+        previewUrl = fileUrl
+    )
+}

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".media.ui.MediaActivity"
+    tools:context=".media.ui.media.MediaActivity"
     android:background="@color/color_gray">
 
     <androidx.fragment.app.FragmentContainerView

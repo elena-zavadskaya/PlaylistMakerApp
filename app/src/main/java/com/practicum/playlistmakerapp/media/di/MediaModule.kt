@@ -7,9 +7,11 @@ import com.practicum.playlistmakerapp.create.domain.impl.CreatePlaylistInteracto
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import com.practicum.playlistmakerapp.create.domain.repository.CreatePlaylistRepository
 import com.practicum.playlistmakerapp.create.ui.CreatePlaylistViewModel
-import com.practicum.playlistmakerapp.media.ui.FavoritesViewModel
-import com.practicum.playlistmakerapp.media.ui.MediaLibraryViewModel
-import com.practicum.playlistmakerapp.media.ui.PlaylistsViewModel
+import com.practicum.playlistmakerapp.create.ui.EditPlaylistViewModel
+import com.practicum.playlistmakerapp.media.ui.PlaylistViewModel
+import com.practicum.playlistmakerapp.media.ui.favorites.FavoritesViewModel
+import com.practicum.playlistmakerapp.media.ui.media.MediaLibraryViewModel
+import com.practicum.playlistmakerapp.media.ui.playlists.PlaylistsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -39,4 +41,6 @@ val mediaModule = module {
     viewModel { PlaylistsViewModel(get()) }
     viewModel { FavoritesViewModel(get()) }
     viewModel { MediaLibraryViewModel() }
+    viewModel { PlaylistViewModel(get()) }
+    viewModel { EditPlaylistViewModel(get()) }
 }

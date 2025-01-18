@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.media.ui
+package com.practicum.playlistmakerapp.media.ui.favorites
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

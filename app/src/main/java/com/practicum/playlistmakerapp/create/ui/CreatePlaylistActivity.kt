@@ -17,11 +17,11 @@ import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivityCreatePlaylistBinding
 import org.koin.android.ext.android.inject
 
-class CreatePlaylistActivity : AppCompatActivity() {
+open class CreatePlaylistActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCreatePlaylistBinding
+    protected open lateinit var binding: ActivityCreatePlaylistBinding
     private var selectedImageUri: Uri? = null
-    private val viewModel: CreatePlaylistViewModel by inject()
+    protected open val viewModel: CreatePlaylistViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +103,7 @@ class CreatePlaylistActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            viewModel.createPlaylist(name, description, coverImagePath)
+            viewModel.savePlaylist(name, description, coverImagePath)
         }
 
     }
@@ -120,7 +120,7 @@ class CreatePlaylistActivity : AppCompatActivity() {
         }
     }
 
-    private fun showExitConfirmationDialog() {
+    protected open fun showExitConfirmationDialog() {
         val dialog = AlertDialog.Builder(this)
             .setTitle("Завершить создание плейлиста?")
             .setMessage("Все несохраненные данные будут потеряны")

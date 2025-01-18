@@ -1,17 +1,15 @@
-package com.practicum.playlistmakerapp.media.ui
+package com.practicum.playlistmakerapp.media.ui.media
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.databinding.ActivityMediaBinding
 
 class MediaActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMediaBinding
+    lateinit var binding: ActivityMediaBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
