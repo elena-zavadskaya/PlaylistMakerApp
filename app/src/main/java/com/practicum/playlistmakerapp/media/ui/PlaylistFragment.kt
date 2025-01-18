@@ -91,7 +91,17 @@ class PlaylistFragment : Fragment() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
 
-        binding.share.setOnClickListener { viewModel.onShareButtonClicked() }
+        binding.share.setOnClickListener {
+            val state = viewModel.state.value
+
+            if (state is PlaylistState.Empty) {
+                bottomSheetBehaviorForMenu.state = BottomSheetBehavior.STATE_HIDDEN
+                binding.overlay.visibility = View.GONE
+                viewModel.onShareButtonClicked()
+            } else {
+                viewModel.onShareButtonClicked()
+            }
+        }
 
         binding.delete.setOnClickListener { onDeletePlaylistClicked() }
 
