@@ -160,7 +160,7 @@
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bottom_sheet_border"
+        android:background="@drawable/top_side"
         android:orientation="vertical"
         android:layout_marginTop="24dp"
         app:behavior_hideable="false"
@@ -187,7 +187,7 @@
         android:id="@+id/bottom_sheet_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_sheet_border"
+        android:background="@drawable/top_side"
         android:orientation="vertical"
         android:layout_marginTop="24dp"
         android:paddingBottom="40dp"
@@ -207,7 +207,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bottom_sheet_border"
             android:orientation="horizontal"
             android:layout_marginTop="24dp">
 
@@ -230,7 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Best songs 2021"
-                    android:textColor="@color/almost_black"
+                    android:textColor="@color/text"
                     android:textSize="16sp"
                     android:fontFamily="@font/ys_display_regular"
                     android:layout_marginLeft="8dp"
@@ -241,7 +240,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="98 треков"
-                    android:textColor="#AEAFB4"
+                    android:textColor="@color/search_small_text"
                     android:textSize="11sp"
                     android:fontFamily="@font/ys_display_regular"
                     android:layout_marginLeft="8dp"/>
@@ -263,7 +262,7 @@
                 android:textSize="16sp"
                 android:paddingVertical="14dp"
                 android:paddingLeft="16dp"
-                android:textColor="#1A1B22"/>
+                android:textColor="@color/text"/>
 
             <TextView
                 android:id="@+id/edit"
@@ -273,7 +272,7 @@
                 android:textSize="16sp"
                 android:paddingVertical="14dp"
                 android:paddingLeft="16dp"
-                android:textColor="#1A1B22"/>
+                android:textColor="@color/text"/>
 
             <TextView
                 android:id="@+id/delete"
@@ -283,7 +282,7 @@
                 android:textSize="16sp"
                 android:paddingVertical="14dp"
                 android:paddingLeft="16dp"
-                android:textColor="#1A1B22"/>
+                android:textColor="@color/text"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

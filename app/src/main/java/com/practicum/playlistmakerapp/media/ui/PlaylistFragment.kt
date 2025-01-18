@@ -3,6 +3,7 @@ package com.practicum.playlistmakerapp.media.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,8 +74,12 @@ class PlaylistFragment : Fragment() {
             binding.overlay.visibility = View.VISIBLE
         }
 
-        val bottomSheetInfo: View = binding.root.findViewById(R.id.bottom_sheet_info)
-        bottomSheetBehaviorForMenu = BottomSheetBehavior.from(bottomSheetInfo)
+        val bottomSheetForInfo: View = binding.root.findViewById(R.id.bottom_sheet_info)
+        if (bottomSheetForInfo == null) {
+            Log.e("PlaylistFragment", "Bottom sheet info view not found")
+        } else {
+            bottomSheetBehaviorForMenu = BottomSheetBehavior.from(bottomSheetForInfo)
+        }
 
         overlay = binding.root.findViewById(R.id.overlay)
 
@@ -113,7 +118,10 @@ class PlaylistFragment : Fragment() {
     private fun setupObservers() {
         viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is PlaylistState.Empty -> showEmptyState()
+                is PlaylistState.Empty -> {
+                    showEmptyState()
+                    showToast("В этом плейлисте нет треков")
+                }
                 is PlaylistState.Loaded -> showLoadedState(state.tracks, state.totalDuration)
             }
         })

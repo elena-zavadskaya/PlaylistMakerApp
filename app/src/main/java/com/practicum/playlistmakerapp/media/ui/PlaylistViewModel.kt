@@ -1,5 +1,6 @@
 package com.practicum.playlistmakerapp.media.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,11 +33,14 @@ class PlaylistViewModel(
     val toastMessage: LiveData<String> get() = _toastMessage
 
     fun loadPlaylistById(playlistId: Long) {
+        Log.d("PlaylistViewModel", "Loading playlist with ID: $playlistId")
         viewModelScope.launch {
             val result = createPlaylistInteractor.getPlaylistById(playlistId)
+            Log.d("PlaylistViewModel", "Loaded playlist: $result")
             _playlist.value = result
             result?.let {
                 val trackIds = parseTrackIds(it.trackIds)
+                Log.d("PlaylistViewModel", "Parsed track IDs: $trackIds")
                 loadTracks(trackIds)
             }
         }
@@ -45,7 +49,9 @@ class PlaylistViewModel(
     private fun loadTracks(trackIds: List<String>) {
         viewModelScope.launch {
             val cleanedIds = trackIds.map { it.trim() }
+            Log.d("PlaylistViewModel", "Cleaned track IDs: $cleanedIds")
             val tracks = createPlaylistInteractor.getTracksByIds(cleanedIds)
+            Log.d("PlaylistViewModel", "Loaded tracks: $tracks")
             val totalDuration = calculateTotalDuration(tracks)
             _state.postValue(
                 if (tracks.isEmpty()) PlaylistState.Empty
@@ -90,9 +96,13 @@ $trackList
     }
 
     private fun parseTrackIds(trackIdsJson: String): List<String> {
+        val trackIds = Gson().fromJson(trackIdsJson, Array<String>::class.java).toList()
+        Log.d("PlaylistViewModel", "Parsed track IDs: $trackIds")
         return try {
-            Gson().fromJson(trackIdsJson, Array<String>::class.java).toList()
+            trackIds
+            /*Gson().fromJson(trackIdsJson, Array<String>::class.java).toList()*/
         } catch (e: Exception) {
+            Log.e("PlaylistViewModel", "Error parsing track IDs", e)
             emptyList()
         }
     }
@@ -107,11 +117,13 @@ $trackList
 
     private fun parseDuration(duration: String): Long {
         return try {
+            Log.d("PlaylistViewModel", "Parsing duration: $duration")
             val parts = duration.split(":")
             val minutes = parts[0].toLongOrNull() ?: 0L
             val seconds = parts[1].toLongOrNull() ?: 0L
             (minutes * 60 + seconds) * 1000
         } catch (e: Exception) {
+            Log.e("PlaylistViewModel", "Error parsing duration", e)
             0L
         }
     }
