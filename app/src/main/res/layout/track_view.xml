@@ -16,7 +16,7 @@
         android:layout_marginTop="8dp">
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
-            android:id="@+id/playlistImage"
+            android:id="@+id/trackImage"
             android:layout_width="45dp"
             android:layout_height="45dp"
             app:layout_constraintDimensionRatio="1:1"
