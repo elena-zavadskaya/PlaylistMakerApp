@@ -27,7 +27,7 @@
             android:name=".search.ui.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".media.ui.MediaActivity"
+            android:name=".media.ui.media.MediaActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:exported="true"
             android:theme="@style/Theme.PlaylistMaker">
@@ -39,6 +39,10 @@
 
         <activity
             android:name=".create.ui.CreatePlaylistActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".create.ui.EditPlaylistActivity"
             android:exported="true">
         </activity>
     </application>

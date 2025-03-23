@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.media.ui
+package com.practicum.playlistmakerapp.media.ui.playlists
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.practicum.playlistmakerapp.R
 import com.practicum.playlistmakerapp.create.ui.CreatePlaylistActivity
 import com.practicum.playlistmakerapp.databinding.FragmentPlaylistsBinding
 import kotlinx.coroutines.launch
@@ -30,7 +32,12 @@ class PlaylistsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = PlaylistsAdapter(emptyList())
+        val adapter = PlaylistsAdapter(emptyList()) { playlistId ->
+            val bundle = Bundle().apply {
+                putInt("playlistId", playlistId)
+            }
+            findNavController().navigate(R.id.playlistFragment, bundle)
+        }
         binding.recyclerView.adapter = adapter
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)

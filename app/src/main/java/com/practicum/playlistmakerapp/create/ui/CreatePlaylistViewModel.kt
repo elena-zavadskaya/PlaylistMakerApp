@@ -8,24 +8,24 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmakerapp.create.domain.interactor.CreatePlaylistInteractor
 import kotlinx.coroutines.launch
 
-class CreatePlaylistViewModel(
-    private val createPlaylistInteractor: CreatePlaylistInteractor
+open class CreatePlaylistViewModel(
+    protected val createPlaylistInteractor: CreatePlaylistInteractor
 ) : ViewModel() {
 
     private val _isCreateButtonEnabled = MutableLiveData(false)
     val isCreateButtonEnabled: LiveData<Boolean> get() = _isCreateButtonEnabled
 
-    private val _toastMessage = MutableLiveData<String>()
+    protected val _toastMessage = MutableLiveData<String>()
     val toastMessage: LiveData<String> get() = _toastMessage
 
-    private val _playlistCreated = MutableLiveData<Boolean>()
+    protected val _playlistCreated = MutableLiveData<Boolean>()
     val playlistCreated: LiveData<Boolean> get() = _playlistCreated
 
     fun onPlaylistNameChanged(name: String) {
         _isCreateButtonEnabled.value = name.isNotBlank()
     }
 
-    fun createPlaylist(name: String, description: String, coverImageUri: Uri?) {
+     open fun savePlaylist(name: String, description: String, coverImageUri: Uri?) {
         viewModelScope.launch {
             try {
                 val coverImagePath = coverImageUri?.let {

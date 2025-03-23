@@ -69,8 +69,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
     implementation "androidx.viewpager2:viewpager2:1.1.0"
 
-    def room_version = "2.5.1" // текущая стабильная версия
-    implementation("androidx.room:room-runtime:$room_version") // библиотека Room
-    implementation "androidx.room:room-ktx:$room_version" // добавление зависимости для работы с корутинами
-    kapt("androidx.room:room-compiler:$room_version") // Kotlin-кодогенератор
+    def room_version = "2.5.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
 }

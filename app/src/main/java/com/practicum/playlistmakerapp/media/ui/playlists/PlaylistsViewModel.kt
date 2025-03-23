@@ -1,4 +1,4 @@
-package com.practicum.playlistmakerapp.media.ui
+package com.practicum.playlistmakerapp.media.ui.playlists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

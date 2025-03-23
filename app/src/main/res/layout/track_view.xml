@@ -7,14 +7,27 @@
     android:layout_height="64dp">
 
     <!-- Обложка трека -->
-    <ImageView
-        android:id="@+id/trackImage"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="start|center_vertical"
         android:layout_marginStart="13dp"
-        android:src="@drawable/album"
-        app:cornerRadius="2dp" />
+        android:layout_marginTop="8dp">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/trackImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:scaleType="centerCrop"
+            app:roundPercent="0.1"
+            android:src="@drawable/album"
+            android:background="@drawable/rounded_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
