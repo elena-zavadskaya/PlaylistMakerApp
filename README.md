@@ -1,7 +1,6 @@
 # Playlist Maker App
 
 [![Kotlin Version](https://img.shields.io/badge/kotlin-1.9.20-blue.svg)](https://kotlinlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Android-приложение для создания и управления музыкальными плейлистами с возможностью поиска треков через iTunes API.
 
